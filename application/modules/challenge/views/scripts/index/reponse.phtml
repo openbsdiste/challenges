@@ -1,0 +1,52 @@
+<?php if (! $this->fullpage): ?>
+<div id="accordeonReponse">
+    <ol>
+        <li>
+            <h2><span>Réponse</span></h2>
+            <div style="overflow: auto;">
+                <form target="_blank" method="post" action="challenge/index/reponse?t=<?php echo time (); ?>">
+                    <input type="hidden" id="fullpage" name="fullpage" value="1" />
+                    <input type="hidden" id="id" name="id" value="<?php echo $this->id; ?>" />
+                    <input type="submit" class="ui-state-default ui-corner-all" value="Voir en pleine page"></input>
+                </form><br />
+<?php endif; ?>
+                <h1>
+                    <center style="font-size: 1.5em;">
+                        Challenge <?php echo $this->chalInfos ['annee']; ?> - Réponse<br />
+                    </center>
+                    <center style="font-size: 1em;">
+                        <br /><?php echo $this->nomParticipant; ?>
+                    </center>
+                </h1><br />
+                <?php
+                    $indices = array ();
+                    $last = 0;
+                    foreach ($this->arbre as $feuille) {
+                        if ($last < $feuille ['level']) {
+                            $indices [] = 0;
+                        } elseif ($last > $feuille ['level']) {
+                            while ($last > $feuille ['level']) {
+                                $last--;
+                                array_pop ($indices);
+                            }
+                        }
+                        $val = array_pop ($indices);
+                        $indices [] = $val + 1;
+                        $last = $feuille ['level'];
+                        echo "<br /><h1>" . implode ('.', $indices) . '. ' . $feuille ['title'] . "</h1><br />\n";
+                        $r = $this->mrep->getReponse ($feuille ['noeud']);
+                        $f = $this->mrep->getFichiers ($feuille ['noeud']);
+                        echo $this->reponse ($r, $f);
+                    }
+                ?>
+<?php if (! $this->fullpage): ?>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonReponse');
+    });
+</script>
+<?php endif; ?>

@@ -1,0 +1,56 @@
+<div id="accordeonDateLimite">
+    <ol>
+        <li>
+            <h2><span>Date limite</span></h2>
+            <div style="overflow: auto;">
+                <h3>Fixer la date limite de réponse au challenge.</h3>
+                <br />
+                <p>
+                    Si vous définissez une date limite, les clubs qui participent au challenge ne pourront plus y accéder
+                    après cette date. Il leur sera également impossible de valider leur participation après cette date.
+                </p>
+                <p>
+                    Une fois fixée, la date limite peut être modifiée (y compris si elle est dépassée). Cela peut vous
+                    permettre de donner une chance supplémentaire à un club retardataire mais de toutes façons, une
+                    fois le challenge clos (bouton "clore le challenge") plus rien ne sera possible !
+                </p>
+                <br />
+                <p><b>
+                    Note : Fixer la date limite ne vous dispense pas de clore le challenge, cela vous dispense juste
+                    de devoir rester devant l'ordinateur à minuit !
+                </b></p>
+                <br />
+                <form id="formDateLimite" action="restmoderateur/limite" method="post" enctype="multipart/form-data">
+                    <p>
+                        <input id="ladate" name="ladate" size="6" maxlength="10" value="<?php echo $this->challenge ['datelimite']; ?>" readonly="readonly"/>
+                        <span>Cliquez sur la zone à gauche pour afficher le calendrier et sélectionner la date.</span>
+                    </p>
+                    <p>
+                        <input type="submit" class="ui-state-default ui-corner-all" value="Fixer la date"/>
+                    </p>
+                </form>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonDateLimite');
+        jQuery ("#ladate").datepicker ({
+            regional: [ "fr" ],
+            dateFormat: "dd/mm/yy",
+            dayNamesMin: [ "Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
+            monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre" ],
+            firstDay: 1,
+            minDate: new Date(),
+            maxDate: "+1y"
+        });
+        jQuery ("#formDateLimite").ajaxForm ({
+            dataType: 'json',
+            semantic: true,
+            beforeSerialize: function ($form, $options) { return true; },
+            success: function (data) { Global.showMessage ("Date prise en compte"); },
+            error:   function (jqXHR) { Global.showError (jqXHR, "Erreur de sauvegarde de la date", "erreur"); }
+        });
+    });
+</script>

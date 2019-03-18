@@ -1,0 +1,70 @@
+<div id="accordeonNotation<?php echo $this->id; ?>">
+    <ol>
+        <?php if ($this->questionData ['information']): ?>
+            <li>
+                <h2><span>Information</span></h2>
+                <div style="overflow: auto;">
+                    <?php echo $this->question ($this->questionData, $this->questionFiles, $this->challengeStatut); ?>
+                </div>
+            </li>
+        <?php else: ?>
+            <li>
+                <h2><span>Question</span></h2>
+                <div style="overflow: auto;">
+                    <?php echo $this->question ($this->questionData, $this->questionFiles, $this->challengeStatut); ?>
+                </div>
+            </li>
+            <li>
+                <h2><span>Réponses</span></h2>
+                <?php if (! empty ($this->reponses)): ?>
+                    <div style="overflow: auto;">
+                        Sélectionnez une réponse : <select id="choix<?php echo $this->id; ?>">
+                            <option value="vide" selected="selected">&nbsp;</option>
+                            <?php 
+                                foreach ($this->reponses as $numero => $r) {
+                                    echo "<option value='$r'>Réponse : $numero &nbsp;</option>";
+                                }
+                            ?>
+                        </select><br /><br />
+                        <form id="frmnote<?php echo $this->id; ?>" method="post" action="restnotation/note">
+                            <p>
+                                <input type="hidden" name="club<?php echo $this->id; ?>" id="club<?php echo $this->id; ?>" value=""></input>
+                                <span>Note (valeur : <?php echo $this->questionData ['valeur']; ?>) : </span>
+                                <input name="note<?php echo $this->id; ?>" id="note<?php echo $this->id; ?>" size="5"></input>
+                                <input type="submit" value="Valider" class="ui-state-default ui-corner-all"></input>
+                            </p>
+                        </form><br />
+                        <div id="rq<?php echo $this->id; ?>">&nbsp;</div>
+                    </div>
+                <?php else: ?>
+                    <div style="overflow: auto;">
+                        Aucun participant n'a répondu à cette question...
+                    </div>
+                <?php endif; ?>
+            </li>
+        <li>
+            <h2><span>Réponse (correction)</span></h2>
+            <div style="overflow: auto;">
+                <div id="saisieReponse<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+            </div>
+        </li>
+        <li>
+            <h2><span>Documents Réponse (correction)</span></h2>
+            <div style="overflow: auto;">
+                <h3>Documents associés à la réponse</h3><br />
+                <div id="listeDocumentsReponse<?php echo $this->id; ?>">
+                    <?php 
+                        $ctrl = ($this->statut == 0) ? "elaboration" : "index";
+                        echo $this->listeFichiers ($this->id, $this->reponseFiles, 'elaboration', 'reponse', false); 
+                    ?>
+                </div>
+            </div>
+        </li>
+        <?php endif; ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        QuestionForms.initialize (<?php echo $this->id; ?>);
+    });
+</script>

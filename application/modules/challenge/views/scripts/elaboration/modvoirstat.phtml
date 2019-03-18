@@ -1,0 +1,44 @@
+<div id="accordeonStatistiques">
+    <ol>
+        <li>
+            <h2><span>Statistiques</span></h2>
+            <div style="overflow: auto;">
+                <p>
+                    Il y a <?php echo $this->stats ['encours'] + $this->stats ['valides']; ?> clubs qui travaillent sur le challenge
+                    dont <?php echo $this->stats ['valides']; ?> qui ont validé leur participation.
+                </p>
+                <br />
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <?php 
+                                foreach ($this->stats ['clubs'] as $club) {
+                                    echo "<th title='" . $club ['club'] . "'>&nbsp;" . $club ['login'] . "</th>";
+                                }
+                            ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php 
+                                foreach ($this->stats ['questions'] as $k => $v) {
+                                    echo "<tr><td>$v</td>";
+                                    foreach ($this->stats ['liste'] as $el) {
+                                        echo "<td align='center'><img src='mediatheque/images/" . $el [$k] . ".png' /></td>";
+                                    }
+                                    echo "</tr>\n";
+                                }
+                            ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonStatistiques');
+    });
+</script>

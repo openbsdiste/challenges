@@ -1,0 +1,43 @@
+<div id="documentsChallenge">
+    <ol>
+        <li>
+            <h2><span>Les Documents Du Challenge</span></h2>
+            <div style="overflow: auto;">
+                <h1><center style="font-size: 1.5em;"><br />Les documents du challenge<br /></center></h1><br />
+                <?php
+                    $indices = array ();
+                    $last = 0;
+                    foreach ($this->arbre as $feuille) {
+                        if ($last < $feuille ['level']) {
+                            $indices [] = 0;
+                        } elseif ($last > $feuille ['level']) {
+                            while ($last > $feuille ['level']) {
+                                $last--;
+                                array_pop ($indices);
+                            }
+                        }
+                        $val = array_pop ($indices);
+                        $indices [] = $val + 1;
+                        $last = $feuille ['level'];
+                        $fichiers = $this->mquest->getFichiers ($feuille ['noeud']);
+                        $question = $this->mquest->getFichiers ($feuille ['noeud']);
+                        if (! empty ($fichiers)) {
+                            echo "<br /><h2>" . implode ('.', $indices) . '. ' . $feuille ['title'] . "</h2><br />\n";
+                            echo "<p>\n";
+                            sort ($fichiers);
+                            foreach ($fichiers as $fichier) {
+                                echo "<a target='_blank' href='challenge/index/fichier?id=" . $question ['id'] . "&nom=" . urlencode ($fichier) . "&t=" . time () . "'>$fichier</a>&nbsp;";
+                            }
+                            echo "</p>\n";
+                        }
+                    }
+                ?>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('documentsChallenge');
+    });
+</script>

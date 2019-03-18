@@ -1,0 +1,136 @@
+<div id="accordeonQuestion<?php echo $this->id; ?>">
+    <ol>
+        <li>
+            <h2><span>Informations</span></h2>
+            <div style="overflow: auto;">
+                <form id="informations<?php echo $this->id; ?>" action="restmoderateur/informations" method="post" enctype="multipart/form-data">
+                    <h3>Informations sur la question ou l'information</h3><br />
+                    <p>
+                        <input name="info<?php echo $this->id; ?>" type="checkbox" class="ui-state-default ui-corner-all" <?php if ($this->questionData ['information']) echo "checked='checked'"; ?>/>
+                        <span>Cocher la case s'il s'agit d'une information et non d'une question</span>
+                    </p>
+                    <p> 
+                        <input name="valeur<?php echo $this->id; ?>" size="5" value="<?php echo $this->questionData ['valeur']; ?>"/>
+                        <span>Indiquer la Note associée (s'il s'agit d'une question)</span>
+                    </p><br />
+                    <p>
+                        <img id="image<?php echo $this->id; ?>" src="challenge/elaboration/image?id=<?php echo $this->id . "&t=" . time (); ?>" srcbase="challenge/elaboration/image?id=<?php echo $this->id; ?>" width="128">
+                    </p>
+                    <p>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo 512 * 1024; ?>">
+                        <input id="imgsrc<?php echo $this->id; ?>" name="imgsrc<?php echo $this->id; ?>" type="file" value=""/>
+                        <span>Pour changer l'image (ignorée si plus de 512 Ko)</span>
+                    </p>
+                    <p>
+                        <input name="suppr<?php echo $this->id; ?>" type="checkbox" class="ui-state-default ui-corner-all"/>
+                        <span>Cocher cette case pour supprimer l'image</span>
+                    </p><br />
+                    <p>
+                        <input name="auteur<?php echo $this->id; ?>" size="20" value="<?php echo $this->questionData ['auteur']; ?>"/>
+                        <span>Indiquer éventuellement l'auteur de la question</span>
+                    </p><br />
+                    <p>
+                        <select name="statut<?php echo $this->id; ?>">
+                            <option></option>
+                            <?php
+                                foreach ($this->statuts as $st) {
+                                    $selected = ($st == $this->questionData ['statut']) ? "selected='selected'" : "";
+                                    echo "<option value='$st' $selected>$st</option>\n";
+                                }
+                            ?>
+                        </select>
+                        <span>Indiquer un statut pour cette question</span>
+                    </p><br />
+                    <?php if ($this->status != 1): ?>
+                        <p>
+                            <?php
+                                $checked = "";
+                                if ($this->leaf->modifie) {
+                                    $checked = ' checked="checked"';
+                                }
+                            ?>
+                            <input type="checkbox" name="modifie<?php echo $this->id; ?>" class="ui-state-default ui-corner-all"<?php echo $checked; ?> />
+                            <span>Cocher cette case pour indiquer que la question est modifi&eacute;e</span>
+                        </p><br />
+                    <?php endif; ?>
+                    <p>
+                        <input type="submit" class="ui-state-default ui-corner-all" value="Sauver les informations"/>
+                    </p>
+                </form>
+            </div>
+        </li>
+        <li>
+            <h2><span>Texte</span></h2>
+            <div style="overflow: auto;">
+                <form id="textes<?php echo $this->id; ?>" action="restmoderateur/texte" method="post">
+                    <input type="submit" class="ui-state-default ui-corner-all" value="Sauver le texte"/>
+                    <span>Indiquer ici le texte de la question.</span>
+                    <input id="texte<?php echo $this->id; ?>" name="texte<?php echo $this->id; ?>" type="hidden" value=""/>
+                </form>
+                <div id="saisie<?php echo $this->id; ?>"><?php echo $this->questionData ['texte']; ?></div>
+            </div>
+        </li>
+        <li>
+            <h2><span>Documents</span></h2>
+            <div style="overflow: auto;">
+                <h3>Documents associés à la question</h3><br />
+                <form id="documents<?php echo $this->id; ?>" action="restmoderateur/documents?id=<?php echo $this->id; ?>" method="post" enctype="multipart/form-data">
+                    <input id="document<?php echo $this->id; ?>" name="document<?php echo $this->id; ?>" type="file">
+                    <input value="Ajouter le document" type="submit" class="ui-state-default ui-corner-all">
+                </form>
+                <br />
+                <div id="docprogress<?php echo $this->id; ?>"><div class="progress-label"></div></div>
+                <br />
+                <div id="listeDocuments<?php echo $this->id; ?>">
+                    <?php 
+                        $ctrl = ($this->statut == 0) ? "elaboration" : "index";
+                        echo $this->listeFichiers ($this->id, $this->questionFiles, $ctrl); 
+                    ?>
+                </div>
+            </div>
+        </li>
+        <li>
+            <h2><span>Aperçu</span></h2>
+            <div style="overflow: auto">
+                <div id="preview<?php echo $this->id; ?>">
+                    <?php echo $this->question ($this->questionData, $this->questionFiles, $this->statut); ?>
+                </div>
+            </div>
+        </li>
+        <li>
+            <h2><span>Réponse</span></h2>
+            <div style="overflow: auto;">
+                <form id="reponses<?php echo $this->id; ?>" action="restutilisateur/texte" method="post">
+                    <input type="submit" class="ui-state-default ui-corner-all" value="Sauver le texte"/>
+                    <span>Indiquer ici le texte de la réponse.</span>
+                    <input id="reponse<?php echo $this->id; ?>" name="reponse<?php echo $this->id; ?>" type="hidden" value=""/>
+                </form>
+                <div id="saisieReponse<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+            </div>
+        </li>
+        <li>
+            <h2><span>Documents Réponse</span></h2>
+            <div style="overflow: auto;">
+                <h3>Documents associés à la réponse</h3><br />
+                <form id="documentsReponse<?php echo $this->id; ?>" action="restutilisateur/documents?id=<?php echo $this->id; ?>" method="post" enctype="multipart/form-data">
+                    <input id="documentreponse<?php echo $this->id; ?>" name="documentreponse<?php echo $this->id; ?>" type="file">
+                    <input value="Ajouter le document" type="submit" class="ui-state-default ui-corner-all">
+                </form>
+                <br />
+                <div id="docreponseprogress<?php echo $this->id; ?>"><div class="progress-label"></div></div>
+                <br />
+                <div id="listeDocumentsReponse<?php echo $this->id; ?>">
+                    <?php 
+                        $ctrl = ($this->statut == 0) ? "elaboration" : "index";
+                        echo $this->listeFichiers ($this->id, $this->reponseFiles, 'elaboration', 'reponse'); 
+                    ?>
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        QuestionForms.initialize (<?php echo $this->id; ?>);
+    });
+</script>

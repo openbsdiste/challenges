@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <production>
+        <accueil>
+            <label>menu.accueil</label>
+            <module>default</module>
+            <controller>index</controller>
+            <action>index</action>
+        </accueil>
+        <creerchallenge>
+            <label>menu.nouveau</label>
+            <module>administration</module>
+            <controller>challenge</controller>
+            <action>index</action>
+        </creerchallenge>
+        <gereutilisateurs>
+            <label>menu.utilisateur</label>
+            <module>administration</module>
+            <controller>utilisateurs</controller>
+            <action>index</action>
+        </gereutilisateurs>
+        <motdepasse>
+            <label>menu.motdepasse</label>
+            <module>authentification</module>
+            <controller>motdepasse</controller>
+            <action>index</action>
+        </motdepasse>
+        <forum>
+            <label>menu.forum</label>
+            <uri>http://challenge.microtel-clubs.fr/forum</uri>
+        </forum>
+        <rencontres>
+            <label>menu.rencontres</label>
+            <uri>http://challenge.microtel-clubs.fr/accueil/rencontres.html</uri>
+        </rencontres>
+        <connexion>
+            <label>menu.connexion</label>
+            <module>authentification</module>
+            <controller>connexion</controller>
+            <action>index</action>
+        </connexion>
+        <deconnexion>
+            <label>menu.deconnexion</label>
+            <module>authentification</module>
+            <controller>deconnexion</controller>
+            <action>index</action>
+        </deconnexion>
+    </production>
+    <staging extends="production">
+    </staging>
+    <testing extends="production">
+    </testing>
+    <development extends="production">
+    </development>
+</data>

@@ -1,0 +1,25 @@
+<div id="accordeonResultats">
+    <ol>
+        <li>
+            <h2><span>Résultats</span></h2>
+            <div style="overflow: auto;">
+                <h2>Résultats du challenge</h2><br />
+                <table>
+                    <thead><tr><th>Club</th><th>&nbsp;</th><th align="right">Score</th></tr></thead>
+                    <tbody>
+                        <?php
+                            foreach ($this->liste as $r) {
+                                echo "<tr><td>" . $r ['club'] . "</td><td>&nbsp;</td><td align='right'>" . $r ['note'] . "</td></tr>\n";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonResultats');
+    });
+</script>

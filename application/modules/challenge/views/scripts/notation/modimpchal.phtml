@@ -1,0 +1,25 @@
+<div id="accordeonImport">
+    <ol>
+        <li>
+            <h2><span>Import</span></h2>
+            <div style="overflow: auto;">
+                <h3>Import de réponse reçue via un fichier Excel.</h3>
+                <form id="import" action="restnotation/import" method="post" enctype="multipart/form-data">
+                    <input id="fichierExcel" name="fichierExcel" type="file">
+                    <input value="Importer la réponse" type="submit" class="ui-state-default ui-corner-all">
+                </form>
+                <br />
+                <div id="importProgress"><div class="progress-label"></div></div>
+                <br />
+                <div id="traitement">
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonImport');
+        ImportChallenge.initialize ();
+    });
+</script>

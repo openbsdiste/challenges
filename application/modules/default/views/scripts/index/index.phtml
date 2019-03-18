@@ -1,0 +1,38 @@
+<div class="ui-layout-center marges1em">
+    <h2>Bienvenue sur le site des challenges !</h2>
+    <p>
+        <?php if ($this->role == Model_Enum_Roles::GUEST): ?>
+            Vous trouverez ci-dessous une liste des challenges disponibles.<br />
+            <b>Pour pouvoir r&eacute;pondre au challenge, vous devez vous identifier en tant que club.</b><br />
+            Pour cela, cliquez sur le bouton "Connexion" ci-dessus.<br />
+            <br />
+            <u>Note :</u> Lorqu'un challenge en cours, il est rep&eacute;r&eacute; par un petit coeur (<span class="ui-icon ui-icon-heart">&nbsp;</span>) &agrave; gauche de l'ann&eacute;e.
+        <?php else: ?>
+            En tant que club identifi&eacute;, vous pouvez r&eacute;pondre au challenge en cours.<br />
+            Notez que le nom de votre club est affich&eacute; dans le titre, en haut &agrave; droite de chaque page !<br />
+            <br />
+            <u>Note :</u> Vous devez changer votre mot de passe AVANT de pouvoir répondre au challenge.<br />
+            <br />
+            Pour changer votre mot de passe, cliquez sur le bouton "Passe" ci-dessus.<br />
+            Pour vous d&eacute;connecter, cliquez sur le bouton "Quitter" ci-dessus.<br />
+            Vous pouvez revenir &agrave; cette page &agrave; tout moment en cliquant sur le bouton "Challenges" ci-dessus.
+        <?php endif; ?>
+    </p>
+    <h2><?php echo __('index.liste'); ?></h2>
+    <p><?php echo __('index.aide'); ?></p>
+    <ul>
+        <?php foreach ($this->liste as $challenge): ?>
+            <li>
+                <span class="ui-icon ui-icon-<?php echo $challenge ['icone']; ?>">&nbsp;</span>
+                <span class="annee">
+                    <a href="challenge/index/index?chalid=<?php echo $challenge ['id']; ?>">
+                        <?php echo $challenge ['annee']; ?></span>
+                    </a>
+                <span class="ui-icon ui-icon-play">&nbsp;</span>
+                <span class="organisateur"><?php echo __('index.organisateur'); ?>
+                    <?php echo $challenge ['organisateur']; ?>
+                </span>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

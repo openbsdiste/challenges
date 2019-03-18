@@ -1,0 +1,80 @@
+<div id="accordeonAccueil">
+    <ol>
+        <li>
+            <h2><span>Accueil</span></h2>
+            <div style="overflow: auto;">
+                <h3>Bienvenue <?php echo $this->challenge ['club']; ?> !</h3><br />
+                <p>
+                    Vous êtes modérateur du <b>challenge <?php echo $this->challenge ['annee']; ?></b>.
+                    A ce titre, c'est à vous de le concevoir et de le mettre en place !
+                </p><br />
+                <p>
+                    Pour l'instant, <b>personne d'autre que vous ne peut voir le contenu de ce challenge</b>.
+                    Lorsqu'il sera prêt, <b>vous devrez le publier</b> (pour cela, cliquez à droite sur <b>Outils</b> puis sur <b>Publier le challenge</b>).
+                    Les autres clubs pourront alors commencer à travailler !
+                </p><br />
+                <p>
+                    Une fois la date limite de réponse atteinte, <b>vous devrez clore le challenge</b> (toujours dans <b>Outils</b>).
+                    Les clubs n'auront alors plus la possibilité de répondre et vous pourrez commencer la notation.
+                </p><br />
+                <p>
+                    En attendant, vous devez créer vos questions.
+                    Pour cela, <b>utilisez l'arborescence à gauche</b> :
+                </p>
+                <ul>
+                    <li>- Par un <b>clic droit</b>, vous pouvez ajouter, renommer ou supprimer un élément.</li>
+                    <li>- Par un <b>glisser-déposer</b>, vous pouvez réorganiser vos questions comme bon vous semble.</li>
+                    <li>- Par un <b>clic gauche</b> vous ouvrez un onglet pour accéder à la question ou à l'information et vous pouvez alors l'éditer</li> 
+                </ul><br />
+                <p>
+                    Par défaut, l'arobrescence ne présente qu'un élément appelé <b>Mot du président</b>.
+                    Pour créer un autre élément à côté de celui-ci, créez un élément fils puis déplacez-le par un glisser-déposer.
+                    Si vous supprimez tous les éléments, il vous suffit de recharger la page pour retrouver à nouveau <b>Mot du président</b>.<br />
+                    <b>Attention</b> : la suppression est définitive !
+                </p><br />
+                <p>
+                    <b>Sur chaque onglet</b> vous pourrez dire s'il s'agit d'une <b>question</b> ou d'une <b>information</b>.
+                    Vous pourrez également ajouter une image décorative, préciser la note associée (si c'est une question),
+                    ou encore indiquer les documents éventuellement associés.<br />
+                    Enfin, vous pourrez visualiser le résultat tel que le verront les clubs.
+                </p><br />
+                <p>
+                    Lorsque le challenge sera publié, vous trouverez dans <b>Outils</b> un bouton <b>Voir les statistiques</b>.
+                    Il vous donnera quelques informations sur les réponses en cours et les clubs qui participent.
+                    Vous deviendrez également <b>modérateur du forum</b> et devrez donc approuver tout message envoyé.
+                </p><br />
+                <p><b>Important :</b> N'oubliez pas de <b>sauver votre travail</b> !</p><br />
+                <p>Pour toute question, envoyez un courriel à <b>dt@microtel-clubs.fr</b></p><br />
+                <p><b>Bon courage, c'est à vous de jouer !</b></p><br />
+                <p><i>François.</i></p>
+            </div>
+        </li>
+        <?php 
+            echo $this->outils (array (
+                array (
+                   'id' => "modstatuts",
+                    'value' => "Gérer les statuts",
+                    'desc' => "Permet de gérer les statuts des questions du challenge"
+                ), array (
+                    'id' => "modverchal", 
+                    'value' => "Vérifier le challenge", 
+                    'desc' => "Cela vérifie si des points sont attribués à toutes les questions, etc."
+                ), array (
+                    'id' => "modlimite",
+                    'value' => "Fixer la date limite",
+                    'desc' => "Fixer la date limite de réponse pour les clubs."
+                ), array (
+                    'id' => "modpubchal", 
+                    'value' => "Publier le challenge", 
+                    'desc' => "Attention : la publication est irréversible !"
+                )
+            ));
+        ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonAccueil');
+        OutilsAccueil.initialize ();
+    });
+</script>

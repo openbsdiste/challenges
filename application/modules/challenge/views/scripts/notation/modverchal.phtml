@@ -1,0 +1,33 @@
+<div id="accordeonStatistiques">
+    <ol>
+        <li>
+            <h2><span>Statistiques</span></h2>
+            <div style="overflow: auto;">
+                <p>
+                    Pour chaque question, une main verte indique si toutes les réponses ont été notées,
+                    et une main rouge indique si certaines réponses n'ont pas été notées.
+                </p>
+                <p>Note : si aucun club n'a répondu à une question, une main verte est affichée car on ne peut ni noter ni choisir une réponse !</p><br />
+                <table>
+                    <thead><tr><th>Question&nbsp;</th><th>Note&nbsp;</th><th>Réponse</th></tr></thead>
+                    <tbody>
+                        <?php
+                            foreach ($this->liste as $q) {
+                                echo "<tr>";
+                                echo "<td>" . $q ['titre'] . "</td>";
+                                $imageok = ($q ['ok']) ? "good" : "bad";
+                                echo "<td align='center'><img src='mediatheque/images/$imageok.png' /></td>";
+                                echo "</tr>\n";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonStatistiques');
+    });
+</script>

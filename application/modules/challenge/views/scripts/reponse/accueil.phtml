@@ -1,0 +1,80 @@
+<div id="accordeonAccueil">
+    <ol>
+        <li>
+            <h2><span>Accueil</span></h2>
+            <?php if ($this->challenge ['statut'] == Model_Enum_StatutChallenge::ENCOURS): ?>
+                <div style="overflow: auto;">
+                    <h3>Bienvenue <?php echo $this->identite->club; ?> !</h3><br />
+                    <p>
+                        <b><?php echo $this->challenge ['club'] ?></b> a créé pour vous le <b>challenge <?php echo $this->challenge ['annee']; ?></b>.
+                        Votre mission, si vous l'acceptez, est de relever le défi de ce challenge et d'y répondre !
+                    </p><br />
+                    <p>
+                        En cliquant sur l'arborescence à gauche, vous naviguez entre les différentes questions et informations.
+                        Chaque clic sur un <b>+</b> montre les éléments contenus dans la catégorie.
+                        Chaque clic sur un nom ouvre un nouvel onglet permettant de lire le contenu et de répondre s'il s'agit d'une question.
+                        Vous pouvez également, pour chaque question, ajouter un ou plusieurs documents.
+                        Si la réponse consiste "uniquement" en un document joint, il est vivement conseillé d'indiquer, dans le texte
+                        de la réponse, que vous fournissez ce document.
+                    </p><br />
+                    <p>
+                        Si vous voulez voir l'intégralité du challenge en une seule page, cliquez sur le bouton <b>Imprimer</b>
+                        qui se trouve tout en haut de l'arborescence, à gauche de cette page.
+                    </p><br />
+                    <p>
+                        Si vous voulez télécharger un bulletin réponse au format Excel pour répondre (au lieu de répondre en utilisant cet outil)
+                        cliquez sur le lien <b>Excel 97-2003</b> ou sur <b>Excel 2007+</b> juste sous le bouton <b>Imprimer</b>
+                    </p><br />
+                    <p>
+                        <b>Lorsque vous aurez terminé</b>, et <b>avant la date butoir</b> vous devrez <b>valider vos réponses</b>.
+                        Pour cela, sur la droite de cet accueil, cliquez sur <b>Outils</b>, puis sur le bouton <b>Valider les réponses</b>.
+                        Si vous ne le faites pas, votre contribution ne pourra pas être prise en compte...
+                    </p><br />
+                    <p>
+                        A la date butoir, le club organisateur <b>vérouillera le challenge</b> pour commencer à le corriger.
+                    </p><br />
+                    <p><b>Important :</b> N'oubliez pas de <b>sauver votre travail</b> !</p><br />
+                    <p>Pour toute question sur l'utilisation de ce site, envoyez un courriel à <b>dt@microtel-clubs.fr</b></p><br />
+                    <p><b>Bon courage, c'est à vous de jouer !</b></p><br />
+                    <p><i>François.</i></p>
+                </div>
+            <?php else: ?>
+                <div style="overflow: auto;">
+                    <h3>Bienvenue <?php echo $this->challenge ['club']; ?> !</h3><br />
+
+                    <p>Pour toute question, envoyez un courriel à <b>dt@microtel-clubs.fr</b></p><br />
+                    <p><b>Bon courage !</b></p><br />
+                    <p><i>François.</i></p>
+            <?php endif; ?>
+        </li>
+        <?php 
+            if ($this->challenge ['statut'] == Model_Enum_StatutChallenge::ENCOURS) {
+                echo $this->outils (array (
+                    array (
+                        'id' => "documents",
+                        'value' => 'Lister les documents',
+                        'desc' => "Cela permet de lister l'ensemble des documents des questions du challenge."
+                    ), array (
+                        'id' => "modverchal", 
+                        'value' => "Vérifier les réponses", 
+                        'desc' => "Cela permet de vérifier à quelles questions vous avez répondu."
+                    ), array (
+                        'id' => "impreponses",
+                        'value' => 'Imprimer les réponses',
+                        'desc' => "Affiche l'ensemble de vos réponses dans un onglet pour faciliter la vérification."
+                    ), array (
+                        'id' => "modvalchal", 
+                        'value' => "Valider les réponses", 
+                        'desc' => "Attention : la validation est irréversible !"
+                    )
+                ));
+            }
+        ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonAccueil');
+        OutilsAccueil.initialize ();
+    });
+</script>

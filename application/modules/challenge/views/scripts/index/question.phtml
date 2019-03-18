@@ -1,0 +1,23 @@
+<div id="accordeonQuestion<?php echo $this->id; ?>">
+    <ol>
+        <li>
+            <h2><span><?php echo $this->titre; ?></span></h2>
+            <div style="overflow: auto;">
+                <?php echo $this->question ($this->questionData, $this->questionFiles, $this->challenge ['statut']); ?>
+            </div>
+        </li>
+        <?php if ($this->reponseData !== false): ?>
+            <li>
+                <h2><span>Réponse</span></h2>
+                <div style="overflow: auto;">
+                    <?php echo $this->reponse ($this->reponseData, $this->reponseFiles); ?>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonQuestion<?php echo $this->id; ?>');
+    });
+</script>

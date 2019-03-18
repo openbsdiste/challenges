@@ -1,0 +1,18 @@
+<div class="ui-layout-west">
+    <div>
+        <center>
+            <span id="preview"><img src='mediatheque/images/imprimer.jpg' hspace="10" height="32" title="Imprimer" alt="Imprimer" /></span>
+        </center>
+    </div>
+    <div id="questiontree"></div>
+</div>
+<div class="ui-layout-center">
+    <div id="tabs">
+        <ul>
+            <li><a href="challenge/index/accueil"><?php echo __('challenge.accueil'); ?></a></li>
+            <?php if ($this->challenge ['statut'] == Model_Enum_StatutChallenge::VALIDE): ?>
+                <li><a href="challenge/index/resultats"><?php echo __('challenge.resultats'); ?></a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>

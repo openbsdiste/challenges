@@ -1,0 +1,80 @@
+<div id="accordeonAccueil">
+    <ol>
+        <li>
+            <h2><span>Accueil</span></h2>
+            <div style="overflow: auto;">
+                <h3>Bienvenue <?php echo $this->challenge ['club']; ?> !</h3><br />
+                <p>
+                    Vous êtes modérateur du <b>challenge <?php echo $this->challenge ['annee']; ?></b>.
+                    Votre rôle est à présent de <b>noter les réponses des clubs</b>.
+                </p><br />
+                <p>
+                    En cliquant sur l'arborescence a gauche, vous naviguez entre les différentes questions et informations.
+                    Chaque clic sur un <b>+</b> montre les éléments contenus dans la catégorie.
+                    Chaque clic sur un nom ouvre un nouvel onglet permettant d'accéder aux réponses des clubs et de <b>les noter</b>.
+                </p><br />
+                <p>
+                    Pour être <b>impartial dans la notation</b>, le mieux est de ne pas savoir à quel club correspond quelle réponse.
+                    Ainsi, pour chaque question, les réponses sont <b>identifiées par Réponse x, Réponse y, etc</b>.
+                    Bien sûr, pour certaines questions, les clubs indiquent leur nom dans la réponse, mais dans la plupart des
+                    cas, vous ne saurez pas quel club a écrit la réponse que vous notez d'autant que les numéros ne correspondront pas
+                    aux mêmes clubs d'une question à l'autre !
+                </p><br />
+                <p>
+                    Dans les <b>Outils</b>, vous pourrez vérifier que vous avez bien noté toutes les réponses.
+                    Vous verrez également la note attribuée à chaque club.
+                </p><br />
+                <p>
+                    <b>Après la proclamation des résultats</b>, vous <b>devrez</b> publier les réponses.
+                    Vous trouverez un bouton <b>Terminer le challenge</b> dans les outils.
+                    En faisant cela, vous <b>rendrez publiques les notes et les réponses</b>.
+                    A noter également que vous perdrez votre statut de modérateur qui sera ensuite attribué... au club vaicoeur !
+                </p><br />
+                <p>
+                    Si vous voulez voir l'intégralité du challenge en une seule page, cliquez sur le bouton <b>Imprimer</b>
+                    qui se trouve tout en haut de l'arborescence, à gauche de cette page.
+                </p><br />
+                <p><i>François.</i></p>
+            </div>
+        </li>
+        <?php
+            echo $this->outils (array (
+                array (
+                    'id' => "modnotman",
+                    'value' => "Notation manuelle",
+                    'desc' => "Affecter les notes à un club qui a répondu par un autre moyen."
+                ), array (
+                    'id' => "modimpchal",
+                    'value' => "Import de réponses",
+                    'desc' => "Importer les réponses Excel d'un club au challenge."
+                ), array (
+                    'id' => "modexpchal",
+                    'value' => "Export de réponses",
+                    'desc' => "Exporter les réponses d'un club sous forme d'un fichier zip."
+                ), array (
+                    'id' => "modverchal",
+                    'value' => "Vérifier la notation",
+                    'desc' => "Cela vérifie si des points sont attribués à toutes les réponses, etc."
+                ), array (
+                    'id' => "modreschal",
+                    'value' => "Voir les résultats",
+                    'desc' => "La note des participants !"
+                ), array (
+                    'id' => "modexpnot",
+                    'value' => "Exporter les notes",
+                    'desc' => "Toutes les notes réunies dans un tableau Excel !"
+                ), array (
+                    'id' => "modterchal",
+                    'value' => "Terminer le challenge",
+                    'desc' => "Attention : ceci est irréversible !"
+                )
+            ));
+        ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonAccueil');
+        OutilsAccueil.initialize ();
+    });
+</script>

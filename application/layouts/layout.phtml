@@ -1,0 +1,40 @@
+<?php echo $this->doctype (); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+    <head>
+        <base href="<?php echo $this->serverUrl ($this->baseUrl ()); ?>/" />
+        <meta http-equiv="Content-Language" content="fr" />
+        <?php echo $this->headTitle ($this->headTitle); ?>
+        <?php echo $this->headMeta (); ?>
+        <?php echo $this->headLink (); ?>
+        <?php echo $this->headScript (); ?>
+        <?php echo $this->jQuery (); ?>
+        <script type="text/javascript">
+            jQuery(document).ready (function () {
+                Global.baseUrl = "<?php echo $this->baseUrl (); ?>";
+            });
+        </script>
+    </head>
+    <body>
+        <div id="spinner" class="spinner" style="display:none;">
+            <img id="img-spinner" src="mediatheque/images/ajax-loader.gif" alt="Patience..."/>
+        </div>
+        <div class="ui-layout-north">
+            <div id="pageTitle"><?php echo __('site.titre'); ?></div>
+            <?php if ($this->role != Model_Enum_Roles::GUEST): ?>
+                <div id="nomClub"><?php echo __('site.vousetes') . $this->nomClub; ?></div>
+            <?php endif; ?>
+            <div id="menu" class="ui-widget-header">
+                <?php echo $this->navigation ()->menu ()->renderMenu (); ?>
+                <div id="nicCommonPanel"></div>
+            </div>
+        </div>
+        <div class="ui-layout-center ui-widget-content">
+            <div id="contenuPrincipal" class="content">
+                <?php echo $this->layout()->content; ?>
+            </div>
+        </div>
+        <div class="ui-layout-south">
+            <div id="pageCopyright" class="content"><?php echo __('site.copyright'); ?></div>
+        </div>
+    </body>
+</html>

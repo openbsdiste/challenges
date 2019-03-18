@@ -1,0 +1,28 @@
+<div id="accordeonPublication">
+    <ol>
+        <li>
+            <h2><span>Validation</span></h2>
+            <div style="overflow: auto;">
+                <h2>Validation du challenge...</h2><br />
+                <input id="confirmer" type="button" class="ui-state-default ui-corner-all" value="Confirmer encore la validation" /><br />
+                <br />
+                <p>
+                    PS: En fonction de votre navigateur, après avoir cliqué vous pouvez avoir l'impression que rien ne se passe...
+                    Patientez quelques minutes quand même...
+                    Cela provient d'un problème lié à certains navigateurs.
+                </p><br />
+                <div id="publicationProgress"><div class="progress-label"></div></div>
+                <div id="textepublication">&nbsp;</div>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        jQuery ("#publicationProgress").progressbar ({value: 100, max: 100});
+        jQuery ("#confirmer").on ("click", function () {
+            ValideChallenge.lance ();
+        });
+        Global.setAccordion ('accordeonPublication');
+    });
+</script>

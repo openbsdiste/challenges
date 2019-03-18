@@ -1,0 +1,12 @@
+<?php echo $this->doctype (); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+    <head>
+        <base href="<?php echo $this->serverUrl ($this->baseUrl ()); ?>/" />
+        <meta http-equiv="Content-Language" content="fr" />
+        <?php echo $this->headTitle ($this->headTitle); ?>
+        <?php echo $this->headMeta (); ?>
+    </head>
+    <body>
+        <?php echo $this->layout()->content; ?>
+    </body>
+</html>

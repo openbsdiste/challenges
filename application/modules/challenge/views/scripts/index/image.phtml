@@ -1,0 +1,7 @@
+<?php
+    $ext = strtolower (substr ($this->image ['nom'], strrpos ($this->image ['nom'], '.') + 1));
+    header ("Cache-Control: no-store, no-cache, must-revalidate");
+    header ("Pragma: no-cache");
+    header ("Content-Type: image/" . $ext);
+    header ("Content-Length: " . strlen ($this->image ['contenu']));
+    echo $this->image ['contenu'];

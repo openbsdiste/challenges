@@ -1,0 +1,34 @@
+<div id="accordeonverchal">
+    <ol>
+        <li>
+            <h2><span>Vérification</span></h2>
+            <div style="overflow: auto;">
+                <p>
+                    <b>Vous participez à <?php echo $this->nbrep; ?> question(s) sur un total de <?php echo $this->total; ?>.</b><br />
+                    <?php echo " (" . $this->totalPoints . " points potentiels / " . $this->totalPossibles . " points possibles)"; ?>
+                </p><br />
+                <table>
+                    <thead><tr><th>Numéro&nbsp;</th><th>Question</th><th>Réponse&nbsp;</th><th>Fichiers&nbsp;</th><th align='right'>Valeur</th></tr></thead>
+                    <tbody>
+                        <?php
+                            foreach ($this->liste as $el) {
+                                echo "<tr>";
+                                echo "<td>" . $el ['numero'] . "</td>";
+                                echo "<td>" . $el ['titre'] . "</td>";
+                                echo "<td align='center'><img src='mediatheque/images/" . $el ['reponse'] . ".png' /></td>";
+                                echo "<td align='center'><img src='mediatheque/images/" . $el ['fichier'] . ".png' /></td>";
+                                echo "<td align='right'>" . $el ['valeur'] . "</td>";
+                                echo "</tr>\n";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonverchal');
+    });
+</script>

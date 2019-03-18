@@ -1,0 +1,62 @@
+<div id="accordeonReponse<?php echo $this->id; ?>">
+    <ol>
+        <?php if ($this->questionData ['information']): ?>
+            <li>
+                <h2><span>Information</span></h2>
+                <div style="overflow: auto;">
+                    <?php echo $this->question ($this->questionData, $this->questionFiles, $this->statutChallenge); ?>
+                </div>
+            </li>
+        <?php else: ?>
+            <li>
+                <h2><span>Question</span></h2>
+                <div style="overflow: auto;">
+                    <?php echo $this->question ($this->questionData, $this->questionFiles, $this->statutChallenge); ?>
+                </div>
+            </li>
+            <li>
+                <h2><span>Réponse</span></h2>
+                <div style="overflow: auto;">
+                    <form id="textes<?php echo $this->id; ?>" action="restutilisateur/texte" method="post">
+                        <input type="submit" class="ui-state-default ui-corner-all" value="Sauver le texte"/>
+                        <span>Indiquer ici le texte de la réponse.</span>
+                        <input id="texte<?php echo $this->id; ?>" name="texte<?php echo $this->id; ?>" type="hidden" value=""/>
+                    </form>
+                    <div id="saisie<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+                </div>
+            </li>
+            <li>
+                <h2><span>Documents</span></h2>
+                <div style="overflow: auto;">
+                    <h3>Documents associés à la réponse</h3><br />
+                    <form id="documents<?php echo $this->id; ?>" action="restutilisateur/documents?id=<?php echo $this->id; ?>" method="post" enctype="multipart/form-data">
+                        <input id="document<?php echo $this->id; ?>" name="document<?php echo $this->id; ?>" type="file">
+                        <input value="Ajouter le document" type="submit" class="ui-state-default ui-corner-all">
+                    </form>
+                    <br />
+                    <div id="docprogress<?php echo $this->id; ?>"><div class="progress-label"></div></div>
+                    <br />
+                    <div id="listeDocuments<?php echo $this->id; ?>">
+                        <?php echo $this->listeFichiers ($this->id, $this->reponseFiles, 'reponse', 'reponse'); ?>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <h2><span>Notes internes</span></h2>
+                <div style="overflow: auto;">
+                    <form id="notesinternes<?php echo $this->id; ?>" action="restutilisateur/texte" method="post">
+                        <input type="submit" class="ui-state-default ui-corner-all" value="Sauver le texte"/>
+                        <span>Indiquer ici des notes internes à votre club (par exemple, vos pistes !).</span>
+                        <input id="noteinterne<?php echo $this->id; ?>" name="noteinterne<?php echo $this->id; ?>" type="hidden" value=""/>
+                    </form>
+                    <div id="saisieinterne<?php echo $this->id; ?>"><?php echo $this->reponseData ['notesinternes']; ?></div>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        QuestionForms.initialize (<?php echo $this->id; ?>);
+    });
+</script>

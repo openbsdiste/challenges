@@ -1,0 +1,9 @@
+data/2*
+data/cache
+!data/cache/index.html
+data/logs
+!data/logs/index.html
+data/sql/fl*
+data/sql/cf2m*
+application/configuration/config.d/db.ini
+

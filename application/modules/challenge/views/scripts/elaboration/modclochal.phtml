@@ -1,0 +1,34 @@
+<div id="accordeonCloture">
+    <ol>
+        <li>
+            <h2><span>Fermeture</span></h2>
+            <div style="overflow: auto;">
+                <h2>Fermeture du challenge...</h2><br />
+                <p>Voici la liste des clubs qui participent au challenge. La main verte indique que le club a validé sa réponse et la main rouge indique que non !</p>
+                <?php
+                    foreach ($this->liste as $club) {
+                        echo "<p><img src='mediatheque/images/" . $club ['valide'] . ".png'/>&nbsp;";
+                        echo $club ['club'] . "</p>\n";
+                    }
+                ?>
+                <br />
+                <p>
+                    Si vous fermez le challenge, les clubs qui n'ont pas validé leur réponse ne participeront pas.
+                    Leurs réponses seront définitivement effacées.
+                </p><br />
+                <p>
+                    Après avoir confirmé, vous passerez en mode "notation" des réponses.
+                </p><br />
+                <input id="confirmer" type="button" class="ui-state-default ui-corner-all" value="Confirmer la fermeture du challenge" />
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonCloture');
+        jQuery ("#confirmer").on ("click", function () {
+            setTimeout ("window.location.href='<?php echo $this->serverUrl ($this->baseUrl ()); ?>/challenge/elaboration/modclochalconfirme'", 0);
+        });
+    });
+</script>

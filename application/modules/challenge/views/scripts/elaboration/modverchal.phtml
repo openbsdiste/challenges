@@ -1,0 +1,65 @@
+<div id="accordeonVerification">
+    <ol>
+        <li>
+            <h2><span>Vérification</span></h2>
+            <div style="overflow: auto;">
+                <p>
+                    Il y a <?php echo $this->stats ['nbquestions']; ?> questions dans le challenge
+                    et <?php echo $this->stats ['nbinformations']; ?> informations.
+                </p>
+                <p>Une main verte indique que tout va bien, une main rouge indique un problème potentiel</p>
+                <br />
+                <table>
+                    <thead><tr><th>Elément&nbsp;</th><th>Information&nbsp;</th><th>Question&nbsp;</th><th>Texte&nbsp;</th><th>Documents&nbsp;</th><th>Note&nbsp;</th><th>Statut</th><th>Auteur&nbsp;</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <?php
+                                $level = 0;
+                                $prefix = "";
+                                foreach ($this->stats ['elements'] as $el) {
+                                    if ($el ['level'] != $level) {
+                                        $level = $el ['level'];
+                                        $prefix = "";
+                                        for ($i = 1; $i < $level; $i++) {
+                                            $prefix .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+                                        }
+                                    }
+                                    echo "<tr><td>$prefix" . $el ['titre'] . "&nbsp;</td>";
+                                    if ($el ['info']) {
+                                        echo "<td align='center'><img src='mediatheque/images/good.png' /></td>";
+                                        echo "<td>&nbsp;</td>";
+                                        echo "<td align='center'><img src='mediatheque/images/" . $el ['texte'] . ".png' /></td>";
+                                        if ($el ['documents']) {
+                                            echo "<td align='center'><img src='mediatheque/images/good.png' /></td>";
+                                        } else {
+                                            echo "<td>&nbsp;</td>";
+                                        }
+                                        echo "<td>&nbsp;</td>";
+                                    } else {
+                                        echo "<td>&nbsp;</td>";
+                                        echo "<td align='center'><img src='mediatheque/images/good.png' /></td>";
+                                        echo "<td align='center'><img src='mediatheque/images/" . $el ['texte'] . ".png' /></td>";
+                                        if ($el ['documents']) {
+                                            echo "<td align='center'><img src='mediatheque/images/good.png' /></td>";
+                                        } else {
+                                            echo "<td>&nbsp;</td>";
+                                        }
+                                        echo "<td align='center'><img src='mediatheque/images/" . $el ['valeur'] . ".png' /></td>";
+                                    }
+                                    echo "<td align='center'><img src='mediatheque/images/" . $el ['statut'] . ".png' /></td>";
+                                    echo "<td>" . $el ['auteur'] . "&nbsp;</td>";
+                                    echo "</tr>\n";
+                                }
+                            ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonVerification');
+    });
+</script>

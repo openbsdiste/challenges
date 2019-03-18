@@ -1,0 +1,36 @@
+<div id="accordeonTerminer">
+    <ol>
+        <li>
+            <h2><span>Terminer</span></h2>
+            <div style="overflow: auto;">
+                <h2>Terminer le challenge</h2><br />
+                <p>Vous avez terminé l'évaluation des réponses. Les résultats ont été diffusés.</p>
+                <p>A présent, vous devez terminer le challenge !</p><br />
+                <p>Cela signifie que :</p>
+                <p>- les réponses des clubs et les notes sont rendues publiques</p>
+                <p>- plus personne ne peut modifier quoi que ce soit au challenge</p>
+                <p>- vous laissez votre rôle de modérateur au profit du "vaincoeur"</p>
+                <p>- votre travail est terminé !</p><br />
+                <p><b>Vous ne devez pas interrompre le processus</b> qui peut durer un moment...</p><br />
+                <p>
+                    En cas de problème, envoyez un message à <b>dt@microtel-clubs.fr</b>,
+                    fermez votre navigateur et ne vous reconnectez pas sur le site avant d'avoir obtenu une réponse.
+                </p>
+                <br />
+                <p>
+                    <input id="modterchalbt" type="button" class="ui-state-default ui-corner-all" value="Terminer le challenge"></input>
+                    <span>Cliquez et patientez !</span>
+                </p><br />
+                <div id="">&nbsp;</div>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonTerminer');
+        jQuery ("#modterchalbt").on ("click", function () {
+            TermineChallenge.lance ();
+        });
+    });
+</script>

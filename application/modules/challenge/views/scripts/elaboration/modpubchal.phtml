@@ -1,0 +1,41 @@
+<div id="accordeonPublication">
+    <ol>
+        <li>
+            <h2><span>Publication</span></h2>
+            <div style="overflow: auto;">
+                <?php if (! $this->estValide): ?>
+                    <p><b>ATTENTION : Votre challenge est invalide et ne peut donc être publié...</b></p><br />
+                    <p><b>Merci de bien vouloir vérifier votre challenge...</b></p>
+                <?php else: ?>
+                    <h3>La publication du challenge est irreversible !</h3><br />
+                    <p>Publier le challenge ne vous interdit pas de le corriger si nécessaire, mais permet aux clubs de commencer à travailler sur les réponses.</p>
+                    <p>Si vous confirmez la publication, les onglets ouverts seront fermés et le processus de publication sera lancé.</p>
+                    <p>Une fois la publication terminée, vous serez redirigé automatiquement vers la page d'accueil.</p>
+                    </p><br />
+                    <p><b>Vous ne devez pas interrompre la publication.</b></p><br />
+                    <p>
+                        En cas de problème durant la publication, envoyez une copie d'écran à <b>dt@microtel-clubs.fr</b>,
+                        fermez votre navigateur et ne vous reconnectez pas avant d'avoir obtenu une réponse.
+                        En plus de la copie d'écran, vous devrez fournir votre mot de passe de connexion.
+                        Vous pourrez (devrez !) ensuite le changer pour plus de sécurité !
+                    </p>
+                    <br />
+                    <input id="confirmer" type="button" class="ui-state-default ui-corner-all" value="Confirmer la publication" />
+                <?php endif; ?>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonPublication');
+        <?php if ($this->estValide): ?>
+            jQuery ("#confirmer").on ("click", function () {
+                jQuery ("#questiontree").hide ();
+                jQuery ('#contenuPrincipal').layout().close ("west");
+                Tabs.closeTab ("modpubchal");
+                Tabs.addTab ("modpubchal", "Publier le challenge", "challenge/elaboration/modpubchalconfirme", false);
+            });
+        <?php endif; ?>
+    });
+</script>

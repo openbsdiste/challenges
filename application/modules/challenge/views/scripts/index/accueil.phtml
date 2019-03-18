@@ -1,0 +1,34 @@
+<div id="accordeonAccueil">
+    <ol>
+        <li>
+            <h2><span>Accueil</span></h2>
+            <div style="overflow: auto;">
+                <h3>Bienvenue !</h3><br />
+                <p>
+                    <b><?php echo $this->challenge ['club'] ?></b> a créé ce <b>challenge <?php echo $this->challenge ['annee']; ?></b>.
+                </p><br />
+                <?php if ($this->challenge ['statut'] != Model_Enum_StatutChallenge::VALIDE): ?>
+                    <p>
+                        Le challenge est en cours. Vous ne pourrez voir les réponses que lorsqu'il sera terminé
+                        et que les résultats auront été publiés.
+                    </p><br />
+                <?php endif; ?>
+                <p>
+                    En cliquant sur l'arborescence a gauche, vous naviguez entre les différentes questions et informations.
+                    Chaque clic sur un <b>+</b> montre les éléments contenus dans la catégorie.
+                    Chaque clic sur un nom ouvre un nouvel onglet permettant de lire le contenu.
+                </p><br />
+                <p>
+                    Si vous voulez voir l'intégralité du challenge en une seule page, cliquez sur le bouton <b>Imprimer</b>
+                    qui se trouve tout en haut de l'arborescence, à gauche de cette page.
+                </p><br />
+                <p><i>François.</i></p>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonAccueil');
+    });
+</script>

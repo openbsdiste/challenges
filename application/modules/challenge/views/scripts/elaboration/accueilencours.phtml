@@ -1,0 +1,47 @@
+<div id="accordeonAccueil">
+    <ol>
+        <li>
+            <h2><span>Accueil</span></h2>
+            <div style="overflow: auto;">
+                <h3>Bienvenue <?php echo $this->challenge ['club']; ?> !</h3><br />
+                <p>
+                    Vous êtes modérateur du <b>challenge <?php echo $this->challenge ['annee']; ?></b>
+                    qui est à présent publié. Cela signifie que tout le monde peut y accéder
+                    et que les clubs peuvent travailler dessus et y répondre.
+                    Vous pouvez toujours apporter des modifications au challenge, mais n'oubliez pas de prévenir les clubs !
+                </p><br />
+                <p>Vous pouvez suivre les réponses en allant dans <b>Outils</b>, puis <b>Voir les statistiques</b>.</p><br />
+                <p>Lorsque la date limite de réponse sera atteinte, vous devrez <b>Clore le challenge</b> (toujours dans <b>Outils</b>).</p>
+                <p>La clôture du challenge est <b>irréversible</b>.</p><br />
+                <p>Votre rôle sera alors de <b>noter le challenge</b>.</p>
+                <p>Vous pourrez voir toutes les réponses des clubs et donner une note à chacune.</p><br />
+                <p>Pour toute question, envoyez un courriel à <b>dt@microtel-clubs.fr</b></p><br />
+                <p><b>Bon courage !</b></p><br />
+                <p><i>François.</i></p>
+            </div>
+        </li>
+        <?php
+            echo $this->outils (array (
+                array (
+                    'id' => "modvoirstat", 
+                    'value' => "Voir les statistiques", 
+                    'desc' => "Ce ne sont que des indications à un instant T !"
+                ), array (
+                    'id' => "modlimite",
+                    'value' => "Fixer la date limite",
+                    'desc' => "Fixer la date limite de réponse pour les clubs."
+                ), array (
+                    'id' => "modclochal", 
+                    'value' => "Clore le challenge", 
+                    'desc' => "Attention : ceci est irréversible..."
+                )
+            ));
+        ?>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonAccueil');
+        OutilsAccueil.initialize ();
+    });
+</script>

@@ -1,0 +1,19 @@
+[production]
+    resources.db.adapter = PDO_MySQL
+    resources.db.params.host = "127.0.0.1"
+    resources.db.params.dbname = ""
+    resources.db.params.username = ""
+    resources.db.params.password = ""
+    resources.db.params.unix_socket = ""
+    resources.db.params.charset = "utf8"
+    resources.db.isDefaultTableAdapter = true
+
+[staging : production]
+
+[testing : production]
+
+[development : production]
+    ;resources.db.params.host = "localhost"
+    resources.db.params.dbname = ""
+    resources.db.params.username = ""
+    resources.db.params.password = ""

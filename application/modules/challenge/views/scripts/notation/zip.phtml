@@ -1,0 +1,8 @@
+<?php
+    header ("Cache-Control: no-store, no-cache, must-revalidate");
+    header ("Pragma: no-cache");
+    header ("Content-Type: application/zip");
+    header ("Content-Length: " . filesize ($this->zip));
+    header ("Content-Disposition: attachment; filename=" . $this->id . ".zip\n\n");
+    readfile ($this->zip);
+    unlink ($this->zip);

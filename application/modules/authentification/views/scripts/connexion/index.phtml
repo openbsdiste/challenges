@@ -1,0 +1,12 @@
+<div class="ui-layout-center marges1em">
+    <?php if ($this->message) { echo $this->msgErreur ($this->message); } ?>
+    <?php echo $this->msgInfo (__('auth.msg1') . __('auth.msg2')); ?>
+    <p>
+        Votre identifiant est le m&ecirc;me que celui utilis&eacute; pour le site conf&eacute;d&eacute;ral.<br />
+        Votre mot de passe par d&eacute;faut est identique &agrave; votre identifiant. (ce n'est donc pas celui du site !)<br />
+        <br />
+        <u>Note :</u> Votre identifiant et mot de passe par défaut sont en MAJUSCULES.
+    </p>
+    <?php echo $this->formulaire; ?>
+    <p><i><?php echo __('saisie.obligatoire'); ?></i></p>
+</div>

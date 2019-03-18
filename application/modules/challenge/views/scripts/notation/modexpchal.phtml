@@ -1,0 +1,23 @@
+<div id="accordeonExportReponseClub">
+    <ol>
+        <li>
+            <h2><span>Export r&eacute;ponse</span></h2>
+            <div style="overflow: auto;">
+                <h3>S&eacute;lectionner un club pour exporter sa r&eacute;ponse.</h3>
+                <br />
+                <ul>
+                        <?php
+                            foreach ($this->clubs as $k => $v) {
+                                echo "<li><a href='challenge/notation/zip?numero=$k'>$v</a></li>\n";
+                            }
+                        ?>
+                </ul>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonExportReponseClub');
+    });
+</script>

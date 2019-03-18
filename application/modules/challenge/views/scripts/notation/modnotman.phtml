@@ -1,0 +1,30 @@
+<div id="accordeonNotationManuelle">
+    <ol>
+        <li>
+            <h2><span>Notation manuelle</span></h2>
+            <div style="overflow: auto;">
+                <h3>S&eacute;lectionner un club pour lui ajouter / modifier une notation manuelle.</h3>
+                <p>
+                    <label for="idclub">Club &agrave; noter : </label>
+                    <select name="idclub" id="idclub">
+                        <option value=""></option>
+                        <?php
+                            foreach ($this->clubs as $id => $nom) {
+                                echo "<option value='$id'>$nom</option>\n";
+                            }
+                        ?>
+                    </select>
+                    <input id="NoterALaMain" class="ui-state-default ui-corner-all" type="button" value="Noter" />
+                </p>
+                <br />
+                <div id="zoneNotation"></div>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonNotationManuelle');
+        NotationManuelle.initialize ();
+    });
+</script>

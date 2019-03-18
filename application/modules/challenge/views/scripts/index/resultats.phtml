@@ -1,0 +1,40 @@
+<div id="accordeonStatistiques">
+    <ol>
+        <li>
+            <h2><span>Résultats</span></h2>
+            <div style="overflow: auto;">
+                <h2>Résultats du challenge
+                <input class='ui-state-default ui-corner-all' id='voirCorrection' value='Voir la correction'/>
+                </h2><br />
+                <table id="accordeonStatistiquesTable">
+                    <thead><tr><th>Club</th><th>&nbsp;</th><th align="right">Score</th><th>&nbsp;</th></tr></thead>
+                    <tbody>
+                        <?php
+                            foreach ($this->liste as $r) {
+                                echo "<tr>";
+                                echo "<td>" . $r ['club'] . "</td><td>&nbsp;</td><td align='right'>" . $r ['note'] . "</td>";
+                                echo "<td>&nbsp;<input type='button' class='ui-state-default ui-corner-all' id='" . $r ['id'] . "' value='Voir'/></td>";
+                                echo "</tr>\n";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonStatistiques');
+        jQuery ('#voirCorrection').on ("click", function () {
+            id = this.id;
+            Tabs.closeTab ('reponsecorrection');
+            Tabs.addTab ('reponsecorrection', 'Correction', 'challenge/index/reponsecorrection', true);
+        });
+        jQuery (':button', '#accordeonStatistiquesTable').on ("click", function () {
+            id = this.id;
+            Tabs.closeTab ('reponse');
+            Tabs.addTab ('reponse', 'Réponse', 'challenge/index/reponse?id=' + id, true);
+        });
+    });
+</script>
