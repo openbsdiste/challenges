@@ -10,12 +10,12 @@
     defined ('APPLICATION_ENV') || define ('APPLICATION_ENV', (getenv ('APPLICATION_ENV') ? getenv ('APPLICATION_ENV') : 'development'));
 
     set_include_path (LIBRARY_PATH);
-    
+
     try {
         require_once 'App/Application.php';
         
         $app = new App_Application (APPLICATION_ENV, APPLICATION_PATH . '/configuration/application.ini');
-Zend_Session::start();
+        Zend_Session::start ();
         $app->bootstrap ()
             ->run ();
     } catch (Exception $e) {

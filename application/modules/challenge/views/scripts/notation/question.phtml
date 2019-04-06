@@ -45,7 +45,12 @@
         <li>
             <h2><span>Réponse (correction)</span></h2>
             <div style="overflow: auto;">
-                <div id="saisieReponse<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+                <form id="reponsetexte<?php echo $this->id; ?>" action="restutilisateur/texte" method="post">
+                    <input type="submit" class="ui-state-default ui-corner-all" value="Sauver le texte"/>
+                    <span>Indiquer ici le texte de la r&eacute;ponse.</span>
+                    <input id="texte<?php echo $this->id; ?>" name="texte<?php echo $this->id; ?>" type="hidden" value=""/>
+                </form>
+                <div id="saisieReponseTexte<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
             </div>
         </li>
         <li>
