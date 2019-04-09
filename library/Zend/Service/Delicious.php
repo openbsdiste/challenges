@@ -16,37 +16,39 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Delicious
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Delicious.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 
 /**
  * @see Zend_Rest_Client
  */
-// require_once 'Zend/Rest/Client.php';
+require_once 'Zend/Rest/Client.php';
 
 /**
  * @see Zend_Json_Decoder
  */
-// require_once 'Zend/Json/Decoder.php';
+require_once 'Zend/Json/Decoder.php';
 
 /**
  * @see Zend_Service_Delicious_SimplePost
  */
-// require_once 'Zend/Service/Delicious/SimplePost.php';
+require_once 'Zend/Service/Delicious/SimplePost.php';
 
 /**
  * @see Zend_Service_Delicious_Post
  */
-// require_once 'Zend/Service/Delicious/Post.php';
+require_once 'Zend/Service/Delicious/Post.php';
 
 /**
  * @see Zend_Service_Delicious_PostList
  */
-// require_once 'Zend/Service/Delicious/PostList.php';
+require_once 'Zend/Service/Delicious/PostList.php';
 
+/** @see Zend_Xml_Security */
+require_once 'Zend/Xml/Security.php';
 
 /**
  * Zend_Service_Delicious is a concrete implementation of the del.icio.us web service
@@ -54,7 +56,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Delicious
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Delicious
@@ -158,7 +160,7 @@ class Zend_Service_Delicious
             /**
              * @see Zend_Service_Delicious_Exception
              */
-            // require_once 'Zend/Service/Delicious/Exception.php';
+            require_once 'Zend/Service/Delicious/Exception.php';
             throw new Zend_Service_Delicious_Exception('del.icio.us web service has returned something odd!');
         }
     }
@@ -486,7 +488,7 @@ class Zend_Service_Delicious
                 /**
                  * @see Zend_Service_Delicious_Exception
                  */
-                // require_once 'Zend/Service/Delicious/Exception.php';
+                require_once 'Zend/Service/Delicious/Exception.php';
                 throw new Zend_Service_Delicious_Exception('Unknown request type');
         }
 
@@ -497,7 +499,7 @@ class Zend_Service_Delicious
             /**
              * @see Zend_Service_Delicious_Exception
              */
-            // require_once 'Zend/Service/Delicious/Exception.php';
+            require_once 'Zend/Service/Delicious/Exception.php';
             throw new Zend_Service_Delicious_Exception("Http client reported an error: '{$response->getMessage()}'");
         }
 
@@ -506,12 +508,12 @@ class Zend_Service_Delicious
         switch ($type) {
             case 'xml':
                 $dom = new DOMDocument() ;
-
-                if (!@$dom->loadXML($responseBody)) {
+    
+                if (!$dom = @Zend_Xml_Security::scan($responseBody, $dom)) {
                     /**
                      * @see Zend_Service_Delicious_Exception
                      */
-                    // require_once 'Zend/Service/Delicious/Exception.php';
+                    require_once 'Zend/Service/Delicious/Exception.php';
                     throw new Zend_Service_Delicious_Exception('XML Error');
                 }
 
@@ -550,7 +552,7 @@ class Zend_Service_Delicious
             /**
              * @see Zend_Service_Delicious_Exception
              */
-            // require_once 'Zend/Service/Delicious/Exception.php';
+            require_once 'Zend/Service/Delicious/Exception.php';
             throw new Zend_Service_Delicious_Exception('del.icio.us web service has returned something odd!');
         }
 
@@ -574,7 +576,7 @@ class Zend_Service_Delicious
             /**
              * @see Zend_Service_Delicious_Exception
              */
-            // require_once 'Zend/Service/Delicious/Exception.php';
+            require_once 'Zend/Service/Delicious/Exception.php';
             throw new Zend_Service_Delicious_Exception('del.icio.us web service has returned something odd!');
         }
     }
@@ -602,14 +604,14 @@ class Zend_Service_Delicious
                 /**
                  * @see Zend_Service_Delicious_Exception
                  */
-                // require_once 'Zend/Service/Delicious/Exception.php';
+                require_once 'Zend/Service/Delicious/Exception.php';
                 throw new Zend_Service_Delicious_Exception("del.icio.us web service: '{$strResponse}'");
             }
         } else {
             /**
              * @see Zend_Service_Delicious_Exception
              */
-            // require_once 'Zend/Service/Delicious/Exception.php';
+            require_once 'Zend/Service/Delicious/Exception.php';
             throw new Zend_Service_Delicious_Exception('del.icio.us web service has returned something odd!');
         }
     }

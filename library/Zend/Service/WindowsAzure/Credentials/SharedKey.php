@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SharedKey.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Service_WindowsAzure_Credentials_CredentialsAbstract
  */
-// require_once 'Zend/Service/WindowsAzure/Credentials/CredentialsAbstract.php';
+require_once 'Zend/Service/WindowsAzure/Credentials/CredentialsAbstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */ 
 class Zend_Service_WindowsAzure_Credentials_SharedKey
@@ -76,7 +76,7 @@ class Zend_Service_WindowsAzure_Credentials_SharedKey
 
 		// Table storage?
 		if ($forTableStorage) {
-			// require_once 'Zend/Service/WindowsAzure/Credentials/Exception.php';
+			require_once 'Zend/Service/WindowsAzure/Credentials/Exception.php';
 			throw new Zend_Service_WindowsAzure_Credentials_Exception('The Windows Azure SDK for PHP does not support SharedKey authentication on table storage. Use SharedKeyLite authentication instead.');
 		}
 		

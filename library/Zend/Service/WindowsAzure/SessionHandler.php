@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SessionHandler.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Session
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_WindowsAzure_SessionHandler
@@ -80,13 +80,13 @@ class Zend_Service_WindowsAzure_SessionHandler
 	{
 		// Validate $storage
 		if (!($storage instanceof Zend_Service_WindowsAzure_Storage_Table || $storage instanceof Zend_Service_WindowsAzure_Storage_Blob)) {
-			// require_once 'Zend/Service/WindowsAzure/Exception.php';
+			require_once 'Zend/Service/WindowsAzure/Exception.php';
 			throw new Zend_Service_WindowsAzure_Exception('Invalid storage back-end given. Storage back-end should be of type Zend_Service_WindowsAzure_Storage_Table or Zend_Service_WindowsAzure_Storage_Blob.');
 		}
 		
 		// Validate other parameters
 		if ($sessionContainer == '' || $sessionContainerPartition == '') {
-			// require_once 'Zend/Service/WindowsAzure/Exception.php';
+			require_once 'Zend/Service/WindowsAzure/Exception.php';
 			throw new Zend_Service_WindowsAzure_Exception('Session container and session partition should be specified.');
 		}
 		

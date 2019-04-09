@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Analytics
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
@@ -23,17 +23,17 @@
 /**
  * @see Zend_Gdata_Feed
  */
-// require_once 'Zend/Gdata/Feed.php';
+require_once 'Zend/Gdata/Feed.php';
 
 /**
  * @see Zend_Gdata_Analytics
  */
-// require_once 'Zend/Gdata/Analytics.php';
+require_once 'Zend/Gdata/Analytics.php';
 
 /**
  * @see Zend_Gdata_Geo_Entry
  */
-// require_once 'Zend/Gdata/Analytics/DataEntry.php';
+require_once 'Zend/Gdata/Analytics/DataEntry.php';
 
 /**
  * @category   Zend

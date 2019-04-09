@@ -16,20 +16,20 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Query.php 24777 2012-05-08 18:50:23Z adamlundrigan $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Exception
  */
-// require_once 'Zend/Exception.php';
+require_once 'Zend/Exception.php';
 
 /**
  * @see Zend_Gdata_Query
  */
-// require_once 'Zend/Gdata/Query.php';
+require_once 'Zend/Gdata/Query.php';
 
 /**
  * Assists in constructing queries for Google Base
@@ -39,7 +39,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gbase_Query extends Zend_Gdata_Query

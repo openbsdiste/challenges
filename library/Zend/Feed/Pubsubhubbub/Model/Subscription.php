@@ -15,25 +15,25 @@
  * @category   Zend
  * @package    Zend_Feed_Pubsubhubbub
  * @subpackage Entity
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Subscription.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /** @see Zend_Feed_Pubsubhubbub_Model_ModelAbstract */
-// require_once 'Zend/Feed/Pubsubhubbub/Model/ModelAbstract.php';
+require_once 'Zend/Feed/Pubsubhubbub/Model/ModelAbstract.php';
 
 /** @see Zend_Feed_Pubsubhubbub_Model_SubscriptionInterface */
-// require_once 'Zend/Feed/Pubsubhubbub/Model/SubscriptionInterface.php';
+require_once 'Zend/Feed/Pubsubhubbub/Model/SubscriptionInterface.php';
 
 /** @see Zend_Date */
-// require_once 'Zend/Date.php';
+require_once 'Zend/Date.php';
 
 /**
  * @category   Zend
  * @package    Zend_Feed_Pubsubhubbub
  * @subpackage Entity
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Pubsubhubbub_Model_Subscription
@@ -44,13 +44,15 @@ class Zend_Feed_Pubsubhubbub_Model_Subscription
     /**
      * Save subscription to RDMBS
      *
-     * @param array $data
+     * @param  array $data
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Feed_Pubsubhubbub_Exception
      * @return bool
      */
     public function setSubscription(array $data)
     {
         if (!isset($data['id'])) {
-            // require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
+            require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
             throw new Zend_Feed_Pubsubhubbub_Exception(
                 'ID must be set before attempting a save'
             );
@@ -78,12 +80,14 @@ class Zend_Feed_Pubsubhubbub_Model_Subscription
      * Get subscription by ID/key
      *
      * @param  string $key
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Feed_Pubsubhubbub_Exception
      * @return array
      */
     public function getSubscription($key)
     {
         if (empty($key) || !is_string($key)) {
-            // require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
+            require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
             throw new Zend_Feed_Pubsubhubbub_Exception('Invalid parameter "key"'
                 .' of "' . $key . '" must be a non-empty string');
         }
@@ -98,12 +102,14 @@ class Zend_Feed_Pubsubhubbub_Model_Subscription
      * Determine if a subscription matching the key exists
      *
      * @param  string $key
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Feed_Pubsubhubbub_Exception
      * @return bool
      */
     public function hasSubscription($key)
     {
         if (empty($key) || !is_string($key)) {
-            // require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
+            require_once 'Zend/Feed/Pubsubhubbub/Exception.php';
             throw new Zend_Feed_Pubsubhubbub_Exception('Invalid parameter "key"'
                 .' of "' . $key . '" must be a non-empty string');
         }
@@ -117,7 +123,7 @@ class Zend_Feed_Pubsubhubbub_Model_Subscription
     /**
      * Delete a subscription
      *
-     * @param string $key
+     * @param  string $key
      * @return bool
      */
     public function deleteSubscription($key)

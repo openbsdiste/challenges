@@ -15,30 +15,34 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Storage.php 24697 2012-03-23 13:11:04Z ezimuel $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Http_Client
  */
-// require_once 'Zend/Http/Client.php';
+require_once 'Zend/Http/Client.php';
 
 /**
  * @see Zend_Service_WindowsAzure_Credentials_SharedKey
  */
-// require_once 'Zend/Service/WindowsAzure/Credentials/SharedKey.php';
+require_once 'Zend/Service/WindowsAzure/Credentials/SharedKey.php';
 
 /**
  * @see Zend_Service_WindowsAzure_RetryPolicy_RetryPolicyAbstract
  */
-// require_once 'Zend/Service/WindowsAzure/RetryPolicy/RetryPolicyAbstract.php';
+require_once 'Zend/Service/WindowsAzure/RetryPolicy/RetryPolicyAbstract.php';
+
+/** @see Zend_Xml_Security */
+require_once 'Zend/Xml/Security.php';
+
 /**
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_WindowsAzure_Storage
@@ -406,11 +410,11 @@ class Zend_Service_WindowsAzure_Storage
 	protected function _parseResponse(Zend_Http_Response $response = null)
 	{
 		if (is_null($response)) {
-			// require_once 'Zend/Service/WindowsAzure/Exception.php';
+			require_once 'Zend/Service/WindowsAzure/Exception.php';
 			throw new Zend_Service_WindowsAzure_Exception('Response should not be null.');
 		}
 		
-        $xml = @simplexml_load_string($response->getBody());
+        $xml = Zend_Xml_Security::scan($response->getBody());
         
         if ($xml !== false) {
             // Fetch all namespaces 
@@ -444,12 +448,12 @@ class Zend_Service_WindowsAzure_Storage
 		$headers = array();
 		foreach ($metadata as $key => $value) {
 			if (strpos($value, "\r") !== false || strpos($value, "\n") !== false) {
-                            // require_once 'Zend/Service/WindowsAzure/Exception.php';
+                            require_once 'Zend/Service/WindowsAzure/Exception.php';
                             throw new Zend_Service_WindowsAzure_Exception('Metadata cannot contain newline characters.');
 			}
 			
 			if (!self::isValidMetadataName($key)) {
-                            // require_once 'Zend/Service/WindowsAzure/Exception.php';
+                            require_once 'Zend/Service/WindowsAzure/Exception.php';
                             throw new Zend_Service_WindowsAzure_Exception('Metadata name does not adhere to metadata naming conventions. See http://msdn.microsoft.com/en-us/library/aa664670(VS.71).aspx for more information.');
 			}
 			

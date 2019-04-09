@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Profiler.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Profiler
@@ -225,7 +225,9 @@ class Zend_Db_Profiler
     }
 
     /**
-     * @param  integer $queryId
+     * Clone a profiler query
+     *
+     * @param  Zend_Db_Profiler_Query $query
      * @return integer or null
      */
     public function queryClone(Zend_Db_Profiler_Query $query)
@@ -278,7 +280,7 @@ class Zend_Db_Profiler
         /**
          * @see Zend_Db_Profiler_Query
          */
-        // require_once 'Zend/Db/Profiler/Query.php';
+        require_once 'Zend/Db/Profiler/Query.php';
         $this->_queryProfiles[] = new Zend_Db_Profiler_Query($queryText, $queryType);
 
         end($this->_queryProfiles);
@@ -287,12 +289,12 @@ class Zend_Db_Profiler
     }
 
     /**
-     * Ends a query.  Pass it the handle that was returned by queryStart().
+     * Ends a query. Pass it the handle that was returned by queryStart().
      * This will mark the query as ended and save the time.
      *
      * @param  integer $queryId
      * @throws Zend_Db_Profiler_Exception
-     * @return void
+     * @return string   Inform that a query is stored or ignored.
      */
     public function queryEnd($queryId)
     {
@@ -306,7 +308,7 @@ class Zend_Db_Profiler
             /**
              * @see Zend_Db_Profiler_Exception
              */
-            // require_once 'Zend/Db/Profiler/Exception.php';
+            require_once 'Zend/Db/Profiler/Exception.php';
             throw new Zend_Db_Profiler_Exception("Profiler has no query with handle '$queryId'.");
         }
 
@@ -317,7 +319,7 @@ class Zend_Db_Profiler
             /**
              * @see Zend_Db_Profiler_Exception
              */
-            // require_once 'Zend/Db/Profiler/Exception.php';
+            require_once 'Zend/Db/Profiler/Exception.php';
             throw new Zend_Db_Profiler_Exception("Query with profiler handle '$queryId' has already ended.");
         }
 
@@ -359,7 +361,7 @@ class Zend_Db_Profiler
             /**
              * @see Zend_Db_Profiler_Exception
              */
-            // require_once 'Zend/Db/Profiler/Exception.php';
+            require_once 'Zend/Db/Profiler/Exception.php';
             throw new Zend_Db_Profiler_Exception("Query handle '$queryId' not found in profiler log.");
         }
 

@@ -16,18 +16,18 @@
  * @package    Zend_Config
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Json.php 23293 2010-11-04 23:40:23Z ramon $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Config_Writer
  */
-// require_once 'Zend/Config/Writer/FileAbstract.php';
+require_once 'Zend/Config/Writer/FileAbstract.php';
 
 /**
  * @see Zend_Config_Json
  */
-// require_once 'Zend/Config/Json.php';
+require_once 'Zend/Config/Json.php';
 
 /**
  * @category   Zend

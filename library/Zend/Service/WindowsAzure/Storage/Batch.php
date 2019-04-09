@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Batch.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_WindowsAzure_Storage_Batch
@@ -129,7 +129,7 @@ class Zend_Service_WindowsAzure_Storage_Batch
 	    // Set _isSingleSelect
 	    if ($httpVerb == Zend_Http_Client::GET) {
 	        if (count($this->_operations) > 0) {
-                    // require_once 'Zend/Service/WindowsAzure/Exception.php';
+                    require_once 'Zend/Service/WindowsAzure/Exception.php';
 	            throw new Zend_Service_WindowsAzure_Exception("Select operations can only be performed in an empty batch transaction.");
 	        }
 	        $this->_isSingleSelect = true;
@@ -202,7 +202,7 @@ class Zend_Service_WindowsAzure_Storage_Batch
         
         // Error?
         if (count($errors[2]) > 0) {
-            // require_once 'Zend/Service/WindowsAzure/Exception.php';
+            require_once 'Zend/Service/WindowsAzure/Exception.php';
             throw new Zend_Service_WindowsAzure_Exception('An error has occured while committing a batch: ' . $errors[2][0]);
         }
         

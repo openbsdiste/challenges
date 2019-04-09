@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Management
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
@@ -23,13 +23,13 @@
 /**
  * @see Zend_Service_WindowsAzure_Management_ServiceEntityAbstract
  */
-// require_once 'Zend/Service/WindowsAzure/Management/ServiceEntityAbstract.php';
+require_once 'Zend/Service/WindowsAzure/Management/ServiceEntityAbstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Management
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * 
  * @property string $Url             The address of the hosted service.

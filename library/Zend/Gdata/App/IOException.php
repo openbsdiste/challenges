@@ -16,16 +16,16 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage App
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: IOException.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 
 /**
  * Zend_Gdata_App_Exception
  */
-// require_once 'Zend/Gdata/App/Exception.php';
+require_once 'Zend/Gdata/App/Exception.php';
 
 /**
  * Gdata App IO exceptions.
@@ -35,7 +35,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage App
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App_IOException extends Zend_Gdata_App_Exception

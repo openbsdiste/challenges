@@ -16,15 +16,15 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ItemFeed.php 24777 2012-05-08 18:50:23Z adamlundrigan $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Gdata_Gbase_Feed
  */
-// require_once 'Zend/Gdata/Gbase/Feed.php';
+require_once 'Zend/Gdata/Gbase/Feed.php';
 
 /**
  * Represents the Google Base Customer Items Feed
@@ -34,7 +34,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gbase_ItemFeed extends Zend_Gdata_Feed

@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Json
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Encoder.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * @category   Zend
  * @package    Zend_Json
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Json_Encoder
@@ -74,7 +74,6 @@ class Zend_Json_Encoder
     public static function encode($value, $cycleCheck = false, $options = array())
     {
         $encoder = new self(($cycleCheck) ? true : false, $options);
-
         return $encoder->_encodeValue($value);
     }
 
@@ -123,7 +122,7 @@ class Zend_Json_Encoder
                     return '"* RECURSION (' . get_class($value) . ') *"';
 
                 } else {
-                    // require_once 'Zend/Json/Exception.php';
+                    require_once 'Zend/Json/Exception.php';
                     throw new Zend_Json_Exception(
                         'Cycles not supported in JSON encoding, cycle introduced by '
                         . 'class "' . get_class($value) . '"'
@@ -138,7 +137,9 @@ class Zend_Json_Encoder
         if (method_exists($value, 'toJson')) {
             $props =',' . preg_replace("/^\{(.*)\}$/","\\1",$value->toJson());
         } else {
-            if ($value instanceof Iterator) {
+            if ($value instanceof IteratorAggregate) {
+                $propCollection = $value->getIterator();
+            } elseif ($value instanceof Iterator) {
                 $propCollection = $value;
             } else {
                 $propCollection = get_object_vars($value);
@@ -405,7 +406,7 @@ class Zend_Json_Encoder
     {
         $cls = new ReflectionClass($className);
         if (! $cls->isInstantiable()) {
-            // require_once 'Zend/Json/Exception.php';
+            require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception("$className must be instantiable");
         }
 

@@ -15,20 +15,20 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage Framework
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Project.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Tool_Project_Provider_Abstract
  */
-// require_once 'Zend/Tool/Project/Provider/Abstract.php';
+require_once 'Zend/Tool/Project/Provider/Abstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Tool
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Provider_Project
@@ -54,7 +54,7 @@ class Zend_Tool_Project_Provider_Project
             if (!file_exists($path)) {
                 $created = mkdir($path);
                 if (!$created) {
-                    // require_once 'Zend/Tool/Framework/Client/Exception.php';
+                    require_once 'Zend/Tool/Framework/Client/Exception.php';
                     throw new Zend_Tool_Framework_Client_Exception('Could not create requested project directory \'' . $path . '\'');
                 }
             }
@@ -64,7 +64,7 @@ class Zend_Tool_Project_Provider_Project
         $profile = $this->_loadProfile(self::NO_PROFILE_RETURN_FALSE, $path);
 
         if ($profile !== false) {
-            // require_once 'Zend/Tool/Framework/Client/Exception.php';
+            require_once 'Zend/Tool/Framework/Client/Exception.php';
             throw new Zend_Tool_Framework_Client_Exception('A project already exists here');
         }
 

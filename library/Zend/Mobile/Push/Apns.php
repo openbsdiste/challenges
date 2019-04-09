@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Mobile
  * @subpackage Zend_Mobile_Push
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
 
 /** Zend_Mobile_Push_Abstract **/
-// require_once 'Zend/Mobile/Push/Abstract.php';
+require_once 'Zend/Mobile/Push/Abstract.php';
 
 /** Zend_Mobile_Push_Message_Apns **/
-// require_once 'Zend/Mobile/Push/Message/Apns.php';
+require_once 'Zend/Mobile/Push/Message/Apns.php';
 
 /**
  * APNS Push
@@ -32,7 +32,7 @@
  * @category   Zend
  * @package    Zend_Mobile
  * @subpackage Zend_Mobile_Push
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
@@ -55,8 +55,8 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
     protected $_serverUriList = array(
         'ssl://gateway.sandbox.push.apple.com:2195',
         'ssl://gateway.push.apple.com:2195',
-        'ssl://feedback.push.apple.com:2196',
-        'ssl://feedback.sandbox.push.apple.com:2196'
+        'ssl://feedback.sandbox.push.apple.com:2196',
+        'ssl://feedback.push.apple.com:2196'
     );
 
     /**
@@ -169,7 +169,7 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
         );
 
         if (!is_resource($this->_socket)) {
-            // require_once 'Zend/Mobile/Push/Exception/ServerUnavailable.php';
+            require_once 'Zend/Mobile/Push/Exception/ServerUnavailable.php';
             throw new Zend_Mobile_Push_Exception_ServerUnavailable(sprintf('Unable to connect: %s: %d (%s)',
                 $uri,
                 $errno,
@@ -209,10 +209,10 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
     /**
      * Connect to the Push Server
      *
-     * @param string $env
-     * @return Zend_Mobile_Push_Abstract
+     * @param  int|string $env
      * @throws Zend_Mobile_Push_Exception
      * @throws Zend_Mobile_Push_Exception_ServerUnavailable
+     * @return Zend_Mobile_Push_Abstract
      */
     public function connect($env = self::SERVER_PRODUCTION_URI)
     {
@@ -271,13 +271,13 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
     /**
      * Send Message
      *
-     * @param Zend_Mobile_Push_Message_Apns $message
-     * @return boolean
+     * @param  Zend_Mobile_Push_Message_Abstract $message
      * @throws Zend_Mobile_Push_Exception
-     * @throws Zend_Mobile_Push_Exception_ServerUnavailable
+     * @throws Zend_Mobile_Push_Exception_InvalidPayload
      * @throws Zend_Mobile_Push_Exception_InvalidToken
      * @throws Zend_Mobile_Push_Exception_InvalidTopic
-     * @throws Zend_Mobile_Push_Exception_InvalidPayload
+     * @throws Zend_Mobile_Push_Exception_ServerUnavailable
+     * @return bool
      */
     public function send(Zend_Mobile_Push_Message_Abstract $message)
     {
@@ -302,13 +302,23 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
         if (!empty($alert)) {
             $payload['aps']['alert'] = $alert;
         }
-        $payload['aps']['badge'] = $message->getBadge();
-        $payload['aps']['sound'] = $message->getSound();
+        if (!is_null($message->getBadge())) {
+            $payload['aps']['badge'] = $message->getBadge();
+        }
+        $sound = $message->getSound();
+        if (!empty($sound)) {
+            $payload['aps']['sound'] = $sound;
+        }
 
         foreach($message->getCustomData() as $k => $v) {
             $payload[$k] = $v;
         }
-        $payload = json_encode($payload);
+        
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            $payload = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        } else {
+            $payload = json_encode($payload);
+        }
 
         $expire = $message->getExpire();
         if ($expire > 0) {
@@ -324,7 +334,7 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
             . $payload;
         $ret = $this->_write($payload);
         if ($ret === false) {
-            // require_once 'Zend/Mobile/Push/Exception/ServerUnavailable.php';
+            require_once 'Zend/Mobile/Push/Exception/ServerUnavailable.php';
             throw new Zend_Mobile_Push_Exception_ServerUnavailable('Unable to send message');
         }
         // check for errors from apple
@@ -339,31 +349,31 @@ class Zend_Mobile_Push_Apns extends Zend_Mobile_Push_Abstract
                     throw new Zend_Mobile_Push_Exception('A processing error has occurred on the apple push notification server.');
                     break;
                 case 2:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
                     throw new Zend_Mobile_Push_Exception_InvalidToken('Missing token; you must set a token for the message.');
                     break;
                 case 3:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidTopic.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidTopic.php';
                     throw new Zend_Mobile_Push_Exception_InvalidTopic('Missing id; you must set an id for the message.');
                     break;
                 case 4:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidPayload.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidPayload.php';
                     throw new Zend_Mobile_Push_Exception_InvalidPayload('Missing message; the message must always have some content.');
                     break;
                 case 5:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
                     throw new Zend_Mobile_Push_Exception_InvalidToken('Bad token.  This token is too big and is not a regular apns token.');
                     break;
                 case 6:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidTopic.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidTopic.php';
                     throw new Zend_Mobile_Push_Exception_InvalidTopic('The message id is too big; reduce the size of the id.');
                     break;
                 case 7:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidPayload.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidPayload.php';
                     throw new Zend_Mobile_Push_Exception_InvalidPayload('The message is too big; reduce the size of the message.');
                     break;
                 case 8:
-                    // require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
+                    require_once 'Zend/Mobile/Push/Exception/InvalidToken.php';
                     throw new Zend_Mobile_Push_Exception_InvalidToken('Bad token.  Remove this token from being sent to again.');
                     break;
                 default:

@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Countable, ArrayAccess
@@ -112,7 +112,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
             $this->_rowClass   = $config['rowClass'];
         }
         if (!class_exists($this->_rowClass)) {
-            // require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($this->_rowClass);
         }
         if (isset($config['data'])) {
@@ -205,6 +205,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
                 $this->_connected = true;
             }
         }
+        $this->rewind();
         return $this->_connected;
     }
 
@@ -309,7 +310,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
     {
         $position = (int) $position;
         if ($position < 0 || $position >= $this->_count) {
-            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception("Illegal index $position");
         }
         $this->_pointer = $position;
@@ -339,7 +340,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
     {
         $offset = (int) $offset;
         if ($offset < 0 || $offset >= $this->_count) {
-            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception("Illegal index $offset");
         }
         $this->_pointer = $offset;
@@ -381,7 +382,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
         try {
             $row = $this->_loadAndReturnRow($position);
         } catch (Zend_Db_Table_Rowset_Exception $e) {
-            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception('No row could be found at position ' . (int) $position, 0, $e);
         }
 
@@ -412,7 +413,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
     protected function _loadAndReturnRow($position)
     {
         if (!isset($this->_data[$position])) {
-            // require_once 'Zend/Db/Table/Rowset/Exception.php';
+            require_once 'Zend/Db/Table/Rowset/Exception.php';
             throw new Zend_Db_Table_Rowset_Exception("Data for provided position does not exist");
         }
 
@@ -426,6 +427,18 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
                     'readOnly' => $this->_readOnly
                 )
             );
+
+            if ( $this->_table instanceof Zend_Db_Table_Abstract ) {
+                $info = $this->_table->info();
+
+                if ( $this->_rows[$position] instanceof Zend_Db_Table_Row_Abstract ) {
+                    if ($info['cols'] == array_keys($this->_data[$position])) {
+                        $this->_rows[$position]->setTable($this->getTable());
+                    }
+                }
+            } else {
+                $this->_rows[$position]->setTable(null);
+            }
         }
 
         // return the row object

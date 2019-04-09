@@ -14,16 +14,16 @@
  *
  * @category   Zend
  * @package    Zend_Controller
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 24842 2012-05-31 18:31:28Z rob $
+ * @version    $Id$
  */
 
 /** @see Zend_Controller_Request_Abstract */
-// require_once 'Zend/Controller/Request/Abstract.php';
+require_once 'Zend/Controller/Request/Abstract.php';
 
 /** @see Zend_Uri */
-// require_once 'Zend/Uri.php';
+require_once 'Zend/Uri.php';
 
 /**
  * Zend_Controller_Request_Http
@@ -121,7 +121,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
 
                 $this->setRequestUri($path);
             } else {
-                // require_once 'Zend/Controller/Request/Exception.php';
+                require_once 'Zend/Controller/Request/Exception.php';
                 throw new Zend_Controller_Request_Exception('Invalid URI provided to constructor');
             }
         } else {
@@ -186,7 +186,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
      */
     public function __set($key, $value)
     {
-        // require_once 'Zend/Controller/Request/Exception.php';
+        require_once 'Zend/Controller/Request/Exception.php';
         throw new Zend_Controller_Request_Exception('Setting values in superglobals not allowed; please use setParam()');
     }
 
@@ -249,7 +249,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function setQuery($spec, $value = null)
     {
         if ((null === $value) && !is_array($spec)) {
-            // require_once 'Zend/Controller/Exception.php';
+            require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Invalid value passed to setQuery(); must be either array of values or key/value pair');
         }
         if ((null === $value) && is_array($spec)) {
@@ -291,7 +291,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function setPost($spec, $value = null)
     {
         if ((null === $value) && !is_array($spec)) {
-            // require_once 'Zend/Controller/Exception.php';
+            require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Invalid value passed to setPost(); must be either array of values or key/value pair');
         }
         if ((null === $value) && is_array($spec)) {
@@ -918,6 +918,20 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     }
 
     /**
+     * Was the request made by PATCH?
+     *
+     * @return boolean
+     */
+    public function isPatch()
+    {
+        if ('PATCH' == $this->getMethod()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Is the request a Javascript XMLHttpRequest?
      *
      * Should work with Prototype/Script.aculo.us, possibly others.
@@ -981,13 +995,23 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function getHeader($header)
     {
         if (empty($header)) {
-            // require_once 'Zend/Controller/Request/Exception.php';
+            require_once 'Zend/Controller/Request/Exception.php';
             throw new Zend_Controller_Request_Exception('An HTTP header name is required');
         }
 
         // Try to get it from the $_SERVER array first
-        $temp = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
-        if (isset($_SERVER[$temp])) {
+        $temp = strtoupper(str_replace('-', '_', $header));
+        if (isset($_SERVER['HTTP_' . $temp])) {
+            return $_SERVER['HTTP_' . $temp];
+        }
+
+        /*
+         * Try to get it from the $_SERVER array on POST request or CGI environment
+         * @see https://www.ietf.org/rfc/rfc3875 (4.1.2. and 4.1.3.)
+         */
+        if (isset($_SERVER[$temp])
+            && in_array($temp, array('CONTENT_TYPE', 'CONTENT_LENGTH'))
+        ) {
             return $_SERVER[$temp];
         }
 

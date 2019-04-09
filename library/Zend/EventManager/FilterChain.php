@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_EventManager
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-// require_once 'Zend/EventManager/Filter.php';
-// require_once 'Zend/EventManager/Filter/FilterIterator.php';
-// require_once 'Zend/Stdlib/CallbackHandler.php';
+require_once 'Zend/EventManager/Filter.php';
+require_once 'Zend/EventManager/Filter/FilterIterator.php';
+require_once 'Zend/Stdlib/CallbackHandler.php';
 
 /**
  * FilterChain: intercepting filter manager
  *
  * @category   Zend
  * @package    Zend_EventManager
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_EventManager_FilterChain implements Zend_EventManager_Filter
@@ -76,15 +76,16 @@ class Zend_EventManager_FilterChain implements Zend_EventManager_Filter
 
     /**
      * Connect a filter to the chain
-     * 
+     *
      * @param  callback $callback PHP Callback
-     * @param  int $priority Priority in the queue at which to execute; defaults to 1 (higher numbers == higher priority)
+     * @param  int      $priority Priority in the queue at which to execute; defaults to 1 (higher numbers == higher priority)
+     * @throws Zend_Stdlib_Exception_InvalidCallbackException
      * @return Zend_Stdlib_CallbackHandler (to allow later unsubscribe)
      */
     public function attach($callback, $priority = 1)
     {
         if (empty($callback)) {
-            // require_once 'Zend/Stdlib/Exception/InvalidCallbackException.php';
+            require_once 'Zend/Stdlib/Exception/InvalidCallbackException.php';
             throw new Zend_Stdlib_Exception_InvalidCallbackException('No callback provided');
         }
         $filter = new Zend_Stdlib_CallbackHandler($callback, array('priority' => $priority));

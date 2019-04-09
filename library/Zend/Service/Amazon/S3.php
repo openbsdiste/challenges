@@ -15,20 +15,20 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon_S3
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: S3.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Service_Amazon_Abstract
  */
-// require_once 'Zend/Service/Amazon/Abstract.php';
+require_once 'Zend/Service/Amazon/Abstract.php';
 
 /**
  * @see Zend_Crypt_Hmac
  */
-// require_once 'Zend/Crypt/Hmac.php';
+require_once 'Zend/Crypt/Hmac.php';
 
 /**
  * Amazon S3 PHP connection class
@@ -36,7 +36,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon_S3
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see        http://docs.amazonwebservices.com/AmazonS3/2006-03-01/
  */
@@ -82,7 +82,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception('Invalid endpoint supplied');
         }
         $this->_endpoint = $endpoint;
@@ -126,7 +126,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Bucket name \"$bucket\" must be between 3 and 255 characters long");
         }
 
@@ -134,7 +134,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Bucket name \"$bucket\" contains invalid characters");
         }
 
@@ -142,7 +142,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Bucket name \"$bucket\" cannot be an IP address");
         }
         return true;
@@ -492,7 +492,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Cannot read file $path");
         }
 
@@ -522,7 +522,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Cannot open file $path");
         }
 
@@ -631,7 +631,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
             /**
              * @see Zend_Service_Amazon_S3_Exception
              */
-            // require_once 'Zend/Service/Amazon/S3/Exception.php';
+            require_once 'Zend/Service/Amazon/S3/Exception.php';
             throw new Zend_Service_Amazon_S3_Exception("Only PUT request supports stream data");
         }
 
@@ -995,7 +995,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
         /**
          * @see Zend_Service_Amazon_S3_Stream
          */
-        // require_once 'Zend/Service/Amazon/S3/Stream.php';
+        require_once 'Zend/Service/Amazon/S3/Stream.php';
 
         stream_register_wrapper($name, 'Zend_Service_Amazon_S3_Stream');
         $this->registerAsClient($name);

@@ -14,25 +14,25 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Atom.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Feed_Reader_FeedAbstract
  */
-// require_once 'Zend/Feed/Reader/FeedAbstract.php';
+require_once 'Zend/Feed/Reader/FeedAbstract.php';
 
 /**
  * @see Zend_Feed_Reader_Extension_Atom_Feed
  */
-// require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
+require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
 
 /**
  * @category   Zend
  * @package    Zend_Feed_Reader
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract

@@ -15,22 +15,24 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 
 /**
  * @see Zend_Feed
  */
-// require_once 'Zend/Feed.php';
+require_once 'Zend/Feed.php';
 
 /**
  * @see Zend_Feed_Element
  */
-// require_once 'Zend/Feed/Element.php';
+require_once 'Zend/Feed/Element.php';
 
+/** @see Zend_Xml_Security */
+require_once 'Zend/Xml/Security.php';
 
 /**
  * Zend_Feed_Entry_Abstract represents a single entry in an Atom or RSS
@@ -38,7 +40,7 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
@@ -80,10 +82,10 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
                 // Load the feed as an XML DOMDocument object
                 @ini_set('track_errors', 1);
                 $doc = new DOMDocument();
-                $status = @$doc->loadXML($element);
+                $doc = @Zend_Xml_Security::scan($element, $doc);
                 @ini_restore('track_errors');
 
-                if (!$status) {
+                if (!$doc) {
                     // prevent the class to generate an undefined variable notice (ZF-2590)
                     if (!isset($php_errormsg)) {
                         if (function_exists('xdebug_is_enabled')) {
@@ -96,7 +98,7 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
                     /**
                      * @see Zend_Feed_Exception
                      */
-                    // require_once 'Zend/Feed/Exception.php';
+                    require_once 'Zend/Feed/Exception.php';
                     throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
                 }
 
@@ -105,7 +107,7 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
                     /**
                      * @see Zend_Feed_Exception
                      */
-                    // require_once 'Zend/Feed/Exception.php';
+                    require_once 'Zend/Feed/Exception.php';
                     throw new Zend_Feed_Exception('No root <' . $this->_rootElement . '> element found, cannot parse feed.');
                 }
             } else {

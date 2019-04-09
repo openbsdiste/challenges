@@ -15,19 +15,19 @@
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Node
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Node.php 24610 2012-01-21 13:54:27Z sgehrig $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Ldap
  */
-// require_once 'Zend/Ldap.php';
+require_once 'Zend/Ldap.php';
 /**
  * @see Zend_Ldap_Node_Abstract
  */
-// require_once 'Zend/Ldap/Node/Abstract.php';
+require_once 'Zend/Ldap/Node/Abstract.php';
 
 /**
  * Zend_Ldap_Node provides an object oriented view into a LDAP node.
@@ -35,7 +35,7 @@
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Node
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, RecursiveIterator
@@ -140,7 +140,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'No LDAP connection specified.', Zend_Ldap_Exception::LDAP_OTHER);
         }
         else return $this->_ldap;
@@ -153,7 +153,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @uses   Zend_Ldap_Dn::isChildOf()
      * @param  Zend_Ldap $ldap
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function attachLdap(Zend_Ldap $ldap)
@@ -162,7 +162,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'LDAP connection is not responsible for given node.',
                 Zend_Ldap_Exception::LDAP_OTHER);
         }
@@ -184,7 +184,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * This is an offline method.
      *
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      */
     public function detachLdap()
     {
@@ -246,7 +246,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, '$dn is of a wrong data type.');
         }
         $new = new self($dn, array(), false, null);
@@ -273,7 +273,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, '$dn is of a wrong data type.');
         }
         $data = $ldap->getEntry($dn, array('*', '+'), true);
@@ -298,7 +298,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, '\'dn\' key is missing in array.');
         }
         if (is_string($data['dn']) || is_array($data['dn'])) {
@@ -309,7 +309,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, '\'dn\' key is of a wrong data type.');
         }
         $fromDataSource = ($fromDataSource === true) ? true : false;
@@ -388,7 +388,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * Node will be deleted on calling update() if $delete is true.
      *
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      */
     public function delete()
     {
@@ -416,7 +416,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * Sends all pending changes to the LDAP server
      *
      * @param  Zend_Ldap $ldap
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function update(Zend_Ldap $ldap = null)
@@ -429,7 +429,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'No LDAP connection available');
         }
 
@@ -507,7 +507,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @param  Zend_Ldap_Dn|string|array $newDn
      * @throws Zend_Ldap_Exception
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      */
     public function setDn($newDn)
     {
@@ -527,7 +527,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @param  Zend_Ldap_Dn|string|array $newDn
      * @throws Zend_Ldap_Exception
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      */
     public function move($newDn)
     {
@@ -541,7 +541,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @param  Zend_Ldap_Dn|string|array $newDn
      * @throws Zend_Ldap_Exception
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      */
     public function rename($newDn)
     {
@@ -554,7 +554,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * This is an offline method.
      *
      * @param  array|string $value
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function setObjectClass($value)
@@ -569,7 +569,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * This is an offline method.
      *
      * @param  array|string $value
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function appendObjectClass($value)
@@ -590,7 +590,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
         /**
          * Zend_Ldap_Ldif_Encoder
          */
-        // require_once 'Zend/Ldap/Ldif/Encoder.php';
+        require_once 'Zend/Ldap/Ldif/Encoder.php';
         return Zend_Ldap_Ldif_Encoder::encode($attributes, $options);
     }
 
@@ -653,7 +653,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function setAttribute($name, $value)
@@ -669,7 +669,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      *
      * @param  string $name
      * @param  mixed  $value
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function appendToAttribute($name, $value)
@@ -700,7 +700,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * @param  string        $name
      * @param  integer|array $value
      * @param  boolean       $utc
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function setDateTimeAttribute($name, $value, $utc = false)
@@ -717,7 +717,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * @param  string        $name
      * @param  integer|array $value
      * @param  boolean       $utc
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function appendToDateTimeAttribute($name, $value, $utc = false)
@@ -747,7 +747,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * @param  string $password
      * @param  string $hashType
      * @param  string $attribName
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function setPasswordAttribute($password, $hashType = Zend_Ldap_Attribute::PASSWORD_HASH_MD5,
@@ -766,7 +766,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * This is an offline method.
      *
      * @param  string $name
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function deleteAttribute($name)
@@ -813,20 +813,20 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'DN cannot be changed.');
         }
         else if (array_key_exists($name, $rdn)) {
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'Cannot change attribute because it\'s part of the RDN');
         } else if (in_array($name, self::$_systemAttributes)) {
             /**
              * @see Zend_Ldap_Exception
              */
-            // require_once 'Zend/Ldap/Exception.php';
+            require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception(null, 'Cannot change attribute because it\'s read-only');
         }
         else return true;
@@ -920,7 +920,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
      * This is an online method.
      *
      * @param  Zend_Ldap $ldap
-     * @return Zend_Ldap_Node Provides a fluid interface
+     * @return Zend_Ldap_Node Provides a fluent interface
      * @throws Zend_Ldap_Exception
      */
     public function reload(Zend_Ldap $ldap = null)
@@ -949,7 +949,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
         /**
          * @see Zend_Ldap_Node_Collection
          */
-        // require_once 'Zend/Ldap/Node/Collection.php';
+        require_once 'Zend/Ldap/Node/Collection.php';
         return $this->getLdap()->search($filter, $this->_getDn(), $scope, array('*', '+'), $sort,
             'Zend_Ldap_Node_Collection');
     }
@@ -1042,7 +1042,7 @@ class Zend_Ldap_Node extends Zend_Ldap_Node_Abstract implements Iterator, Recurs
         /**
          * @see Zend_Ldap_Node_ChildrenIterator
          */
-        // require_once 'Zend/Ldap/Node/ChildrenIterator.php';
+        require_once 'Zend/Ldap/Node/ChildrenIterator.php';
         return new Zend_Ldap_Node_ChildrenIterator($this->_children);
     }
 

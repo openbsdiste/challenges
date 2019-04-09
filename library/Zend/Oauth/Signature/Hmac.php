@@ -14,21 +14,21 @@
  *
  * @category   Zend
  * @package    Zend_Oauth
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Hmac.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /** Zend_Oauth_Signature_SignatureAbstract */
-// require_once 'Zend/Oauth/Signature/SignatureAbstract.php';
+require_once 'Zend/Oauth/Signature/SignatureAbstract.php';
 
 /** Zend_Crypt_Hmac */
-// require_once 'Zend/Crypt/Hmac.php';
+require_once 'Zend/Crypt/Hmac.php';
 
 /**
  * @category   Zend
  * @package    Zend_Oauth
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Oauth_Signature_Hmac extends Zend_Oauth_Signature_SignatureAbstract

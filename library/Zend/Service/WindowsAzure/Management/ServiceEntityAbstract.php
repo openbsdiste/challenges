@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Management
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
  */
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Service_WindowsAzure
  * @subpackage Management
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Service_WindowsAzure_Management_ServiceEntityAbstract
@@ -48,7 +48,7 @@ abstract class Zend_Service_WindowsAzure_Management_ServiceEntityAbstract
             $this->_data[strtolower($name)] = $value;
             return;
         }
-	// require_once 'Zend/Service/WindowsAzure/Management/Exception.php';
+	require_once 'Zend/Service/WindowsAzure/Management/Exception.php';
         throw new Zend_Service_WindowsAzure_Management_Exception("Unknown property: " . $name);
     }
 
@@ -61,7 +61,7 @@ abstract class Zend_Service_WindowsAzure_Management_ServiceEntityAbstract
         if (array_key_exists(strtolower($name), $this->_data)) {
             return $this->_data[strtolower($name)];
         }
-	// require_once 'Zend/Service/WindowsAzure/Management/Exception.php';
+	require_once 'Zend/Service/WindowsAzure/Management/Exception.php';
         throw new Zend_Service_WindowsAzure_Management_Exception("Unknown property: " . $name);
     }
 }

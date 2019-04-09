@@ -15,20 +15,20 @@
  * @category   Zend
  * @package    Zend_Amf
  * @subpackage Response
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /** Zend_Amf_Response */
-// require_once 'Zend/Amf/Response.php';
+require_once 'Zend/Amf/Response.php';
 
 /**
  * Creates the proper http headers and send the serialized AMF stream to standard out.
  *
  * @package    Zend_Amf
  * @subpackage Response
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Amf_Response_Http extends Zend_Amf_Response

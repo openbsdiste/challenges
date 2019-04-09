@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_OpenId
  * @subpackage Zend_OpenId_Consumer
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: Consumer.php 24593 2012-01-05 20:35:02Z matthew $
  */
@@ -24,22 +24,22 @@
 /**
  * @see Zend_OpenId
  */
-// require_once "Zend/OpenId.php";
+require_once "Zend/OpenId.php";
 
 /**
  * @see Zend_OpenId_Extension
  */
-// require_once "Zend/OpenId/Extension.php";
+require_once "Zend/OpenId/Extension.php";
 
 /**
  * @see Zend_OpenId_Consumer_Storage
  */
-// require_once "Zend/OpenId/Consumer/Storage.php";
+require_once "Zend/OpenId/Consumer/Storage.php";
 
 /**
  * @see Zend_Http_Client
  */
-// require_once 'Zend/Http/Client.php';
+require_once 'Zend/Http/Client.php';
 
 /**
  * OpenID consumer implementation
@@ -47,11 +47,16 @@
  * @category   Zend
  * @package    Zend_OpenId
  * @subpackage Zend_OpenId_Consumer
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_OpenId_Consumer
 {
+
+    /**
+     * Parameters required for signature
+     */
+    protected $_signParams = array('op_endpoint', 'return_to', 'response_nonce', 'assoc_handle');
 
     /**
      * Reference to an implementation of storage object
@@ -110,7 +115,7 @@ class Zend_OpenId_Consumer
                                 $dumbMode = false)
     {
         if ($storage === null) {
-            // require_once "Zend/OpenId/Consumer/Storage/File.php";
+            require_once "Zend/OpenId/Consumer/Storage/File.php";
             $this->_storage = new Zend_OpenId_Consumer_Storage_File();
         } else {
             $this->_storage = $storage;
@@ -216,7 +221,7 @@ class Zend_OpenId_Consumer
                     $identity = $_SESSION["zend_openid"]["claimed_id"];
                 }
             } else {
-                // require_once "Zend/Session/Namespace.php";
+                require_once "Zend/Session/Namespace.php";
                 $this->_session = new Zend_Session_Namespace("zend_openid");
                 if ($this->_session->identity === $identity) {
                     $identity = $this->_session->claimed_id;
@@ -259,7 +264,6 @@ class Zend_OpenId_Consumer
                 return false;
             }
         }
-
         if ($version >= 2.0) {
             if (empty($params['openid_response_nonce'])) {
                 $this->_setError("Missing openid.response_nonce");
@@ -274,7 +278,6 @@ class Zend_OpenId_Consumer
                 return false;
             }
         }
-
 
         if (!empty($params['openid_invalidate_handle'])) {
             if ($this->_storage->getAssociationByHandle(
@@ -293,7 +296,25 @@ class Zend_OpenId_Consumer
                 $macFunc,
                 $secret,
                 $expires)) {
+            // Security fix - check the association bewteen op_endpoint and assoc_handle
+            if (isset($params['openid_op_endpoint']) && $url !== $params['openid_op_endpoint']) {
+                $this->_setError("The op_endpoint URI is not the same of URI associated with the assoc_handle");
+                return false;
+            }       
             $signed = explode(',', $params['openid_signed']);
+            // Check the parameters for the signature
+            // @see https://openid.net/specs/openid-authentication-2_0.html#positive_assertions
+            $toCheck = $this->_signParams;
+            if (isset($params['openid_claimed_id']) && isset($params['openid_identity'])) {
+                $toCheck = array_merge($toCheck, array('claimed_id', 'identity'));
+            }
+            foreach ($toCheck as $param) {
+                if (!in_array($param, $signed, true)) {
+                    $this->_setError("The required parameter $param is missing in the signed");
+                    return false;
+                }
+            }
+            
             $data = '';
             foreach ($signed as $key) {
                 $data .= $key . ':' . $params['openid_' . strtr($key,'.','_')] . "\n";
@@ -730,14 +751,34 @@ class Zend_OpenId_Consumer
             return true;
         }
 
-        /* TODO: OpenID 2.0 (7.3) XRI and Yadis discovery */
-
-        /* HTML-based discovery */
         $response = $this->_httpRequest($id, 'GET', array(), $status);
         if ($status != 200 || !is_string($response)) {
             return false;
         }
+
+        /* OpenID 2.0 (7.3) XRI and Yadis discovery */
         if (preg_match(
+                '/<meta[^>]*http-equiv=(["\'])[ \t]*(?:[^ \t"\']+[ \t]+)*?X-XRDS-Location[ \t]*[^"\']*\\1[^>]*content=(["\'])([^"\']+)\\2[^>]*\/?>/i',
+                $response,
+                $r)) {
+            $XRDS = $r[3];
+            $version = 2.0;
+            $response = $this->_httpRequest($XRDS); 
+            if (preg_match(
+                    '/<URI>([^\t]*)<\/URI>/i',
+                    $response,
+                    $x)) {
+                $server = $x[1];
+                // $realId 
+                $realId = 'http://specs.openid.net/auth/2.0/identifier_select';
+            }
+            else {
+                $this->_setError("Unable to get URI for XRDS discovery");
+            }
+        }
+
+        /* HTML-based discovery */
+        else if (preg_match(
                 '/<link[^>]*rel=(["\'])[ \t]*(?:[^ \t"\']+[ \t]+)*?openid2.provider[ \t]*[^"\']*\\1[^>]*href=(["\'])([^"\']+)\\2[^>]*\/?>/i',
                 $response,
                 $r)) {
@@ -865,7 +906,7 @@ class Zend_OpenId_Consumer
                     "identity" => $id,
                     "claimed_id" => $claimedId);
             } else {
-                // require_once "Zend/Session/Namespace.php";
+                require_once "Zend/Session/Namespace.php";
                 $this->_session = new Zend_Session_Namespace("zend_openid");
                 $this->_session->identity = $id;
                 $this->_session->claimed_id = $claimedId;

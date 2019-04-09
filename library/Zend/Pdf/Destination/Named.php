@@ -15,18 +15,18 @@
  * @category   Zend
  * @package    Zend_Pdf
  * @subpackage Destination
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Named.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /** Internally used classes */
-// require_once 'Zend/Pdf/Element.php';
-// require_once 'Zend/Pdf/Element/String.php';
+require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element/String.php';
 
 
 /** Zend_Pdf_Destination */
-// require_once 'Zend/Pdf/Destination.php';
+require_once 'Zend/Pdf/Destination.php';
 
 /**
  * Destination array: [page /Fit]
@@ -39,7 +39,7 @@
  *
  * @package    Zend_Pdf
  * @subpackage Destination
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
@@ -60,7 +60,7 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
     public function __construct(Zend_Pdf_Element $resource)
     {
         if ($resource->getType() != Zend_Pdf_Element::TYPE_NAME  &&  $resource->getType() != Zend_Pdf_Element::TYPE_STRING) {
-            // require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Named destination resource must be a PDF name or a PDF string.');
         }
 

@@ -14,26 +14,26 @@
  *
  * @category   Zend
  * @package    Zend_Translate
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Translate.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Loader
  */
-// require_once 'Zend/Loader.php';
+require_once 'Zend/Loader.php';
 
 /**
  * @see Zend_Translate_Adapter
  */
-// require_once 'Zend/Translate/Adapter.php';
+require_once 'Zend/Translate/Adapter.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Translate
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Translate {
@@ -63,7 +63,9 @@ class Zend_Translate {
     /**
      * Generates the standard translation object
      *
-     * @param  array|Zend_Config $options Options to use
+     * @param  array|Zend_Config|Zend_Translate_Adapter $options Options to use
+     * @param  string|array [$content] Path to content, or content itself
+     * @param  string|Zend_Locale [$locale]
      * @throws Zend_Translate_Exception
      */
     public function __construct($options = array())
@@ -96,7 +98,9 @@ class Zend_Translate {
     /**
      * Sets a new adapter
      *
-     * @param  array|Zend_Config $options Options to use
+     * @param  array|Zend_Config|Zend_Translate_Adapter $options Options to use
+     * @param  string|array [$content] Path to content, or content itself
+     * @param  string|Zend_Locale [$locale]
      * @throws Zend_Translate_Exception
      */
     public function setAdapter($options = array())
@@ -139,7 +143,7 @@ class Zend_Translate {
         unset($options['adapter']);
         $this->_adapter = new $adapter($options);
         if (!$this->_adapter instanceof Zend_Translate_Adapter) {
-            // require_once 'Zend/Translate/Exception.php';
+            require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception("Adapter " . $adapter . " does not extend Zend_Translate_Adapter");
         }
     }
@@ -214,7 +218,7 @@ class Zend_Translate {
         if (method_exists($this->_adapter, $method)) {
             return call_user_func_array(array($this->_adapter, $method), $options);
         }
-        // require_once 'Zend/Translate/Exception.php';
+        require_once 'Zend/Translate/Exception.php';
         throw new Zend_Translate_Exception("Unknown method '" . $method . "' called!");
     }
 }

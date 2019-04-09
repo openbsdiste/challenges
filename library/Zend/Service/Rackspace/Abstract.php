@@ -15,11 +15,11 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Rackspace
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-// require_once 'Zend/Http/Client.php';
+require_once 'Zend/Http/Client.php';
 
 abstract class Zend_Service_Rackspace_Abstract
 {
@@ -114,15 +114,15 @@ abstract class Zend_Service_Rackspace_Abstract
     public function __construct($user, $key, $authUrl=self::US_AUTH_URL)
     {
         if (!isset($user)) {
-            // require_once 'Zend/Service/Rackspace/Exception.php';
+            require_once 'Zend/Service/Rackspace/Exception.php';
             throw new Zend_Service_Rackspace_Exception("The user cannot be empty");
         }
         if (!isset($key)) {
-            // require_once 'Zend/Service/Rackspace/Exception.php';
+            require_once 'Zend/Service/Rackspace/Exception.php';
             throw new Zend_Service_Rackspace_Exception("The key cannot be empty");
         }
         if (!in_array($authUrl, array(self::US_AUTH_URL, self::UK_AUTH_URL))) {
-            // require_once 'Zend/Service/Rackspace/Exception.php';
+            require_once 'Zend/Service/Rackspace/Exception.php';
             throw new Zend_Service_Rackspace_Exception("The authentication URL should be valid");
         }
         $this->setUser($user);
@@ -233,7 +233,7 @@ abstract class Zend_Service_Rackspace_Abstract
         if (!empty($url) && in_array($url, array(self::US_AUTH_URL, self::UK_AUTH_URL))) {
             $this->authUrl = $url;
         } else {
-            // require_once 'Zend/Service/Rackspace/Exception.php';
+            require_once 'Zend/Service/Rackspace/Exception.php';
             throw new Zend_Service_Rackspace_Exception("The authentication URL is not valid");
         }
     }
@@ -329,6 +329,11 @@ abstract class Zend_Service_Rackspace_Abstract
     {
         $client = $this->getHttpClient();
         $client->resetParameters(true);
+        if ($method == 'PUT' && empty($body)) {
+            // if left at NULL a PUT request will always have 
+            // Content-Type: x-url-form-encoded, which breaks copyObject()
+            $client->setEncType(''); 
+        }
         if (empty($headers[self::AUTHUSER_HEADER])) {
             $headers[self::AUTHTOKEN]= $this->getToken();
         } 
@@ -356,6 +361,14 @@ abstract class Zend_Service_Rackspace_Abstract
      */
     public function authenticate()
     {
+        if (empty($this->user)) {
+            /**
+             * @see Zend_Service_Rackspace_Exception
+             */
+            require_once 'Zend/Service/Rackspace/Exception.php';
+            throw new Zend_Service_Rackspace_Exception("User has not been set");
+        }
+
         $headers = array (
             self::AUTHUSER_HEADER => $this->user,
             self::AUTHKEY_HEADER => $this->key

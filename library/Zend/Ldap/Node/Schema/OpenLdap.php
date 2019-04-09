@@ -15,23 +15,23 @@
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: OpenLdap.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Ldap_Node_Schema
  */
-// require_once 'Zend/Ldap/Node/Schema.php';
+require_once 'Zend/Ldap/Node/Schema.php';
 /**
  * @see Zend_Ldap_Node_Schema_AttributeType_OpenLdap
  */
-// require_once 'Zend/Ldap/Node/Schema/AttributeType/OpenLdap.php';
+require_once 'Zend/Ldap/Node/Schema/AttributeType/OpenLdap.php';
 /**
  * @see Zend_Ldap_Node_Schema_ObjectClass_OpenLdap
  */
-// require_once 'Zend/Ldap/Node/Schema/ObjectClass/OpenLdap.php';
+require_once 'Zend/Ldap/Node/Schema/ObjectClass/OpenLdap.php';
 
 /**
  * Zend_Ldap_Node_Schema_OpenLdap provides a simple data-container for the Schema node of
@@ -40,7 +40,7 @@
  * @category   Zend
  * @package    Zend_Ldap
  * @subpackage Schema
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
@@ -81,7 +81,7 @@ class Zend_Ldap_Node_Schema_OpenLdap extends Zend_Ldap_Node_Schema
      *
      * @param  Zend_Ldap_Dn $dn
      * @param  Zend_Ldap    $ldap
-     * @return Zend_Ldap_Node_Schema Provides a fluid interface
+     * @return Zend_Ldap_Node_Schema Provides a fluent interface
      */
     protected function _parseSchema(Zend_Ldap_Dn $dn, Zend_Ldap $ldap)
     {

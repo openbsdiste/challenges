@@ -15,18 +15,18 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage ReCaptcha
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** @see Zend_Service_Abstract */
-// require_once 'Zend/Service/Abstract.php';
+require_once 'Zend/Service/Abstract.php';
 
 /** @see Zend_Json */
-// require_once 'Zend/Json.php';
+require_once 'Zend/Json.php';
 
 /** @see Zend_Service_ReCaptcha_Response */
-// require_once 'Zend/Service/ReCaptcha/Response.php';
+require_once 'Zend/Service/ReCaptcha/Response.php';
 
 /**
  * Zend_Service_ReCaptcha
@@ -34,9 +34,9 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage ReCaptcha
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ReCaptcha.php 24593 2012-01-05 20:35:02Z matthew $
+ * @version    $Id$
  */
 class Zend_Service_ReCaptcha extends Zend_Service_Abstract
 {
@@ -103,8 +103,9 @@ class Zend_Service_ReCaptcha extends Zend_Service_Abstract
      * @var array
      */
     protected $_options = array(
-        'theme' => 'red',
-        'lang' => 'en',
+        'theme'               => 'red',
+        'lang'                => 'en',
+        'custom_translations' => array(),
     );
 
     /**
@@ -227,7 +228,7 @@ class Zend_Service_ReCaptcha extends Zend_Service_Abstract
             }
         } else {
             /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
+            require_once 'Zend/Service/ReCaptcha/Exception.php';
 
             throw new Zend_Service_ReCaptcha_Exception(
                 'Expected array or Zend_Config object'
@@ -291,7 +292,7 @@ class Zend_Service_ReCaptcha extends Zend_Service_Abstract
             }
         } else {
             /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
+            require_once 'Zend/Service/ReCaptcha/Exception.php';
 
             throw new Zend_Service_ReCaptcha_Exception(
                 'Expected array or Zend_Config object'
@@ -381,7 +382,7 @@ class Zend_Service_ReCaptcha extends Zend_Service_Abstract
     {
         if ($this->_publicKey === null) {
             /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
+            require_once 'Zend/Service/ReCaptcha/Exception.php';
 
             throw new Zend_Service_ReCaptcha_Exception('Missing public key');
         }
@@ -455,33 +456,21 @@ HTML;
     {
         if ($this->_privateKey === null) {
             /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
+            require_once 'Zend/Service/ReCaptcha/Exception.php';
 
             throw new Zend_Service_ReCaptcha_Exception('Missing private key');
         }
 
         if ($this->_ip === null) {
             /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
+            require_once 'Zend/Service/ReCaptcha/Exception.php';
 
             throw new Zend_Service_ReCaptcha_Exception('Missing ip address');
         }
 
-        if (empty($challengeField)) {
-            /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
-            throw new Zend_Service_ReCaptcha_Exception('Missing challenge field');
-        }
-
-        if (empty($responseField)) {
-            /** @see Zend_Service_ReCaptcha_Exception */
-            // require_once 'Zend/Service/ReCaptcha/Exception.php';
-
-            throw new Zend_Service_ReCaptcha_Exception('Missing response field');
-        }
-
         /* Fetch an instance of the http client */
         $httpClient = self::getHttpClient();
+        $httpClient->resetParameters(true);
 
         $postParams = array('privatekey' => $this->_privateKey,
                             'remoteip'   => $this->_ip,

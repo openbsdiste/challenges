@@ -16,20 +16,20 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Gbase.php 24777 2012-05-08 18:50:23Z adamlundrigan $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Exception
  */
-// require_once 'Zend/Exception.php';
+require_once 'Zend/Exception.php';
 
 /**
  * @see Zend_Gdata
  */
-// require_once 'Zend/Gdata.php';
+require_once 'Zend/Gdata.php';
 
 /**
  * Service class for interacting with the Google Base data API
@@ -39,7 +39,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gbase extends Zend_Gdata
