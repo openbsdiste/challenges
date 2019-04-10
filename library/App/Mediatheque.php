@@ -31,6 +31,7 @@
         protected $_actionName;
         protected $_toParse;
         protected $_view;
+        protected $_version;
                 
         protected function _adapt ($string) {
             $motifs = array (
@@ -175,7 +176,7 @@
             foreach ($scripts as $script) {
                 if (! is_array ($script ['src']) && ($script ['src'] != 'meta') && is_file (PUBLIC_PATH . '/' . $base . $script ['src'])) {
                     $liste [] = array (
-                        $base . $script ['src'],
+                        $base . $script ['src'] . '?v=' . $this->_version,
                         $script ['type'],
                         $script ['attrs']
                     );
@@ -183,7 +184,7 @@
                     foreach ($script ['src'] as $src) {
                         if (is_file (PUBLIC_PATH . '/' . $base . $src)) {
                             $liste [] = array (
-                                $base . $src,
+                                $base . $src . '?v=' . $this->_version,
                                 $script ['type'],
                                 $script ['attrs']
                             );
@@ -200,7 +201,7 @@
             foreach ($styles as $style) {
                 if (! is_array ($style ['href']) && ($style ['href'] != 'meta') && is_file (PUBLIC_PATH . '/' . $base . $style ['href'])) {
                     $liste [] = array (
-                        $base . $style ['href'],
+                        $base . $style ['href'] . '?v=' . $this->_version,
                         $style ['media'],
                         $style ['conditionalStylesheet'],
                         $style ['extras']
@@ -209,7 +210,7 @@
                     foreach ($style ['href'] as $href) {
                         if (is_file (PUBLIC_PATH . '/' . $base . $href)) {
                             $liste [] = array (
-                                $base . $href,
+                                $base . $href . '?v=' . $this->_version,
                                 $style ['media'],
                                 $style ['conditionalStylesheet'],
                                 $style ['extras']
@@ -224,7 +225,8 @@
         public function __construct (Zend_Controller_Request_Abstract $request) {
             $fc = Zend_Controller_Front::getInstance ();
             $bs = $fc->getParam ('bootstrap');
-            
+
+            $this->_version = $bs->getOption ('version');
             $this->_options = $bs->getOption ('mediatheque');
             $restOptions = $bs->getOption ('rest');
             if (! isset ($restOptions ['responders']) || ! is_array ($restOptions ['responders'])) {

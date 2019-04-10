@@ -34,7 +34,9 @@
             </div>
         </div>
         <div class="ui-layout-south">
-            <div id="pageCopyright" class="content"><?php echo __('site.copyright'); ?></div>
+            <div id="pageCopyright" class="content">
+            <?php echo __('site.version') . " ". $this->version () . " - " . __('site.copyright'); ?>
+        </div>
         </div>
     </body>
 </html>
