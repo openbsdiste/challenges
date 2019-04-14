@@ -1,0 +1,51 @@
+<div id="accordeonverouillage">
+    <ol>
+        <li>
+            <h2><span>Vérouillage</span></h2>
+            <div style="overflow: auto;">
+                <p>
+                    Vous pouvez <b>définir un mot de passe</b> qui permet de limiter les droits des membres du clubs.
+                </p><br />
+                <p>
+                    En définissant ce mot de passe, vous <b>bloquez la validation</b> du challenge
+                    et vous <b>interdisez aux participants de votre club de modifier les réponses</b> apportées
+                    par les autres participants de votre club. Ils pourront juste <b>ajouter</b> une réponse à la suite 
+                    des réponses déjà apportées.
+                </p><br />
+                <p>
+                    Pour pouvoir débloquer la validation, vous devrez saisir votre mot de passe sur cet écran.
+                </p><br />
+                <p>
+                    <u>Note :</u> Le mot de passe est valable pour une édition du challenge.
+                    Il devra être établi à nouveau chaque année.
+                </p><br />
+                <?php if ($this->password == '') { ?>
+                    <input id="motdepass1" type="password" />&nbsp;
+                    <input id="motdepass2" type="password" />&nbsp;
+                    <input id="definirpass" type="button" class="ui-state-default ui-corner-all" value="Définir le mot de passe" />
+                <?php } else { ?>
+                    <?php if (! $this->canValidate) { ?>
+                        <input id="motdepass" type="password" />&nbsp;
+                        <input id="deverouiller" type="button" class="ui-state-default ui-corner-all" value="Dévérouiller la participation" />
+                    <?php } else { ?>
+                        <p><b>Vous avez déjà entré votre mot de passe ! Bonne validation !</b></p>
+                    <?php } ?>
+                <?php } ?>
+            </div>
+        </li>
+    </ol>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready (function () {
+        Global.setAccordion ('accordeonverouillage');
+        <?php if ($this->password == ''): ?>
+        jQuery ("#definirpass").on ("click", function () {
+            GerePassword.setPassword ();
+        });
+        <?php else: ?>
+        jQuery ("#deverouiller").on ("click", function () {
+            GerePassword.checkPassword ();
+        });
+        <?php endif; ?>
+    });
+</script>

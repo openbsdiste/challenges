@@ -34,6 +34,8 @@
             $this->view->reponseData = $metierReponses->getReponse ($id);
             $this->view->reponseFiles = $metierReponses->getFichiers ($id);
             $this->view->statutChallenge = $this->_chalInfos ['statut'];
+            $zsn = new Zend_Session_Namespace ('challenge');
+            $this->view->canValidate = $zsn->canValidate;
         }
         
         public function imageAction () {
@@ -101,6 +103,8 @@
 
         public function modvalchalAction () {
             $this->disableLayout ();
+            $zsn = new Zend_Session_Namespace ('challenge');
+            $this->view->canValidate = $zsn->canValidate;
         }
         
         public function modvalchalconfirmeAction () {
@@ -131,5 +135,15 @@
             $excel = new Challenge_Model_Metier_Excelwriter ($this->_chalInfos, $this->_identity);
             $excel->setChallenge ();
             $this->view->excel = $excel;
+        }
+
+        public function verouillageAction () {
+            $this->disableLayout ();
+            $id = $this->_identity->id;
+            $metier = new Challenge_Model_Metier_Participants ($this->_chalInfos);
+            $participant = $metier->getParticipant ($id);
+            $this->view->password = $participant ['password'];
+            $zsn = new Zend_Session_Namespace ('challenge');
+            $this->view->canValidate = $zsn->canValidate;
         }
     }

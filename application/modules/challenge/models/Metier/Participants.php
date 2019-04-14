@@ -48,6 +48,7 @@
                 $participant->valide = ($this->_challenge ['statut'] <= Model_Enum_StatutChallenge::ENCOURS) ? 0 : 1;
                 $participant->calculee = -1;
                 $participant->attribuee = -1;
+                $participant->password = '';
             }
             $participantArray = $this->_mapperParticipants->toArray ($participant);
             return $participantArray [0];
@@ -57,7 +58,7 @@
             $participant = new Challenge_Model_Participants ($data);
             if (
                     (
-                        ($this->_challenge ['statut'] == Model_Enum_StatutChallenge::ELABORATION) 
+                        ($this->_challenge ['statut'] == Model_Enum_StatutChallenge::ELABORATION)
                         && ($this->_challenge ['organisateur'] == $participant->club)
                     )
                     || ($this->_challenge ['statut'] == Model_Enum_StatutChallenge::ENCOURS)

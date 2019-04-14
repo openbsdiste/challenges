@@ -42,7 +42,11 @@
                 }
                 $reponse = $metier->getReponse ($id);
                 if (isset ($_POST ['texte' . $id])) {
-                    $reponse ['texte'] = $_POST ['texte' . $id];
+                    if ($zsn->canValidate) {
+                        $reponse ['texte'] = $_POST ['texte' . $id];
+                    } else {
+                        $reponse ['texte'] .= "<br />---<br />" . $_POST ['texte' . $id];
+                    }
                 } elseif (isset ($_POST ['noteinterne' . $id])) {
                     $reponse ['notesinternes'] = $_POST ['noteinterne' . $id];
                 } elseif (isset ($_POST ['reponse' . $id])) {

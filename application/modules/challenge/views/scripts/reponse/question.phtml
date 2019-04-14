@@ -14,6 +14,15 @@
                     <?php echo $this->question ($this->questionData, $this->questionFiles, $this->statutChallenge); ?>
                 </div>
             </li>
+            <?php if (! $this->canValidate) { ?>
+                <li>
+                    <h2><span>Réponses déjà saisies</span></h2>
+                    <div style="overflow: auto;" id="presaisie<?php echo $this->id; ?>">
+                        <p><b>Le vérouillage est activé. Voici les réponses saisies par les participants :</b></p>
+                        <?php echo $this->reponseData ['texte']; ?>
+                    </div>
+                </li>
+            <?php } ?>
             <li>
                 <h2><span>Réponse</span></h2>
                 <div style="overflow: auto;">
@@ -22,7 +31,11 @@
                         <span>Indiquer ici le texte de la réponse.</span>
                         <input id="texte<?php echo $this->id; ?>" name="texte<?php echo $this->id; ?>" type="hidden" value=""/>
                     </form>
-                    <div id="saisie<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+                    <?php if ($this->canValidate) { ?>
+                        <div id="saisie<?php echo $this->id; ?>"><?php echo $this->reponseData ['texte']; ?></div>
+                    <?php } else { ?>
+                        <div id="saisie<?php echo $this->id; ?>"></div>
+                    <?php } ?>
                 </div>
             </li>
             <li>
@@ -37,7 +50,10 @@
                     <div id="docprogress<?php echo $this->id; ?>"><div class="progress-label"></div></div>
                     <br />
                     <div id="listeDocuments<?php echo $this->id; ?>">
-                        <?php echo $this->listeFichiers ($this->id, $this->reponseFiles, 'reponse', 'reponse'); ?>
+                        <?php if (! $this->canValidate) { ?>
+                            <p><b>Le vérouillage est activé. Vous ne pouvez pas supprimer les documents ajoutés à la réponse.</b></p>
+                        <?php } ?>
+                        <?php echo $this->listeFichiers ($this->id, $this->reponseFiles, 'reponse', 'reponse', $this->canValidate); ?>
                     </div>
                 </div>
             </li>

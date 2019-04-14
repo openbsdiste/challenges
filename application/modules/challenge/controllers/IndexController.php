@@ -28,6 +28,8 @@
                     $participant = $metierParticipants->getParticipant ($this->_identity->id);
                     if (! $participant ['valide']) {
                         if ($ok) {
+                            $zsn = new Zend_Session_Namespace ('challenge');
+                            $zsn->canValidate = ($participant ['password'] == '');
                             $this->redirect ('challenge/reponse/index');
                         }
                     }

@@ -3,20 +3,24 @@
         <li>
             <h2><span>Validation</span></h2>
             <div style="overflow: auto;">
-                <h2>La validation du challenge est irreversible !</h2><br />
-                <p>Valider le challenge vous interdit l'accès à vos réponses. Vous ne pourrez donc plus les modifier.</p>
-                <p>Si vous confirmez la validation, les onglets ouverts seront fermés et le processus de validation sera lancé.</p>
-                <p>Une fois la validation terminée, vous serez redirigé automatiquement vers la page d'accueil.</p>
-                </p><br />
-                <p><b>Vous ne devez pas interrompre la validation.</b></p><br />
-                <p>
-                    En cas de problème durant la validation, envoyez une copie d'écran à <b>dt@microtel-clubs.fr</b>,
-                    fermez votre navigateur et ne vous reconnectez pas avant d'avoir obtenu une réponse.
-                    En plus de la copie d'écran, vous devrez fournir votre mot de passe de connexion.
-                    Vous pourrez (devrez !) ensuite le changer pour plus de sécurité !
-                </p>
-                <br />
-                <input id="confirmer" type="button" class="ui-state-default ui-corner-all" value="Confirmer la validation" />
+                <?php if ($this->canValidate) : ?>
+                    <h2>La validation du challenge est irreversible !</h2><br />
+                    <p>Valider le challenge vous interdit l'accès à vos réponses. Vous ne pourrez donc plus les modifier.</p>
+                    <p>Si vous confirmez la validation, les onglets ouverts seront fermés et le processus de validation sera lancé.</p>
+                    <p>Une fois la validation terminée, vous serez redirigé automatiquement vers la page d'accueil.</p>
+                    </p><br />
+                    <p><b>Vous ne devez pas interrompre la validation.</b></p><br />
+                    <p>
+                        En cas de problème durant la validation, envoyez une copie d'écran à <b>dt@microtel-clubs.fr</b>,
+                        fermez votre navigateur et ne vous reconnectez pas avant d'avoir obtenu une réponse.
+                        En plus de la copie d'écran, vous devrez fournir votre mot de passe de connexion.
+                        Vous pourrez (devrez !) ensuite le changer pour plus de sécurité !
+                    </p>
+                    <br />
+                    <input id="confirmer" type="button" class="ui-state-default ui-corner-all" value="Confirmer la validation" />
+                <?php else: ?>
+                    <p><b>Pour valider le challenge, vous devez déverouiller votre participation.</b></p>
+                <?php endif; ?>
             </div>
         </li>
     </ol>
