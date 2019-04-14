@@ -501,326 +501,278 @@ var nicEditor = bkClass.extend({
 nicEditor = nicEditor.extend(bkEvent);
 var nicEditorInstance = bkClass.extend({
     isSelected: false,
-
-    construct: function(e, options, nicEditor) {
-        this.ne = nicEditor;
-        this.elm = this.e = e;
-        this.options = options || {};
-
-        newX = parseInt(e.getStyle('width')) || e.clientWidth;
-        newY = parseInt(e.getStyle('height')) || e.clientHeight;
+    construct: function(j, d, c) {
+        this.ne = c;
+        this.elm = this.e = j;
+        this.options = d || {};
+        newX = parseInt(j.getStyle("width")) || j.clientWidth;
+        newY = parseInt(j.getStyle("height")) || j.clientHeight;
         this.initialHeight = newY - 8;
-
-        var isTextarea = (e.nodeName.toLowerCase() == "textarea");
-        if (isTextarea || this.options.hasPanel) {
-            var ie7s = (bkLib.isMSIE && !((typeof document.body.style.maxHeight != "undefined") && document.compatMode == "CSS1Compat"))
-            var s = { width: newX + 'px', border: '2px solid #F1F1F1', borderTop: 0, overflowY: 'auto', overflowX: 'hidden' };
-            s[(ie7s) ? 'height' : 'maxHeight'] = (this.ne.options.maxHeight) ? this.ne.options.maxHeight + 'px' : null;
-            this.editorContain = new bkElement('DIV').setStyle(s).appendBefore(e);
-
-            /* CLEAN WORD PASTE MOD */
-            //var editorElm = new bkElement('DIV').setAttributes({id : e.id}).setStyle({width : (newX-8)+'px', margin: '4px', minHeight : newY+'px'}).addClass('main').appendTo(this.editorContain);
-            var editorElm = new bkElement('DIV').setStyle({ width: (newX - 8) + 'px', margin: '4px', minHeight: newY + 'px' }).addClass('main').appendTo(this.editorContain);
-
-
-            e.setStyle({ display: 'none' });
-            editorElm.innerHTML = e.innerHTML;
-            if (isTextarea) {
-                editorElm.setContent(e.value);
-                this.copyElm = e;
-                var f = e.parentTag('FORM');
-                if (f) { bkLib.addEvent(f, 'submit', this.saveContent.closure(this)); }
+        var k = (j.nodeName.toLowerCase() == "textarea");
+        if (k || this.options.hasPanel) {
+            var b = (bkLib.isMSIE && !((typeof document.body.style.maxHeight != "undefined") && document.compatMode == "CSS1Compat"));
+            var g = {
+                width: newX + "px",
+                border: "1px solid #ccc",
+                borderTop: 0,
+                overflowY: "auto",
+                overflowX: "hidden"
+            };
+            g[(b) ? "height" : "maxHeight"] = (this.ne.options.maxHeight) ? this.ne.options.maxHeight + "px" : null;
+            this.editorContain = new bkElement("DIV").setStyle(g).appendBefore(j);
+            var a = new bkElement("DIV").setStyle({
+                width: (newX - 8) + "px",
+                margin: "4px",
+                minHeight: newY + "px"
+            }).addClass("main").appendTo(this.editorContain);
+            j.setStyle({
+                display: "none"
+            });
+            a.innerHTML = j.innerHTML;
+            if (k) {
+                a.setContent(j.value);
+                this.copyElm = j;
+                var h = j.parentTag("FORM");
+                if (h) {
+                    bkLib.addEvent(h, "submit", this.saveContent.closure(this))
+                }
             }
-            editorElm.setStyle((ie7s) ? { height: newY + 'px' } : { overflow: 'hidden' });
-            this.elm = editorElm;
-
+            a.setStyle((b) ? {
+                height: newY + "px"
+            } : {
+                overflow: "hidden"
+            });
+            this.elm = a
         }
-        this.ne.addEvent('blur', this.blur.closure(this));
-
+        this.ne.addEvent("blur", this.blur.closure(this));
         this.init();
-        this.blur();
+        this.blur()
     },
-
     init: function() {
-        this.elm.setAttribute('contentEditable', 'true');
+        this.elm.setAttribute("contentEditable", "true");
         if (this.getContent() == "") {
-            this.setContent('<br />');
+            this.setContent("<br />")
         }
         this.instanceDoc = document.defaultView;
-        this.elm.addEvent('mousedown', this.selected.closureListener(this)).addEvent('keypress', this.keyDown.closureListener(this)).addEvent('focus', this.selected.closure(this)).addEvent('blur', this.blur.closure(this)).addEvent('keyup', this.selected.closure(this));
-        this.ne.fireEvent('add', this);
-
-        /* CLEAN WORD PASTE MOD */
-        this.elm.addEvent('paste', this.initPasteClean.closureListener(this));
+        this.elm.addEvent("mousedown", this.selected.closureListener(this)).addEvent("keypress", this.keyDown.closureListener(this)).addEvent("focus", this.selected.closure(this)).addEvent("blur", this.blur.closure(this)).addEvent("keyup", this.selected.closure(this));
+        this.ne.fireEvent("add", this);
+        this.ne.addEvent("paste", this.initPasteClean.closureListener(this))
     },
-
     initPasteClean: function() {
         this.pasteCache = this.getElm().innerHTML;
-        setTimeout(this.pasteClean.closure(this), 100);
+        setTimeout(this.pasteClean.closure(this), 100)
     },
-
-    /* CLEAN WORD PASTE MOD : pasteClean method added for clean word paste */
     pasteClean: function() {
-        var matchedHead = "";
-        var matchedTail = "";
-        var newContent = this.getElm().innerHTML;
+        var d = "";
+        var b = "";
+        var g = this.getElm().innerHTML;
         this.ne.fireEvent("get", this);
-        var newContentStart = 0;
-        var newContentFinish = 0;
-        var newSnippet = "";
-        var tempNode = document.createElement("div");
-
-        /* Find start of both strings that matches */
-
-        for (newContentStart = 0; newContent.charAt(newContentStart) == this.pasteCache.charAt(newContentStart); newContentStart++) {
-            matchedHead += this.pasteCache.charAt(newContentStart);
+        var f = 0;
+        var j = 0;
+        var a = "";
+        var c = document.createElement("div");
+        for (f = 0; g.charAt(f) == this.pasteCache.charAt(f); f++) {
+            d += this.pasteCache.charAt(f)
         }
-
-        /* If newContentStart is inside a HTML tag, move to opening brace of tag */
-        for (var i = newContentStart; i >= 0; i--) {
-            if (this.pasteCache.charAt(i) == "<") {
-                newContentStart = i;
-                matchedHead = this.pasteCache.substring(0, newContentStart);
-
-                break;
-            } else if (this.pasteCache.charAt(i) == ">") {
-                break;
-            }
-        }
-
-        newContent = this.reverse(newContent);
-        this.pasteCache = this.reverse(this.pasteCache);
-
-        /* Find end of both strings that matches */
-        for (newContentFinish = 0; newContent.charAt(newContentFinish) == this.pasteCache.charAt(newContentFinish); newContentFinish++) {
-            matchedTail += this.pasteCache.charAt(newContentFinish);
-        }
-
-        /* If newContentFinish is inside a HTML tag, move to closing brace of tag */
-        for (var i = newContentFinish; i >= 0; i--) {
-            if (this.pasteCache.charAt(i) == ">") {
-                newContentFinish = i;
-                matchedTail = this.pasteCache.substring(0, newContentFinish);
-
-                break;
-            } else if (this.pasteCache.charAt(i) == "<") {
-                break;
-            }
-        }
-
-        matchedTail = this.reverse(matchedTail);
-
-        /* If there's no difference in pasted content */
-        if (newContentStart == newContent.length - newContentFinish) {
-            return false;
-        }
-
-        newContent = this.reverse(newContent);
-        newSnippet = newContent.substring(newContentStart, newContent.length - newContentFinish);
-        newSnippet = this.validTags(newSnippet);
-
-        /* Replace opening bold tags with strong */
-        newSnippet = newSnippet.replace(/<b(\s+|>)/g, "<strong$1");
-        /* Replace closing bold tags with closing strong */
-        newSnippet = newSnippet.replace(/<\/b(\s+|>)/g, "</strong$1");
-
-        /* Replace italic tags with em */
-        newSnippet = newSnippet.replace(/<i(\s+|>)/g, "<em$1");
-        /* Replace closing italic tags with closing em */
-        newSnippet = newSnippet.replace(/<\/i(\s+|>)/g, "</em$1");
-
-        /* strip out comments -cgCraft */
-        newSnippet = newSnippet.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, "");
-
-        /* strip out &nbsp; -cgCraft */
-        newSnippet = newSnippet.replace(/&nbsp;/gi, " ");
-        /* strip out extra spaces -cgCraft */
-        newSnippet = newSnippet.replace(/ <\//gi, "</");
-
-        while (newSnippet.indexOf("  ") != -1) {
-            var anArray = newSnippet.split("  ")
-            newSnippet = anArray.join(" ")
-        }
-
-        /* strip &nbsp; -cgCraft */
-        newSnippet = newSnippet.replace(/^\s*|\s*$/g, "");
-
-        /* Strip out unaccepted attributes */
-
-        newSnippet = newSnippet.replace(/<[^>]*>/g, function(match) {
-            match = match.replace(/ ([^=]+)="[^"]*"/g, function(match2, attributeName) {
-                if (attributeName == "alt" || attributeName == "href" || attributeName == "src" || attributeName == "title") {
-                    return match2;
+        for (var e = f; e >= 0; e--) {
+            if (this.pasteCache.charAt(e) == "<") {
+                f = e;
+                d = this.pasteCache.substring(0, f);
+                break
+            } else {
+                if (this.pasteCache.charAt(e) == ">") {
+                    break
                 }
-
-                return "";
-            });
-
-            return match;
-        });
-
-        /* Final cleanout for MS Word cruft */
-        newSnippet = newSnippet.replace(/<\?xml[^>]*>/g, "");
-        newSnippet = newSnippet.replace(/<[^ >]+:[^>]*>/g, "");
-        newSnippet = newSnippet.replace(/<\/[^ >]+:[^>]*>/g, "");
-
-        /* remove undwanted tags */
-        newSnippet = newSnippet.replace(/<(div|span|style|meta|link){1}.*?>/gi, '');
-
-        this.content = matchedHead + newSnippet + matchedTail;
-        this.ne.fireEvent("set", this);
-        this.elm.innerHTML = this.content;
-    },
-
-    reverse: function(sentString) {
-        var theString = "";
-        for (var i = sentString.length - 1; i >= 0; i--) {
-            theString += sentString.charAt(i);
+            }
         }
-        return theString;
-    },
-
-    /* CLEAN WORD PASTE MOD : validTags method added for clean word paste */
-    validTags: function(snippet) {
-        var theString = snippet;
-
-        /* Replace uppercase element names with lowercase */
-        theString = theString.replace(/<[^> ]*/g, function(match) { return match.toLowerCase(); });
-
-        /* Replace uppercase attribute names with lowercase */
-        theString = theString.replace(/<[^>]*>/g, function(match) {
-            match = match.replace(/ [^=]+=/g, function(match2) { return match2.toLowerCase(); });
-            return match;
+        g = this.reverse(g);
+        this.pasteCache = this.reverse(this.pasteCache);
+        for (j = 0; g.charAt(j) == this.pasteCache.charAt(j); j++) {
+            b += this.pasteCache.charAt(j)
+        }
+        for (var e = j; e >= 0; e--) {
+            if (this.pasteCache.charAt(e) == ">") {
+                j = e;
+                b = this.pasteCache.substring(0, j);
+                break
+            } else {
+                if (this.pasteCache.charAt(e) == "<") {
+                    break
+                }
+            }
+        }
+        b = this.reverse(b);
+        if (f == g.length - j) {
+            return false
+        }
+        g = this.reverse(g);
+        a = g.substring(f, g.length - j);
+        a = this.validTags(a);
+        a = a.replace(/<b(\s+|>)/g, "<strong$1");
+        a = a.replace(/<\/b(\s+|>)/g, "</strong$1");
+        a = a.replace(/<i(\s+|>)/g, "<em$1");
+        a = a.replace(/<\/i(\s+|>)/g, "</em$1");
+        a = a.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, "");
+        a = a.replace(/&nbsp;/gi, " ");
+        a = a.replace(/ <\//gi, "</");
+        while (a.indexOf("  ") != -1) {
+            var h = a.split("  ");
+            a = h.join(" ")
+        }
+        a = a.replace(/^\s*|\s*$/g, "");
+        a = a.replace(/<[^>]*>/g, function(k) {
+            k = k.replace(/ ([^=]+)="[^"]*"/g, function(m, l) {
+                if (l == "alt" || l == "href" || l == "src" || l == "title") {
+                    return m
+                }
+                return ""
+            });
+            return k
         });
-
-        /* Put quotes around unquoted attributes */
-        theString = theString.replace(/<[^>]*>/g, function(match) {
-            match = match.replace(/( [^=]+=)([^"][^ >]*)/g, "$1\"$2\"");
-            return match;
-        });
-
-        return theString;
+        a = a.replace(/<\?xml[^>]*>/g, "");
+        a = a.replace(/<[^ >]+:[^>]*>/g, "");
+        a = a.replace(/<\/[^ >]+:[^>]*>/g, "");
+        a = a.replace(/<(div|span|style|meta|link){1}.*?>/gi, "");
+        this.content = d + a + b;
+        this.ne.fireEvent("set", this);
+        this.elm.innerHTML = this.content
     },
-
+    reverse: function(c) {
+        var a = "";
+        for (var b = c.length - 1; b >= 0; b--) {
+            a += c.charAt(b)
+        }
+        return a
+    },
+    validTags: function(b) {
+        var a = b;
+        a = a.replace(/<[^> ]*/g, function(c) {
+            return c.toLowerCase()
+        });
+        a = a.replace(/<[^>]*>/g, function(c) {
+            c = c.replace(/ [^=]+=/g, function(d) {
+                return d.toLowerCase()
+            });
+            return c
+        });
+        a = a.replace(/<[^>]*>/g, function(c) {
+            c = c.replace(/( [^=]+=)([^"][^ >]*)/g, '$1"$2"');
+            return c
+        });
+        return a
+    },
     remove: function() {
         this.saveContent();
         if (this.copyElm || this.options.hasPanel) {
             this.editorContain.remove();
-            this.e.setStyle({ 'display': 'block' });
-            this.ne.removePanel();
+            this.e.setStyle({
+                display: "block"
+            });
+            this.ne.removePanel()
         }
         this.disable();
-        this.ne.fireEvent('remove', this);
+        this.ne.fireEvent("remove", this)
     },
-
     disable: function() {
-        this.elm.setAttribute('contentEditable', 'false');
+        this.elm.setAttribute("contentEditable", "false")
     },
-
     getSel: function() {
-        return (window.getSelection) ? window.getSelection() : document.selection;
+        return (window.getSelection) ? window.getSelection() : document.selection
     },
-
     getRng: function() {
-        var s = this.getSel();
-        if (!s) { return null; }
-        return (s.rangeCount > 0) ? s.getRangeAt(0) : s.createRange();
+        var a = this.getSel();
+        if (!a || a.rangeCount === 0) {
+            return
+        }
+        return (a.rangeCount > 0) ? a.getRangeAt(0) : a.createRange()
     },
-
-    selRng: function(rng, s) {
+    selRng: function(a, b) {
         if (window.getSelection) {
-            s.removeAllRanges();
-            s.addRange(rng);
+            b.removeAllRanges();
+            b.addRange(a)
         } else {
-            rng.select();
+            a.select()
         }
     },
-
     selElm: function() {
-        var r = this.getRng();
-        if (r.startContainer) {
-            var contain = r.startContainer;
-            if (r.cloneContents().childNodes.length == 1) {
-                for (var i = 0; i < contain.childNodes.length; i++) {
-                    var rng = contain.childNodes[i].ownerDocument.createRange();
-                    rng.selectNode(contain.childNodes[i]);
-                    if (r.compareBoundaryPoints(Range.START_TO_START, rng) != 1 &&
-                        r.compareBoundaryPoints(Range.END_TO_END, rng) != -1) {
-                        return $BK(contain.childNodes[i]);
+        var c = this.getRng();
+        if (!c) {
+            return
+        }
+        if (c.startContainer) {
+            var d = c.startContainer;
+            if (c.cloneContents().childNodes.length == 1) {
+                for (var b = 0; b < d.childNodes.length; b++) {
+                    var a = d.childNodes[b].ownerDocument.createRange();
+                    a.selectNode(d.childNodes[b]);
+                    if (c.compareBoundaryPoints(Range.START_TO_START, a) != 1 && c.compareBoundaryPoints(Range.END_TO_END, a) != -1) {
+                        return $BK(d.childNodes[b])
                     }
                 }
             }
-            return $BK(contain);
+            return $BK(d)
         } else {
-            return $BK((this.getSel().type == "Control") ? r.item(0) : r.parentElement());
+            return $BK((this.getSel().type == "Control") ? c.item(0) : c.parentElement())
         }
     },
-
     saveRng: function() {
         this.savedRange = this.getRng();
-        this.savedSel = this.getSel();
+        this.savedSel = this.getSel()
     },
-
     restoreRng: function() {
         if (this.savedRange) {
-            this.selRng(this.savedRange, this.savedSel);
+            this.selRng(this.savedRange, this.savedSel)
         }
     },
-
-    keyDown: function(e, t) {
-        if (e.ctrlKey) {
-            this.ne.fireEvent('key', this, e);
+    keyDown: function(b, a) {
+        if (b.ctrlKey) {
+            this.ne.fireEvent("key", this, b)
         }
     },
-
-    selected: function(e, t) {
-        if (!t) { t = this.selElm() }
-        if (!e.ctrlKey) {
-            var selInstance = this.ne.selectedInstance;
-            if (selInstance != this) {
-                if (selInstance) {
-                    this.ne.fireEvent('blur', selInstance, t);
+    selected: function(c, a) {
+        if (!a && !(a = this.selElm)) {
+            a = this.selElm()
+        }
+        if (!c.ctrlKey) {
+            var b = this.ne.selectedInstance;
+            if (b != this) {
+                if (b) {
+                    this.ne.fireEvent("blur", b, a)
                 }
                 this.ne.selectedInstance = this;
-                this.ne.fireEvent('focus', selInstance, t);
+                this.ne.fireEvent("focus", b, a)
             }
-            this.ne.fireEvent('selected', selInstance, t);
+            this.ne.fireEvent("selected", b, a);
             this.isFocused = true;
-            this.elm.addClass('selected');
+            this.elm.addClass("selected")
         }
-        return false;
+        return false
     },
-
     blur: function() {
         this.isFocused = false;
-        this.elm.removeClass('selected');
+        this.elm.removeClass("selected")
     },
-
     saveContent: function() {
         if (this.copyElm || this.options.hasPanel) {
-            this.ne.fireEvent('save', this);
-            (this.copyElm) ? this.copyElm.value = this.getContent(): this.e.innerHTML = this.getContent();
+            this.ne.fireEvent("save", this);
+            (this.copyElm) ? this.copyElm.value = this.getContent(): this.e.innerHTML = this.getContent()
         }
     },
-
     getElm: function() {
-        return this.elm;
+        return this.elm
     },
-
     getContent: function() {
         this.content = this.getElm().innerHTML;
-        this.ne.fireEvent('get', this);
-        return this.content;
+        this.ne.fireEvent("get", this);
+        return this.content
     },
-
-    setContent: function(e) {
-        this.content = e;
-        this.ne.fireEvent('set', this);
-        this.elm.innerHTML = this.content;
+    setContent: function(a) {
+        this.content = a;
+        this.ne.fireEvent("set", this);
+        this.elm.innerHTML = this.content
     },
-
-    nicCommand: function(cmd, args) {
-        document.execCommand(cmd, false, args);
+    nicCommand: function(b, a) {
+        document.execCommand(b, false, a)
     }
 });
 var nicEditorIFrameInstance = nicEditorInstance.extend({
