@@ -5,6 +5,7 @@
         protected $_id;
         protected $_zip;
         protected $_texte;
+        protected $_club;
         
         protected function _initTexte ($nomParticipant) {
             $this->_texte = 
@@ -26,18 +27,20 @@
                 . "\n";
         }
         
-        protected function _reponse ($mrep, $reponse, $fichiers) {
+        protected function _reponse ($mrep, $reponse, $fichiers, $numQuestion) {
             $documents = "";
             sort ($fichiers);
             $first = true;
+            $prefixe = $this->_club . " - " . $numQuestion . " - ";
+
             foreach ($fichiers as $fichier) {
-                $documents .= "<a target='_blank' href='" . $reponse ['id'] . "/$fichier'>$fichier</a>&nbsp;";
+                $documents .= "<a target='_blank' href='" . $numQuestion . "/$prefixe$fichier'>$prefixe$fichier</a>&nbsp;";
                 if ($first) {
                     $first = false;
-                    $this->_zip->addEmptyDir ($this->_id . "/" . $reponse ['id']);
+                    $this->_zip->addEmptyDir ($this->_club . "/" . $numQuestion);
                 }
                 $fileContent = $mrep->getFile ($reponse ['id'], $fichier, true);
-                $this->_zip->addFromString ($this->_id . "/" . $reponse ['id'] . "/$fichier", $fileContent);
+                $this->_zip->addFromString ($this->_club . "/" . $numQuestion . "/$prefixe$fichier", $fileContent);
             }
             if ($documents != '') {
                 $documents = "<p>&nbsp;<b>Document(s) : </b>" . $documents . "</p>\n";
@@ -58,6 +61,11 @@
             $mrep = new Challenge_Model_Metier_Reponses ($this->_chalInfos, $this->_id);
 
             $this->_initTexte ($nomParticipant);
+            // $this->_club = $nomParticipant;
+            $this->_club = $utilisateur->login;
+
+            $this->_zip->addEmptyDir ($this->_club);
+
             $indices = array ();
             $last = 0;
             foreach ($arbre as $feuille) {
@@ -72,12 +80,13 @@
                 $val = array_pop ($indices);
                 $indices [] = $val + 1;
                 $last = $feuille ['level'];
-                $this->_texte .= "<br /><h1>" . implode ('.', $indices) . '. ' . $feuille ['title'] . "</h1><br />\n";
+                $numQuestion = implode ('.', $indices);
+                $this->_texte .= "<br /><h1>" . $numQuestion . '. ' . $feuille ['title'] . "</h1><br />\n";
                 $r = $mrep->getReponse ($feuille ['noeud']);
                 $f = $mrep->getFichiers ($feuille ['noeud']);
-                $this->_reponse ($mrep, $r, $f);
+                $this->_reponse ($mrep, $r, $f, $numQuestion);
             }
-            $this->_zip->addFromString ($this->_id . '/reponse.html', $this->_texte . "</html>");
+            $this->_zip->addFromString ($this->_club . '/' . $this->_club . ' - reponse.html', $this->_texte . "</html>");
         }
         
         public function __construct ($chalInfos, $identity, $id) {
@@ -90,7 +99,6 @@
             $nom = '/tmp/' . uniqid () . '.zip';
             $this->_zip = new ZipArchive ();
             $this->_zip->open ($nom, ZipArchive::CREATE);
-            $this->_zip->addEmptyDir ($this->_id);
             $this->_setReponse ();
             $this->_zip->close ();
             return $nom;
