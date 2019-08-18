@@ -11,11 +11,11 @@
             }
             return $this->_resourceLoader;
         }
-        
+
         protected function _initAutoload () {
             return Zend_Loader_Autoloader::getInstance ();
         }
-        
+
         protected function _initModuleAutoload () {
             $this->bootstrap ('autoload');
             $module = new App_Application_Module_Autoloader (
@@ -26,7 +26,7 @@
             );
             return $module;
         }
-        
+
         public function _initDbCache () {
             $this->bootstrap ('moduleAutoload');
             $cache = App_Cache::getCache ();
@@ -73,7 +73,7 @@
                 'locale' => $locale
             ));
             $translate->addTranslation ($translateZV);
-            
+
             if (APPLICATION_ENV != 'production') {
                 $writer = new Zend_Log_Writer_Stream (DATA_PATH . '/logs/translate.log');
                 $log = new Zend_Log ($writer);
@@ -84,14 +84,14 @@
                     'route' => array ($translate->getLocale () => 'fr')
                 ));
             }
-            
+
             Zend_Registry::set ('Zend_Translate', $translate);
             App_Localization::getInstance ()->setTranslation ($translate);
             //Zend_Validate_Abstract::setDefaultTranslator ($translate);
 
             return $translate;
         }
-    
+
         public function _initRestful () {
             $fc = Zend_Controller_Front::getInstance ();
             $fc->setRequest (new App_Controller_Request_Rest ());
