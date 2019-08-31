@@ -13,7 +13,7 @@
     defined ('DATA_PATH') || define ('DATA_PATH', realpath (BACKEND_PATH . '/data'));
     defined ('APPLICATION_PATH') || define ('APPLICATION_PATH', realpath (BACKEND_PATH . '/application'));
     defined ('LIBRARY_PATH') || define ('LIBRARY_PATH', realpath (BACKEND_PATH . '/library'));
-    defined ('ZEND_PATH') || define ('ZEND_PATH', realpath (BACKEND_PATH . '/../../.Zend/1.12.20/'));
+    defined ('ZEND_PATH') || define ('ZEND_PATH', realpath (BACKEND_PATH . '/../.Zend/1.12.20/'));
 
     set_include_path (LIBRARY_PATH . PATH_SEPARATOR . ZEND_PATH);
 
