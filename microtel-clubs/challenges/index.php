@@ -7,7 +7,7 @@
 
     if (APPLICATION_ENV == 'production') {
         defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../../hors_sites/challenges'));
-    else {
+    } else {
         defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../..'));
     }    
     defined ('DATA_PATH') || define ('DATA_PATH', realpath (BACKEND_PATH . '/data'));
