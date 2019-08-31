@@ -3,13 +3,19 @@
         set_time_limit (0);
     }
     defined ('PUBLIC_PATH') || define ('PUBLIC_PATH', realpath (dirname (__FILE__)));
-    defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../..'));
+    defined ('APPLICATION_ENV') || define ('APPLICATION_ENV', (getenv ('APPLICATION_ENV') ? getenv ('APPLICATION_ENV') : 'development'));
+
+    if (APPLICATION_ENV == 'production') {
+        defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../../hors_sites/challenges'));
+    else {
+        defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../..'));
+    }    
     defined ('DATA_PATH') || define ('DATA_PATH', realpath (BACKEND_PATH . '/data'));
     defined ('APPLICATION_PATH') || define ('APPLICATION_PATH', realpath (BACKEND_PATH . '/application'));
     defined ('LIBRARY_PATH') || define ('LIBRARY_PATH', realpath (BACKEND_PATH . '/library'));
-    defined ('APPLICATION_ENV') || define ('APPLICATION_ENV', (getenv ('APPLICATION_ENV') ? getenv ('APPLICATION_ENV') : 'development'));
+    defined ('ZEND_PATH') || define ('ZEND_PATH', realpath (BACKEND_PATH . '/../../.Zend/1.12.20/'));
 
-    set_include_path (LIBRARY_PATH);
+    set_include_path (LIBRARY_PATH . PATH_SEPARATOR . ZEND_PATH);
 
     try {
         require_once 'App/Application.php';
