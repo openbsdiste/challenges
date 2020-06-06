@@ -31,7 +31,7 @@
 //                        $res = $authAdapter->getResultRowObject (null, array ('password'));
                         $res->cle = sha1 ($password);
                         $authStorage->write ($res);
-                        $this->_redirect ();
+                        $this->_redirect ('/');
                     } else {
                         $this->view->message = __('auth.erreur');
                     }

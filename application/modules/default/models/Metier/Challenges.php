@@ -2,18 +2,18 @@
     class Model_Metier_Challenges extends App_Model_Metier {
         protected $_mapperChallenges;
         protected $_identite;
-        
+
         public function __construct () {
             $this->_mapperChallenges = new Model_Mapper_Challenges ();
             $this->_identite = Zend_Auth::getInstance ()->getIdentity ();
         }
-        
+
         public function getListeChallengesAdmin () {
             $liste = $this->_mapperChallenges->fetchAll (null, 'annee DESC');
             if (!is_array ($liste)) $liste = array ($liste);
             return $liste;
         }
-        
+
         public function getListeChallenges () {
             $liste = array ();
             $challenges = $this->getListeChallengesAdmin ();
@@ -35,7 +35,7 @@
             }
             return $liste;
         }
-        
+
         public function getChallenge ($id) {
             $chalInfos = false;
             $challenge = $this->_mapperChallenges->find ($id);
@@ -55,21 +55,21 @@
             }
             return $chalInfos;
         }
-        
+
         public function setChallenge ($data) {
             $this->_mapperChallenges->save (new Model_Challenges ($data));
         }
-        
+
         public function creeChallenge ($valeurs) {
             $challenge = new Model_Challenges ($valeurs);
             $id = $this->_mapperChallenges->save ($challenge);
-            
+
             $metierUtilisateur = new Authentification_Model_Metier_Utilisateurs ();
             $utilisateur = $metierUtilisateur->trouve ($valeurs ['organisateur']);
             $utilisateur->role = Model_Enum_Roles::MODERATEUR;
             $metierUtilisateur->setUtilisateur ($utilisateur);
         }
-        
+
         public function publicationCompte ($chalId) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Questions ($challenge);
@@ -78,7 +78,7 @@
                 'documents' => $mapper->getListeFichiers ()
             );
         }
-        
+
         public function publicationQuestion ($chalId, $qId) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Questions ($challenge);
@@ -87,7 +87,7 @@
             $mapper->setQuestion ($question);
             return array ();
         }
-        
+
         public function publicationDocument ($chalId, $qId, $nom) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Questions ($challenge);
@@ -95,14 +95,14 @@
             $mapper->setFile ($qId, $nom, $contenu, true);
             return array ();
         }
-        
+
         public function publicationOuvre ($chalId) {
             $challenge = $this->_mapperChallenges->find ($chalId);
             $challenge->statut = Model_Enum_StatutChallenge::ENCOURS;
             $this->_mapperChallenges->save ($challenge);
             return array ();
         }
-        
+
         public function validationCompte ($chalId) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Reponses ($challenge, $this->_identite->id);
@@ -112,7 +112,7 @@
                 'documents' => $mapper->getListeFichiers ()
             );
         }
-        
+
         public function validationQuestion ($chalId, $qId) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Reponses ($challenge, $this->_identite->id);
@@ -123,7 +123,7 @@
             $mapper->setReponse ($question);
             return array ();
         }
-        
+
         public function validationDocument ($chalId, $qId, $nom) {
             $challenge = $this->getChallenge ($chalId);
             $mapper = new Challenge_Model_Metier_Reponses ($challenge, $this->_identite->id);
@@ -131,7 +131,7 @@
             $mapper->setFile ($qId, $nom, $contenu, true);
             return array ();
         }
-        
+
         public function validationOuvre ($chalId) {
             $challenge = $this->getChallenge ($chalId);
             $metierParticipants = new Challenge_Model_Metier_Participants ($challenge);
@@ -140,7 +140,7 @@
             $metierParticipants->setParticipant ($participant);
             return array ();
         }
-        
+
         public function getStatsChallenge ($challenge) {
             $metierParticipants = new Challenge_Model_Metier_Participants ($challenge);
             $encours = $metierParticipants->getParticipantsEnCours ();
@@ -179,7 +179,7 @@
             }
             return $stats;
         }
-        
+
         public function getStatsNotationChallenge ($challenge) {
             $metierParticipants = new Challenge_Model_Metier_Participants ($challenge);
             $valides = $metierParticipants->getParticipantsValides ();
@@ -218,37 +218,42 @@
             }
             return $liste;
         }
-        
+
         public function termineChallenge ($challenge) {
-            $chalInfos = $this->getChallenge ($challenge);
-            $metierParticipants = new Challenge_Model_Metier_Participants ($chalInfos);
-            $valides = $metierParticipants->getParticipantsValides ();
-            $mapperArbre = new Challenge_Model_Mapper_Arbre ();
-            $arbre = $mapperArbre->getChildren (1, $challenge ['id'], true);
-            foreach ($valides as $participant) {
-                $metierReponse = new Challenge_Model_Metier_Reponses ($chalInfos, $participant->club);
-                foreach ($arbre as $noeud) {
-                    $id = $noeud ['noeud'];
-                    if ($metierReponse->haveReponse ($id)) {
-                        $reponse = $metierReponse->getReponse ($id);
-                        $fichiers = $metierReponse->getFichiers ($id);
-                        $reponse ['moderation'] = 0;
-                        $metierReponse->setReponse ($reponse);
-                        foreach ($fichiers as $fichier) {
-                            $contenu = $metierReponse->getFile ($id, $fichier, true);
-                            $metierReponse->setFile ($id, $fichier, $contenu);
+            try {
+                $chalInfos = $this->getChallenge ($challenge);
+                $metierParticipants = new Challenge_Model_Metier_Participants ($chalInfos);
+                $valides = $metierParticipants->getParticipantsValides ();
+                $mapperArbre = new Challenge_Model_Mapper_Arbre ();
+                //$arbre = $mapperArbre->getChildren (1, $challenge ['id'], true);
+                $arbre = $mapperArbre->getChildren (1, $challenge, true);
+                foreach ($valides as $participant) {
+                    $metierReponse = new Challenge_Model_Metier_Reponses ($chalInfos, $participant->club);
+                    foreach ($arbre as $noeud) {
+                        $id = $noeud ['noeud'];
+                        if ($metierReponse->haveReponse ($id)) {
+                            $reponse = $metierReponse->getReponse ($id);
+                            $fichiers = $metierReponse->getFichiers ($id);
+                            $reponse ['moderation'] = 0;
+                            $metierReponse->setReponse ($reponse);
+                            foreach ($fichiers as $fichier) {
+                                $contenu = $metierReponse->getFile ($id, $fichier, true);
+                                $metierReponse->setFile ($id, $fichier, $contenu);
+                            }
                         }
                     }
                 }
+                $chalInfos ['statut'] = Model_Enum_StatutChallenge::VALIDE;
+                $this->_mapperChallenges->save (new Model_Challenges ($chalInfos));
+                $mapperUtilisateurs = new Authentification_Model_Mapper_Utilisateurs ();
+                $utilisateur = $mapperUtilisateurs->find ($this->_identite->id);
+                $utilisateur->role = Model_Enum_Roles::UTILISATEUR;
+                $mapperUtilisateurs->save ($utilisateur);
+            } catch (Exception $e) {
+                throw $e;
             }
-            $chalInfos ['statut'] = Model_Enum_StatutChallenge::VALIDE;
-            $this->_mapperChallenges->save (new Model_Challenges ($chalInfos));
-            $mapperUtilisateurs = new Authentification_Model_Mapper_Utilisateurs ();
-            $utilisateur = $mapperUtilisateurs->find ($this->_identite->id);
-            $utilisateur->role = Model_Enum_Roles::UTILISATEUR;
-            $mapperUtilisateurs->save ($utilisateur);
         }
-        
+
         public function verifierChallenge ($chalInfos) {
             $stats = array (
                 'nbquestions' => 0,
@@ -290,7 +295,7 @@
             }
             return $stats;
         }
-        
+
         public function testeValiditeChallenge ($chalInfos) {
             $stats = $this->verifierChallenge ($chalInfos);
             foreach ($stats ['elements'] as $v) {

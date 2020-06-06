@@ -1,5 +1,7 @@
 <?php
-    class App_Crypto {
+  require_once __DIR__ . "/mcrypt.php";
+
+  class App_Crypto {
         public static function encrypte ($quoi, $cle) {
 	    $cle = substr ($cle . 'sjdfkglmsdfkjgmlkdfsjgmdlsfkjgmsdflkjgmsdflkjgmdfjdflkgmsdfjdlfkgÃ¹msldfgkÃ¹', 0, 32);
             $quoi .= chr (4);

@@ -4,7 +4,7 @@
             if (! file_exists ($fichier) || ! is_file ($fichier)) {
                 throw new Zend_Config_Exception ('Configuration invalide : ' . $fichier);
             }
-            $extension = ucfirst (substr ($fichier, sizeof ($fichier) - 4));
+            $extension = ucfirst (substr ($fichier, strlen ($fichier) - 3));
             $configurateur = 'Zend_Config_' . $extension;
             $configuration = new $configurateur ($fichier, $env);
             return $configuration->toArray ();

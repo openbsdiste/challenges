@@ -6,7 +6,7 @@
         protected $_challenge;
         protected $_identite;
         protected $_clubId;
-        
+
         protected function _getBaseDir ($id) {
             $dir = implode ('/', array (
                 DATA_PATH,
@@ -17,14 +17,14 @@
             ));
             return str_replace ("\\", "/", $dir) . "/";
         }
-        
+
         protected function _createDirIfNotExist ($dir) {
             if (! is_dir ($dir)) {
                 $this->_createDirIfNotExist (dirname ($dir));
                 @mkdir ($dir);
             }
         }
-        
+
         public function __construct ($challenge, $clubId) {
             $this->_mapperReponses = new Challenge_Model_Mapper_Reponses ();
             $this->_metierParticipants = new Challenge_Model_Metier_Participants ($challenge);
@@ -33,7 +33,7 @@
             $this->_clubId = $clubId;
             $this->_identite = Zend_Auth::getInstance ()->getIdentity ();
         }
-        
+
         public function getReponse ($id) {
             $reponse = $this->_mapperReponses->findArray (array ('id' => $id, 'challenge' => $this->_challenge ['id'], 'club' => $this->_clubId));
             if (! empty ($reponse)) {
@@ -69,7 +69,7 @@
             $reponseArray = $this->_mapperReponses->toArray ($reponse);
             return $reponseArray [0];
         }
-        
+
         public function getReponsesId () {
             $liste = $this->_mapperReponses->findArray (array ('challenge' => $this->_challenge ['id'], 'club' => $this->_clubId));
             $ids = array ();
@@ -89,7 +89,7 @@
             }
             return $notes;
         }
-        
+
         public function setReponse ($data) {
             $reponse = new Challenge_Model_Reponses ($data);
             if ($reponse->crypte) {
@@ -109,17 +109,31 @@
             if ($reponse->note != -1) {
                 $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club);
             }
-            $this->_mapperReponses->save ($reponse);
+            /*
+            if (($reponse->id == 13) && ($reponse->club == 33)) {
+                // 3.2 (fontaine...)
+            } elseif (($reponse->id == 100) && ($reponse->club == 70)) {
+                // 4.4.6 (le temeraire...
+            } else {
+                $this->_mapperReponses->save ($reponse);
+            }
+            */
+            try {
+                $this->_mapperReponses->save ($reponse);
+            } catch (Exception $e) {
+                // On mange l'exception...
+            }
+
             if ($reponse->crypte) {
                 $this->_metierParticipants->setParticipant ($this->_participant);
             }
         }
-        
+
         public function unsetReponse ($id) {
             $this->_mapperReponses->delete (array ('id' => $id, 'challenge' => $this->_challenge ['id'], 'club' => $this->_clubId));
             $this->unsetReponseFiles ($id);
         }
-        
+
         public function getFile ($question, $nom, $force = false) {
             $dir = $this->_getBaseDir ($question) . $nom;
             if (is_file ($dir)) {
@@ -136,7 +150,7 @@
             }
             return $file;
         }
-        
+
         public function setFile ($question, $nom, $contenu, $force = false) {
             $dir = $this->_getBaseDir ($question);
             $this->_createDirIfNotExist ($dir);
@@ -152,14 +166,14 @@
             file_put_contents ($filename, $contenu);
             $this->_metierParticipants->setParticipant ($this->_participant);
         }
-        
+
         public function unsetFile ($question, $nom) {
             $dir = $this->_getBaseDir ($question);
             if (is_file ($dir . $nom)) {
                 unlink ($dir . $nom);
             }
         }
-        
+
         public function deleteDir ($path) {
             if (is_dir ($path)) {
                 if (substr ($path, strlen ($path) - 1, 1) != '/') {
@@ -185,7 +199,7 @@
             $dir = $this->_getBaseDir ($question);
             $this->deleteDir ($dir);
         }
-        
+
         public function getFichiers ($question) {
             $dir = $this->_getBaseDir ($question);
 
@@ -199,7 +213,7 @@
             }
             return $fichiers;
         }
-        
+
         public function getListeFichiers () {
             $dir = substr ($this->_getBaseDir (''), 0, -1);
             $liste = array ();
@@ -217,7 +231,7 @@
             }
             return $liste;
         }
-        
+
         public function verchal () {
             $mapperArbre = new Challenge_Model_Mapper_Arbre ();
             $metierQuestions = new Challenge_Model_Metier_Questions ($this->_challenge ['id']);
@@ -229,7 +243,7 @@
             $last = 0;
             foreach ($arbre as $feuille) {
                 $question = $metierQuestions->getQuestion ($feuille ['noeud']);
-                
+
                 if ($last < $feuille ['level']) {
                     $indices [] = 0;
                 } elseif ($last > $feuille ['level']) {
@@ -241,7 +255,7 @@
                 $val = array_pop ($indices);
                 $indices [] = $val + 1;
                 $last = $feuille ['level'];
-                
+
                 if (! $question ['information']) {
                     $total++;
                     $reponse = $this->getReponse ($feuille ['noeud']);
@@ -270,7 +284,7 @@
             }
             return array ($total, $nbrep, $liste, $totalPoints, $totalPossibles);
         }
-        
+
         public function haveReponse ($qid) {
             $have = false;
             $reponse = $this->getReponse ($qid);
