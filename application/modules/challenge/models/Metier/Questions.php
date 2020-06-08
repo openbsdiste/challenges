@@ -3,7 +3,7 @@
         protected $_mapperQuestions;
         protected $_challenge;
         protected $_identite;
-        
+
         protected function _getBaseDir ($id) {
             $dir = implode ('/', array (
                 DATA_PATH,
@@ -13,26 +13,26 @@
             ));
             return str_replace ("\\", "/", $dir) . "/";
         }
-        
+
         protected function _createDirIfNotExist ($dir) {
             if (! is_dir ($dir)) {
                 $this->_createDirIfNotExist (dirname ($dir));
                 @mkdir ($dir);
             }
         }
-        
+
         public function __construct ($challenge) {
             $this->_mapperQuestions = new Challenge_Model_Mapper_Questions ();
             $this->_challenge = $challenge;
             $this->_identite = Zend_Auth::getInstance ()->getIdentity ();
         }
-        
+
         public function getQuestion ($id) {
             $question = $this->_mapperQuestions->findArray (array ('id' => $id, 'challenge' => $this->_challenge ['id']));
             if (! empty ($question)) {
                 $question = $question [0];
                 if ($question->crypte) {
-                    $question->texte = App_Crypto::decrypte ($question->texte, $this->_identite->cle);
+                    $question->texte = App_Crypto::decrypte ($question->texte, $this->_identite->cle, $this->_challenge ['id']);
                 }
             } else {
                 $question = new Challenge_Model_Questions ();
@@ -47,7 +47,7 @@
             $questionArray = $this->_mapperQuestions->toArray ($question);
             return $questionArray [0];
         }
-        
+
         public function getQuestionsId () {
             $liste = $this->_mapperQuestions->findArray (array ('challenge' => $this->_challenge ['id']));
             $ids = array ();
@@ -60,23 +60,23 @@
         public function setQuestion ($data) {
             $question = new Challenge_Model_Questions ($data);
             if ($question->crypte) {
-                $question->texte = App_Crypto::encrypte ($question->texte, $this->_identite->cle);
+                $question->texte = App_Crypto::encrypte ($question->texte, $this->_identite->cle, $this->_challenge ['id']);
             }
             $this->_mapperQuestions->save ($question);
         }
-        
+
         public function unsetQuestion ($id) {
             $this->_mapperQuestions->delete (array ('id' => $id, 'challenge' => $this->_challenge ['id']));
             $this->unsetQuestionFiles ($id);
         }
-        
+
         public function unsetQuestions ($ids) {
             if (! is_array ($ids)) $ids = array ($ids);
             foreach ($ids as $id) {
                 $this->unsetQuestion ($id);
             }
         }
-        
+
         public function getListeAuteurs () {
             $liste = $this->_mapperQuestions->findArray (array ('challenge' => $this->_challenge ['id']));
             $auteurs = array ();
@@ -88,7 +88,7 @@
             }
             return $auteurs;
         }
-        
+
         public function getListeQuestionsAuteur ($auteur) {
             $liste = $this->_mapperQuestions->findArray (array ('challenge' => $this->_challenge ['id'], 'auteur' => $auteur));
             $mapperTree = new Challenge_Model_Metier_Arbre ($this->_challenge ['id']);
@@ -101,7 +101,7 @@
             }
             return $questions;
         }
-        
+
         public function getListeQuestionsStatut ($statut) {
             $liste = $this->_mapperQuestions->findArray (array ('challenge' => $this->_challenge ['id'], 'statut' => $statut));
             $mapperTree = new Challenge_Model_Metier_Arbre ($this->_challenge ['id']);
@@ -114,37 +114,37 @@
             }
             return $questions;
         }
-        
+
         public function getFile ($question, $nom) {
             $dir = $this->_getBaseDir ($question) . $nom;
             if (is_file ($dir)) {
                 $file = file_get_contents ($dir);
                 if ($this->_challenge ['statut'] == Model_Enum_StatutChallenge::ELABORATION) {
-                    $file = App_Crypto::decrypte ($file, $this->_identite->cle);
+                    $file = App_Crypto::decrypte ($file, $this->_identite->cle, $this->_challenge ['id']);
                 }
             } else {
                 $file = false;
             }
             return $file;
         }
-        
+
         public function setFile ($question, $nom, $contenu, $forceClair = false) {
             $dir = $this->_getBaseDir ($question);
             $this->_createDirIfNotExist ($dir);
             $filename = $dir . $nom;
             if (! $forceClair && ($this->_challenge ['statut'] == Model_Enum_StatutChallenge::ELABORATION)) {
-                $contenu = App_Crypto::encrypte ($contenu, $this->_identite->cle);
+                $contenu = App_Crypto::encrypte ($contenu, $this->_identite->cle, $this->_challenge ['id']);
             }
             file_put_contents ($filename, $contenu);
         }
-        
+
         public function unsetFile ($question, $nom) {
             $dir = $this->_getBaseDir ($question);
             if (is_file ($dir . $nom)) {
                 unlink ($dir . $nom);
             }
         }
-        
+
         public function deleteDir ($path) {
             if (is_dir ($path)) {
                 if (substr ($path, strlen ($path) - 1, 1) != '/') {
@@ -170,7 +170,7 @@
             $dir = $this->_getBaseDir ($question);
             $this->deleteDir ($dir);
         }
-        
+
         public function getImage ($question) {
             $q = $this->getQuestion ($question);
             if ($q ['image'] != '') {
@@ -181,12 +181,12 @@
             } else {
                 $image = array (
                     'nom' => 'no-image.png',
-                    'contenu' => file_get_contents (PUBLIC_PATH . '/mediatheque/images/no-image.png') 
+                    'contenu' => file_get_contents (PUBLIC_PATH . '/mediatheque/images/no-image.png')
                 );
             }
             return $image;
         }
-        
+
         public function getFichiers ($question) {
             $dir = $this->_getBaseDir ($question);
             $q = $this->getQuestion ($question);
@@ -201,7 +201,7 @@
             sort ($fichiers);
             return $fichiers;
         }
-        
+
         public function getListeFichiers () {
             $dir = substr ($this->_getBaseDir (''), 0, -1);
             $liste = array ();
@@ -219,7 +219,7 @@
             }
             return $liste;
         }
-        
+
         public function getCorrectionQuestion ($qid) {
             $metierReponse = new Challenge_Model_Metier_Reponses ($this->_challenge, $this->_challenge ['organisateur']);
             return array (

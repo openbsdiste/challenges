@@ -39,8 +39,8 @@
             if (! empty ($reponse)) {
                 $reponse = $reponse [0];
                 if ($reponse->crypte) {
-                    $reponse->texte = App_Crypto::decrypte ($reponse->texte, $this->_identite->cle);
-                    $reponse->notesinternes = App_Crypto::decrypte ($reponse->notesinternes, $this->_identite->cle);
+                    $reponse->texte = App_Crypto::decrypte ($reponse->texte, $this->_identite->cle, $this->_challenge ['id']);
+                    $reponse->notesinternes = App_Crypto::decrypte ($reponse->notesinternes, $this->_identite->cle, $this->_challenge ['id']);
                 } elseif ($reponse->moderation) {
                     if ($this->_challenge ['organisateur'] == $this->_clubId) {
                         $cle = $this->_identite->password;
@@ -49,8 +49,8 @@
                         $moderateur = $mapperm->find ($this->_challenge ['organisateur']);
                         $cle = $moderateur->password;
                     }
-                    $reponse->texte = App_Crypto::decrypte ($reponse->texte, $cle);
-                    $reponse->notesinternes = App_Crypto::decrypte ($reponse->notesinternes, $cle);
+                    $reponse->texte = App_Crypto::decrypte ($reponse->texte, $cle, $this->_challenge ['id']);
+                    $reponse->notesinternes = App_Crypto::decrypte ($reponse->notesinternes, $cle, $this->_challenge ['id']);
                 }
                 if ($reponse->note != -1) {
                     $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club);
@@ -93,8 +93,8 @@
         public function setReponse ($data) {
             $reponse = new Challenge_Model_Reponses ($data);
             if ($reponse->crypte) {
-                $reponse->texte = App_Crypto::encrypte ($reponse->texte, $this->_identite->cle);
-                $reponse->notesinternes = App_Crypto::encrypte ($reponse->notesinternes, $this->_identite->cle);
+                $reponse->texte = App_Crypto::encrypte ($reponse->texte, $this->_identite->cle, $this->_challenge ['id']);
+                $reponse->notesinternes = App_Crypto::encrypte ($reponse->notesinternes, $this->_identite->cle, $this->_challenge ['id']);
             } elseif ($reponse->moderation) {
                 if ($this->_challenge ['organisateur'] == $this->_clubId) {
                     $cle = $this->_identite->password;
@@ -103,11 +103,11 @@
                     $moderateur = $mapperm->find ($this->_challenge ['organisateur']);
                     $cle = $moderateur->password;
                 }
-                $reponse->texte = App_Crypto::encrypte ($reponse->texte, $cle);
-                $reponse->notesinternes = App_Crypto::encrypte ($reponse->notesinternes, $cle);
+                $reponse->texte = App_Crypto::encrypte ($reponse->texte, $cle, $this->_challenge ['id']);
+                $reponse->notesinternes = App_Crypto::encrypte ($reponse->notesinternes, $cle, $this->_challenge ['id']);
             }
             if ($reponse->note != -1) {
-                $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club);
+                $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club, $this->_challenge ['id']);
             }
             /*
             if (($reponse->id == 13) && ($reponse->club == 33)) {
@@ -139,11 +139,11 @@
             if (is_file ($dir)) {
                 $file = file_get_contents ($dir);
                 if (! $this->_participant ['valide']) {
-                    $file = App_Crypto::decrypte ($file, $this->_identite->cle);
+                    $file = App_Crypto::decrypte ($file, $this->_identite->cle, $this->_challenge ['id']);
                 } elseif ($force) {
                     $mapper = new Authentification_Model_Mapper_Utilisateurs ();
                     $moderateur = $mapper->find ($this->_challenge ['organisateur']);
-                    $file = App_Crypto::decrypte ($file, $moderateur->password);
+                    $file = App_Crypto::decrypte ($file, $moderateur->password, $this->_challenge ['id']);
                 }
             } else {
                 $file = false;
@@ -156,12 +156,12 @@
             $this->_createDirIfNotExist ($dir);
             $filename = $dir . $nom;
             if (! $force && ! $this->_participant ['valide']) {
-                $contenu = App_Crypto::encrypte ($contenu, $this->_identite->cle);
+                $contenu = App_Crypto::encrypte ($contenu, $this->_identite->cle, $this->_challenge ['id']);
             } elseif ($force && $this->_challenge ['organisateur'] != $this->_clubId) {
 //            } elseif ($force) {
                 $mapper = new Authentification_Model_Mapper_Utilisateurs ();
                 $moderateur = $mapper->find ($this->_challenge ['organisateur']);
-                $contenu = App_Crypto::encrypte ($contenu, $moderateur->password);
+                $contenu = App_Crypto::encrypte ($contenu, $moderateur->password, $this->_challenge ['id']);
             }
             file_put_contents ($filename, $contenu);
             $this->_metierParticipants->setParticipant ($this->_participant);
