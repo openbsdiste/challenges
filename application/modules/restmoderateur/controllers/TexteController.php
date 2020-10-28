@@ -3,19 +3,19 @@
         public function init () {
             parent::init();
         }
-        
+
         public function indexAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function deleteAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function getAction() {
             $data = array ();
             $this->_response->notAcceptable ();
@@ -40,7 +40,7 @@
                     $question ['texte'] = $_POST ['texte' . $id];
                 }
                 $vhq = new App_View_Helper_Question ();
-                $preview = $vhq->question ($question, $metier->getFichiers ($id));
+                $preview = $vhq->question ($question, $metier->getFichiers ($id), $challenge ['statut']);
                 $metier->setQuestion ($question);
                 $data = array (
                     'id' => $id,
@@ -53,7 +53,7 @@
             }
             $this->view->data = $data;
         }
-        
+
         public function putAction() {
             $data = array ();
             $this->_response->notAcceptable ();

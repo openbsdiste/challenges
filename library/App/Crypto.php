@@ -12,7 +12,7 @@
                 return base64_encode ($crypte);
             } else {
                 $iv = openssl_random_pseudo_bytes (openssl_cipher_iv_length ('aes-256-cbc'));
-                $crypte = openssl_encrypt ($payload, 'aes-256-cbc', $cle, 0, $iv);
+                $crypte = openssl_encrypt ($quoi, 'aes-256-cbc', $cle, 0, $iv);
                 return base64_encode ($crypte . '::' . $iv);
             }
         }
