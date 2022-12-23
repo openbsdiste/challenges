@@ -3,19 +3,19 @@
         public function init () {
             parent::init();
         }
-        
+
         public function indexAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function deleteAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function getAction() {
             $data = array ();
             $this->_response->notAcceptable ();
@@ -31,7 +31,8 @@
                 } else {
                     $liste = array ();
                     $metierArbre = new Challenge_Model_Metier_Arbre ($zsn->chalId);
-                    $metierQuestions = new Challenge_Model_Metier_Questions ($zsn->chalId);
+                    $metierChal = new Model_Metier_Challenges ();
+                    $metierQuestions = new Challenge_Model_Metier_Questions ($metierChal->getChallenge ($zsn->_chalId));
                     $metierReponses = new Challenge_Model_Metier_Reponses ($zsn->chalId, $clubId);
                     $arbre = $metierArbre->getArbre ();
                     foreach ($arbre as $feuille) {
@@ -54,7 +55,7 @@
                 $this->_response->notAcceptable ();
             }
         }
-        
+
         public function putAction() {
             $data = array ();
             $this->_response->notAcceptable ();

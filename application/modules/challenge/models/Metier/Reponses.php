@@ -234,7 +234,7 @@
 
         public function verchal () {
             $mapperArbre = new Challenge_Model_Mapper_Arbre ();
-            $metierQuestions = new Challenge_Model_Metier_Questions ($this->_challenge ['id']);
+            $metierQuestions = new Challenge_Model_Metier_Questions ($this->_challenge);
             $arbre = $mapperArbre->getChildren (1, $this->_challenge ['id'], true);
             $liste = array ();
             $total = $nbrep = $nbfic = 0;
@@ -242,7 +242,7 @@
             $indices = array ();
             $last = 0;
             foreach ($arbre as $feuille) {
-                $question = $metierQuestions->getQuestion ($feuille ['noeud']);
+                $question = $metierQuestions->getQuestion ($feuille ['id']);
 
                 if ($last < $feuille ['level']) {
                     $indices [] = 0;
