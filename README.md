@@ -6,4 +6,8 @@ Il est visible ici : https://challenges.microtel-clubs.fr
 
 Plus d'informations sur la CF2M : https://www.microtel-clubs.fr
 
+Cet outil utilise également deux librairies non incluses :
+- Zend Framework (https://github.com/Shardj/zf1-future)
+- ZFDebug (https://github.com/jokkedk/ZFDebug)
+
 F.
