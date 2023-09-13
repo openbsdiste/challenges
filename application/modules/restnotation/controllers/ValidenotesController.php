@@ -3,19 +3,19 @@
         public function init () {
             parent::init();
         }
-        
+
         public function indexAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function deleteAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function getAction() {
             $data = array ();
             $this->_response->notAcceptable ();
@@ -42,11 +42,13 @@
                     if ($reponse ['texte'] == '') {
                         $reponse ['texte'] = 'Réponse non disponible.';
                     }
-                    if ($vorigine == '') {
-                        $metierReponse->unsetReponse ($question);
-                    } else {
+//                    if ($vorigine == '') {
+//                        $metierReponse->unsetReponse ($question);
+//                    } else {
+//echo "<pre>"; print_r ($reponse);
                         $metierReponse->setReponse ($reponse);
-                    }
+//die ();
+//                    }
                     $total += $valeur;
                 }
                 $metierParticipant = new Challenge_Model_Metier_Participants ($challenge);
@@ -60,7 +62,7 @@
             }
             $this->view->data = array ();
         }
-        
+
         public function putAction() {
             $data = array ();
             $this->_response->notAcceptable ();

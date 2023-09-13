@@ -15,6 +15,7 @@
                     if ($modele->getAutoincrement ()) {
                         return $this->_getTable ()->update ($modele->getDonnees (true), $modele->getQuotedCles ());
                     } else {
+//print_r ($modele->getCles ());
                         $trouve = $this->find ($modele->getCles ());
                         if ($trouve) {
                             return $this->_getTable ()->update ($modele->getDonnees (true), $modele->getQuotedCles ());
@@ -27,7 +28,7 @@
                 throw $e;
             }
         }
-        
+
         public function delete ($tableau) {
             try {
                 $db = $this->_getTable ()->getAdapter ();

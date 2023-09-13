@@ -15,6 +15,7 @@
         }
 
         public function accueilAction () {
+            $this->view->challenge = $this->_chalInfos;
             $this->disableLayout ();
         }
 
@@ -53,14 +54,14 @@
             $excel->setChallenge ();
             $this->view->excel = $excel;
         }
-        
+
         public function xlsxAction () {
             $this->disableLayout ();
             $excel = new Challenge_Model_Metier_Noteswriter ($this->_chalInfos, $this->_identity);
             $excel->setChallenge ();
             $this->view->excel = $excel;
         }
-        
+
         public function zipAction () {
             $this->disableLayout ();
             $id = $this->getParam ('numero', "0");
@@ -69,7 +70,7 @@
             $this->view->zip = $zip;
             $this->view->id = $id;
         }
-        
+
         public function modexpchalAction () {
             $metier = new Challenge_Model_Metier_Participants ($this->_chalInfos);
 
@@ -105,7 +106,7 @@
         public function modimpchalAction () {
             $this->disableLayout ();
         }
-        
+
         public function modexpnotAction () {
             $this->disableLayout ();
         }

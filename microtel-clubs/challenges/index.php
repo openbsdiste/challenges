@@ -9,17 +9,19 @@
         defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../../hors_sites/challenges'));
     } else {
         defined ('BACKEND_PATH') || define ('BACKEND_PATH', realpath (PUBLIC_PATH . '/../..'));
-    }    
+    }
     defined ('DATA_PATH') || define ('DATA_PATH', realpath (BACKEND_PATH . '/data'));
     defined ('APPLICATION_PATH') || define ('APPLICATION_PATH', realpath (BACKEND_PATH . '/application'));
     defined ('LIBRARY_PATH') || define ('LIBRARY_PATH', realpath (BACKEND_PATH . '/library'));
-    defined ('ZEND_PATH') || define ('ZEND_PATH', realpath (BACKEND_PATH . '/../.Zend/1.12.20/'));
+
+    # https://github.com/Shardj/zf1-future (ZF version compatible php 8.1)
+    defined ('ZEND_PATH') || define ('ZEND_PATH', realpath (BACKEND_PATH . '/../.Zend/1.22.0/'));
 
     set_include_path (LIBRARY_PATH . PATH_SEPARATOR . ZEND_PATH);
 
     try {
         require_once 'App/Application.php';
-        
+
         $app = new App_Application (APPLICATION_ENV, APPLICATION_PATH . '/configuration/application.ini');
         Zend_Session::start ();
         $app->bootstrap ()

@@ -47,7 +47,7 @@
                     <p><i>François.</i></p>
             <?php endif; ?>
         </li>
-        <?php 
+        <?php
             if ($this->challenge ['statut'] == Model_Enum_StatutChallenge::ENCOURS) {
                 echo $this->outils (array (
                     array (
@@ -59,16 +59,16 @@
                         'value' => 'Vérouillage participation',
                         'desc' => 'Permet de définir ou de saisir le mot de passe de vérouillage.'
                     ), array (
-                        'id' => "modverchal", 
-                        'value' => "Vérifier les réponses", 
+                        'id' => "modverchal",
+                        'value' => "Vérifier les réponses",
                         'desc' => "Cela permet de vérifier à quelles questions vous avez répondu."
                     ), array (
                         'id' => "impreponses",
                         'value' => 'Imprimer les réponses',
                         'desc' => "Affiche l'ensemble de vos réponses dans un onglet pour faciliter la vérification."
                     ), array (
-                        'id' => "modvalchal", 
-                        'value' => "Valider les réponses", 
+                        'id' => "modvalchal",
+                        'value' => "Valider les réponses",
                         'desc' => "Attention : la validation est irréversible !"
                     )
                 ));

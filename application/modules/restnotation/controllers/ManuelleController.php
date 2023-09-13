@@ -32,8 +32,8 @@
                     $liste = array ();
                     $metierArbre = new Challenge_Model_Metier_Arbre ($zsn->chalId);
                     $metierChal = new Model_Metier_Challenges ();
-                    $metierQuestions = new Challenge_Model_Metier_Questions ($metierChal->getChallenge ($zsn->_chalId));
-                    $metierReponses = new Challenge_Model_Metier_Reponses ($zsn->chalId, $clubId);
+                    $metierQuestions = new Challenge_Model_Metier_Questions ($metierChal->getChallenge ($zsn->chalId));
+                    $metierReponses = new Challenge_Model_Metier_Reponses ($metierChal->getChallenge ($zsn->chalId), $clubId);
                     $arbre = $metierArbre->getArbre ();
                     foreach ($arbre as $feuille) {
                         $q = $metierQuestions->getQuestion ($feuille ['noeud']);

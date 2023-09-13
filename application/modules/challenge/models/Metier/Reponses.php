@@ -109,16 +109,9 @@
             if ($reponse->note != -1) {
                 $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club, $this->_challenge ['id']);
             }
-            /*
-            if (($reponse->id == 13) && ($reponse->club == 33)) {
-                // 3.2 (fontaine...)
-            } elseif (($reponse->id == 100) && ($reponse->club == 70)) {
-                // 4.4.6 (le temeraire...
-            } else {
-                $this->_mapperReponses->save ($reponse);
-            }-
-            */
             try {
+//var_dump ('setReponse');
+//print_r ($reponse);
                 $this->_mapperReponses->save ($reponse);
             } catch (Exception $e) {
                 // On mange l'exception...
@@ -242,7 +235,7 @@
             $indices = array ();
             $last = 0;
             foreach ($arbre as $feuille) {
-                $question = $metierQuestions->getQuestion ($feuille ['id']);
+                $question = $metierQuestions->getQuestion ($feuille ['noeud']);
 
                 if ($last < $feuille ['level']) {
                     $indices [] = 0;
@@ -266,8 +259,8 @@
                         'fichier' => (empty ($fichiers)) ? 'bad' : 'good',
                         'numero' => implode ('.', $indices) . '. '
                     );
-                    $totalPossibles += $question ['valeur'];
-                    if ($reponse ['texte'] == '') {
+                    $totalPossibles += floatval ($question ['valeur']);
+                    if ($reponse ['texte'] === '') {
                         $info ['reponse'] = 'bad';
                         if (! empty ($fichiers)) {
                             $nbrep++;
@@ -277,7 +270,7 @@
                         $nbrep++;
                     }
                     if (($info ['reponse'] == 'good') || ($info ['fichier'] == 'good')) {
-                        $totalPoints += $question ['valeur'];
+                        $totalPoints += floatval ($question ['valeur']);
                     }
                     $liste [] = $info;
                 }

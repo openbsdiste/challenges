@@ -107,7 +107,8 @@
         }
 
         protected function _initZFDebug () {
-            if ($this->hasOption ('zfdebug') && (APPLICATION_ENV != 'production')) {
+            //if ($this->hasOption ('zfdebug') && (APPLICATION_ENV != 'production')) {
+            if ((APPLICATION_ENV != 'production')) {
                 $autoloader = Zend_Loader_Autoloader::getInstance ();
                 $autoloader->registerNamespace ('ZFDebug');
                 $this->bootstrap ('FrontController');

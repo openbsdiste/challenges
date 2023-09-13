@@ -23,7 +23,7 @@
                 throw $e;
             }
         }
-        
+
         public function getModelName () {
             return $this->_modelName;
         }
@@ -32,6 +32,10 @@
             try {
                 if (func_num_args () > 1) $cles = func_get_args ();
                 if (is_array ($cles)) {
+//var_dump ("abstract");
+//print_r ($cles);
+//var_dump ($this->_getTable ());
+//die ();
                     $resultat = call_user_func_array (array ($this->_getTable (), "find"), $cles);
                 } else {
                     $resultat = $this->_getTable ()->find ($cles);
@@ -42,7 +46,7 @@
                     $retour = new $this->_modelName ();
                     foreach ($enreg as $champ => $valeur) {
                         //if (@unserialize ($valeur) !== false) $valeur = unserialize ($valeur);
-                        $retour->$champ = $valeur; 
+                        $retour->$champ = $valeur;
                     }
                 }
             } catch (Exception $e) {
@@ -73,7 +77,7 @@
                     foreach ($ligne as $cle => $valeur) {
                         //if (@unserialize ($valeur) !== false) $valeur = unserialize ($valeur);
                         $modele->$cle = $valeur;
-                        
+
                     }
                     $retour [] = $modele;
                 }
@@ -113,7 +117,7 @@
             } else throw new Zend_Exception ("Appel incorrect à toArray");
             return $retour;
         }
-        
+
         public function toArrayId ($data, $id) {
             $retour = array ();
             if (is_array ($data)) {
@@ -127,7 +131,7 @@
             } else throw new Zend_Exception ("Appel incorrect à toArrayId");
             return $retour;
         }
-        
+
         public function toAssocArray ($data, $champs) {
             $retour = array ();
             if (is_array ($data)) {
@@ -143,20 +147,20 @@
             } else throw new Zend_Exception ("Appel incorrect à toAssocArray");
             return $retour;
         }
-        
+
         public function quoteInto ($text, $value, $type = null, $count = null) {
             $dba = Zend_Db_Table::getDefaultAdapter ();
             return $dba->quoteInto ($text, $value, $type, $count);
         }
-        
+
         public function getTable () {
             return $this->_getTable ();
         }
-        
+
         public function getCount ($select = null) {
             return $this->_getTable ()->getCount ($select);
         }
-        
+
         abstract public function save (App_Model_Entity $modele);
 
         abstract public function delete ($tableau);

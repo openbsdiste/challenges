@@ -62,6 +62,7 @@
             if ($question->crypte) {
                 $question->texte = App_Crypto::encrypte ($question->texte, $this->_identite->cle, $this->_challenge ['id']);
             }
+
             $this->_mapperQuestions->save ($question);
         }
 

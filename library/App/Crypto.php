@@ -26,7 +26,11 @@
                 return substr ($contenuTrim, 0, -1);
             } else {
                 list ($contenu, $iv) = explode ('::', base64_decode ($quoi), 2);
-                return openssl_decrypt ($contenu, 'aes-256-cbc', $cle, 0, $iv);
+                $dec = openssl_decrypt ($contenu, 'aes-256-cbc', $cle, 0, $iv);
+                if ($dec === false) {
+                    $dec = "decrypt error";
+                }
+                return $dec;
             }
         }
 

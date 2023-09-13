@@ -25,11 +25,11 @@
     class FUF_Filter_StripSlashes implements Zend_Filter_Interface {
         public function filter ($texte) {
             $retour = $texte;
-            if (is_string ($texte)) {
-                if (get_magic_quotes_gpc ()) {
-                    $retour = stripcslashes ($texte);
-                }
-            }
+            //if (is_string ($texte)) {
+            //    if (get_magic_quotes_gpc ()) {
+            //        $retour = stripcslashes ($texte);
+            //    }
+            //}
             return $retour;
         }
     }

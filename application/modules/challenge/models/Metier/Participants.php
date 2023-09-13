@@ -3,7 +3,7 @@
         protected $_mapperParticipants;
         protected $_challenge;
         protected $_identite;
-        
+
         public function deleteDir ($path) {
             if (is_dir ($path)) {
                 if (substr ($path, strlen ($path) - 1, 1) != '/') {
@@ -30,7 +30,7 @@
             $this->_challenge = $challenge;
             $this->_identite = Zend_Auth::getInstance ()->getIdentity ();
         }
-        
+
         public function getParticipant ($club) {
             $participant = $this->_mapperParticipants->findArray (array ('club' => $club, 'challenge' => $this->_challenge ['id']));
             if (! empty ($participant)) {
@@ -73,11 +73,11 @@
                 $this->_mapperParticipants->save ($participant);
             }
         }
-        
+
         public function getParticipants () {
             return $this->_mapperParticipants->findArray (array ('challenge' => $this->_challenge ['id']));
         }
-        
+
         public function getNonParticipants () {
             $metierUtilisateurs = new Authentification_Model_Metier_Utilisateurs ();
             $clubs = $metierUtilisateurs->getListeClubs ();
@@ -89,7 +89,7 @@
             }
             return $clubs;
         }
-        
+
         public function getNomsParticipants () {
             $liste = array ();
             $metierUtilisateurs = new Authentification_Model_Metier_Utilisateurs ();
@@ -114,7 +114,7 @@
             }
             return false;
         }
-        
+
         public function getStatutsParticipants () {
             $participants = $this->getParticipants ();
             $metierUtilisateurs = new Authentification_Model_Metier_Utilisateurs ();
@@ -131,7 +131,7 @@
             }
             return $liste;
         }
-        
+
         public function getFestelParticipantsId ($questionId) {
             $reponses = array ();
             $i = 1;
@@ -147,7 +147,7 @@
             }
             return $reponses;
         }
-        
+
         public function unsetBadStatutParticipant () {
             $participants = $this->getParticipants ();
             foreach ($participants as $participant) {
@@ -156,7 +156,7 @@
                 }
             }
         }
-        
+
         public function getParticipantsEnCours () {
             return $this->_mapperParticipants->findArray (array ('challenge' => $this->_challenge ['id'], 'valide' => 0));
         }
@@ -164,7 +164,7 @@
         public function getParticipantsValides () {
             return $this->_mapperParticipants->findArray (array ('challenge' => $this->_challenge ['id'], 'valide' => 1));
         }
-        
+
         public function supprimeParticipant ($id) {
             $dir = str_replace ("\\", "/", implode ('/', array (
                 DATA_PATH,
@@ -183,14 +183,14 @@
                 'challenge' => $this->_challenge ['id']
             ));
         }
-        
+
         public static function trieResultat ($r1, $r2) {
             if ($r1 ['note'] == $r2 ['note']) {
                 return 0;
             }
             return (floatval ($r1 ['note']) > floatval ($r2 ['note'])) ? -1 : +1;
         }
-        
+
         public function getResultats () {
             $liste = array ();
             $participants = $this->getParticipants ();

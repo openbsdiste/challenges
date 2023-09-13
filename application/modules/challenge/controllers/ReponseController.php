@@ -15,12 +15,13 @@
 
         public function indexAction () {
         }
-        
+
         public function accueilAction () {
             $this->disableLayout ();
             $this->view->challenge = $this->_chalInfos;
+            $this->view->identite = $this->_identity;
         }
-        
+
         public function questionAction () {
             $id = substr ($this->getParam ('id', "node_0"), 5);
 
@@ -37,7 +38,7 @@
             $zsn = new Zend_Session_Namespace ('challenge');
             $this->view->canValidate = $zsn->canValidate;
         }
-        
+
         public function imageAction () {
             $id = $this->getParam ('id', "0");
 
@@ -50,18 +51,18 @@
         public function fichierAction () {
             $id = $this->getParam ('id', "0");
             $nom = $this->getParam ('nom', "");
-            
+
             $metier = new Challenge_Model_Metier_Reponses ($this->_chalInfos, $this->_identity->id);
 
             $this->disableLayout ();
             $this->view->fichier = $metier->getFile ($id, $nom);
             $this->view->nom = $nom;
         }
-        
+
         public function fichierreponseAction () {
             $id = $this->getParam ('id', "0");
             $nom = $this->getParam ('nom', "");
-            
+
             $metier = new Challenge_Model_Metier_Reponses ($this->_chalInfos, $this->_identity->id);
 
             $this->disableLayout ();
@@ -77,11 +78,11 @@
             $this->view->chalInfos = $this->_chalInfos;
             $this->view->mquest = $metierQuestions;
         }
-        
+
         public function impreponsesAction () {
             $fullpage = $this->getParam ('fullpage', false);
             $id = $this->_identity->id;
-            
+
             $metierArbre = new Challenge_Model_Metier_Arbre ($this->_chalInfos ['id']);
             $metierUtilisateurs = new Authentification_Model_Metier_Utilisateurs ();
             $utilisateur = $metierUtilisateurs->trouve ($id);
@@ -106,11 +107,11 @@
             $zsn = new Zend_Session_Namespace ('challenge');
             $this->view->canValidate = $zsn->canValidate;
         }
-        
+
         public function modvalchalconfirmeAction () {
             $this->disableLayout ();
         }
-        
+
         public function modverchalAction () {
             $metier = new Challenge_Model_Metier_Reponses ($this->_chalInfos, $this->_identity->id);
             list ($total, $nbrep, $liste, $totalPoints, $totalPossibles) = $metier->verchal ();
@@ -122,14 +123,14 @@
             $this->view->totalPoints = $totalPoints;
             $this->view->totalPossibles = $totalPossibles;
         }
-        
+
         public function xlsAction () {
             $this->disableLayout ();
             $excel = new Challenge_Model_Metier_Excelwriter ($this->_chalInfos, $this->_identity);
             $excel->setChallenge ();
             $this->view->excel = $excel;
         }
-        
+
         public function xlsxAction () {
             $this->disableLayout ();
             $excel = new Challenge_Model_Metier_Excelwriter ($this->_chalInfos, $this->_identity);
