@@ -82,6 +82,7 @@
         public function getNotesClub () {
             $liste = $this->_mapperReponses->findArray (array ('challenge' => $this->_challenge ['id'], 'club' => $this->_clubId));
             $notes = array ();
+            //var_dump ($liste); die ();
             foreach ($liste as $reponse) {
                 if ($reponse->note != -1) {
                     $notes [$reponse->id] = App_Crypto::festelFloat ($reponse->note, $reponse->club);
@@ -107,7 +108,8 @@
                 $reponse->notesinternes = App_Crypto::encrypte ($reponse->notesinternes, $cle, $this->_challenge ['id']);
             }
             if ($reponse->note != -1) {
-                $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club, $this->_challenge ['id']);
+                //$reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club, $this->_challenge ['id']);
+                $reponse->note = App_Crypto::festelFloat ($reponse->note, $reponse->club);
             }
             try {
 //var_dump ('setReponse');
