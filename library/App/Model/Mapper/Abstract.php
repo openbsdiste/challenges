@@ -34,9 +34,20 @@
                 if (is_array ($cles)) {
 //var_dump ("abstract");
 //print_r ($cles);
-//var_dump ($this->_getTable ());
+//var_dump ($this->_getTable ()->info ('primary'));
 //die ();
-                    $resultat = call_user_func_array (array ($this->_getTable (), "find"), $cles);
+                    // Pour PHP8, on doit extraire les valeurs des clés primaires DANS L'ORDRE attendu...
+                    //$resultat = call_user_func_array (array ($this->_getTable (), "find"), $cles);
+                    $c = $this->_getTable ()->info ('primary');
+                    $valeurs = array ();
+                    foreach ($c as $v) {
+                        if (isset ($cles [$v])) {
+                          $valeurs [] = $cles [$v];
+                        } else {
+                          throw new Zend_Exception ("Appel incorrect à db::find (table " . $this->_tableName . ") : cle inconnue ($v)");
+                        }
+                    }
+                    $resultat = call_user_func_array (array ($this->_getTable (), "find"), $valeurs);
                 } else {
                     $resultat = $this->_getTable ()->find ($cles);
                 }
