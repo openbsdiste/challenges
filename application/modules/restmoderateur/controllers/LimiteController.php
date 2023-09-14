@@ -3,19 +3,19 @@
         public function init () {
             parent::init();
         }
-        
+
         public function indexAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function deleteAction() {
             $data = array ();
             $this->_response->notAcceptable ();
             $this->view->data = $data;
         }
-        
+
         public function getAction() {
             $data = array ();
             $this->_response->notAcceptable ();
@@ -23,6 +23,7 @@
         }
 
         public function postAction() {
+            $data = array ();
             $date = $_POST ['ladate'];
             $zsn = new Zend_Session_Namespace ('challenge');
             if (isset ($zsn->chalId) && ($date != '')) {
@@ -33,12 +34,11 @@
                 $metierChallenge->setChallenge ($challenge);
                 $this->_response->Ok ();
             } else {
-                $data = array ();
                 $this->_response->notAcceptable ();
             }
             $this->view->data = $data;
         }
-        
+
         public function putAction() {
             $data = array ();
             $this->_response->notAcceptable ();
