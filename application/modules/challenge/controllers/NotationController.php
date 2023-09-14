@@ -100,7 +100,10 @@
             $metierUtilisateurs = new Authentification_Model_Metier_Utilisateurs ();
 
             $this->disableLayout ();
-            $this->view->clubs = $metierUtilisateurs->getListeClubs ();
+            $liste = $metierUtilisateurs->getListeClubs ();
+            // Le modérateur ne participe pas au challenge, on le supprime de la liste !
+            unset ($liste [$this->_identity->id]);
+            $this->view->clubs = $liste;
         }
 
         public function modimpchalAction () {
